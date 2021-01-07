@@ -5,8 +5,8 @@
                         <v-card dark>
                             
                         <v-card-title>   
-                            <v-icon color="primary">mdi-account-plus</v-icon>
-                            <div ><span style="color:#1976d2;display:inline">Register</span></div>
+                            <v-icon color="primary"> mdi-briefcase-plus</v-icon>
+                            <div ><span style="color:#1976d2;display:inline">Register Worker</span></div>
                         </v-card-title>
 
                         <v-card-text style="padding:40px">
@@ -121,7 +121,7 @@
                         <div> Register Request</div>
                     </v-card-title>
                     <v-card-text>
-                        <div>Register Request successfull!</div>
+                        <div>Worker <span style="dispay:inline;color:green">{{name}} {{surname}}</span> successfully registered!</div>
                     </v-card-text>
 
                     <v-card-actions>
@@ -130,7 +130,7 @@
                         <v-btn
                             color="red darken-1"
                             text
-                            @click="snackbar = false; dialog=false;$refs.registerForm.reset()"
+                            @click="closeDialog()"
                         >
                             Close
                         </v-btn>
@@ -224,7 +224,7 @@ export default {
         register(){
             if(this.$refs.registerForm.validate()){
                 event.preventDefault()
-                axios.post("/user/register/client",{
+                axios.post("/user/register/worker",{
                     "name":this.name,
                     "surname":this.surname,
                     "address":this.address,
@@ -234,9 +234,15 @@ export default {
                 }).then( async (response)=>{
                     console.log(response.data)
                     this.snackbar = true;
+                    await this.$store.dispatch("addWorker", response.data)
 
                 });
             }
+        },
+        closeDialog(){
+            this.snackbar = false; 
+            this.dialog = false;
+            this.$refs.registerForm.reset()
         }
     }
 }

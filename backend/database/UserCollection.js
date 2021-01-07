@@ -39,10 +39,30 @@ const deleteOne = async (id) =>{
     }
 }
 
+const getWorkers = async() =>{
+    try{
+        const workers = await User.find({type:"Worker"});
+        return workers;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
+const getClients = async() =>{
+    try{
+        const clients = await User.find({type:"Client"});
+        return clients;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
 module.exports = {
     getAll,
     getOne,
     insertOne,
     updateOne,
-    deleteOne
+    deleteOne,
+    getWorkers,
+    getClients,
 }

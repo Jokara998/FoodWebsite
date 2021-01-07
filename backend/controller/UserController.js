@@ -1,7 +1,8 @@
 const express = require("express")
 const router = express.Router();
 const {UserService} = require("../service/index")
-const Joi = require("@hapi/joi")
+const Joi = require("@hapi/joi");
+const User = require("../models/User");
 
 const registerValidate = Joi.object({
     name: Joi.string().max(30).required(),
@@ -17,6 +18,13 @@ const loginValidate = Joi.object({
     password: Joi.string().min(6).max(30).required()
 });
 
+
+const idValidation = Joi.object({
+    id: Joi.string().required()
+})
+
+
+// REGISTER CLIENT
 router.post(
     "/register/client",
     async (req, res) =>{
@@ -34,7 +42,7 @@ router.post(
         }
     }
 );
-
+// REGISTER WORKER
 router.post(
     "/register/worker",
     async (req, res) =>{
@@ -78,5 +86,49 @@ router.get(
     }
 );
 
+// GET ALL WORKERS
+router.get(
+    "/worker",
+    async (req, res) => {
+        try{
+            const workers = await UserService.getWorkers(res);
+            res.status(200).json(workers)
+        }catch(err){
+            res.status(404).send({message:err})
+        }
+    }
+);
+
+// GET ALL WORKERS
+router.get(
+    "/client",
+    async (req, res) => {
+        try{
+            const clients = await UserService.getClients(res);
+            res.status(200).json(clients)
+        }catch(err){
+            res.status(404).send({message:err})
+        }
+    }
+);
+
+// DELETE USER
+
+router.delete(
+  "/:id",
+  async (req, res) =>{
+        const {error} = idValidation.validate(req.params);
+        if(error)            
+            return res.status(422).send(error.details[0].message);
+        else{
+            try{
+                const idd = await UserService.deleteOne(req.params.id);
+                res.status(200).json(idd);
+            }catch(err){
+                res.status(404).json({message:err});
+            }
+        }
+  }  
+);
 
 module.exports = router;
