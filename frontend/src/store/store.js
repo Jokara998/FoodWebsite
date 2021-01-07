@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     navbarKey:0,
     filterParameters:{price:"",rate:""},
     token: localStorage.getItem('Authorization') || '',
-    
+    workers:[]
 
   },
   // sinhrono
@@ -120,8 +120,20 @@ const store = new Vuex.Store({
 
     setToken(state, payload){
       state.token = payload
-    }
+    },
 
+    // WORKERS
+    setWorkers(state, payload){
+      state.workers = payload
+    },
+
+    addWorker(state, payload){
+      state.workers.push(payload)
+    },
+
+    deleteWorker(state, payload){
+      state.workers = state.workers.filter(item => item.id !== payload)
+    }
 
   },
   // asihrono, odavde uzimas sa back-a info
@@ -214,6 +226,22 @@ const store = new Vuex.Store({
       state.commit("setToken", payload)
     },
 
+    // WORKERS
+
+    async setWorkers(state){
+      await axios.get("/user/worker").then((response)=>{
+        state.commit("setWorkers", response.data)
+      })
+    },
+
+    async addWorker(state, payload){
+      state.commit("addWorker", payload)
+    },
+
+    async deleteWorker(state, payload){
+      state.commit("deleteWorker", payload)
+    }
+
   },
   getters:{
       // FOOD
@@ -255,6 +283,11 @@ const store = new Vuex.Store({
       getNavbarKey(state){
         return state.navbarKey
       },
+
+      // WORKERS
+      getWorkers(state){
+        return state.workers
+      }
 
   },
   modules: {

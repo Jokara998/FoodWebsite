@@ -16,6 +16,20 @@
           </v-icon>
           Home
         </v-btn>
+
+        <v-btn text @click="workers()" v-show="workersShow()">
+          <v-icon color="dark">
+            mdi-briefcase
+          </v-icon>
+          Workers
+        </v-btn>
+
+        <v-btn text @click="clients()" v-show="clientsShow()">
+          <v-icon color="dark">
+            mdi-account-group
+          </v-icon>
+          Clients
+        </v-btn>
         
         <v-btn text @click="menu()" v-show="menuShow()">
           <v-icon color="dark">
@@ -71,15 +85,15 @@
       </v-toolbar-items>
       
     </v-toolbar>
-
     </v-app-bar>
-    
+  
+    <br>
+    <br>
 
-    <br>
-    <br>
-    
     <Menu app v-show="this.boolMenu" />
     <FoodType app v-show="this.boolFoodType" />
+    <Workers app v-show="this.boolWorkers" />
+    <Clients app v-show="this.boolClients" />
     <Login ref="login" />
     <Register ref="register" />
 
@@ -91,6 +105,8 @@ import Menu from "../views/Menu.vue";
 import FoodType from "../views/FoodType";
 import Login from '../components/User/Login';
 import Register from '../components/User/Register';
+import Workers from "../components/Admin/Workers"
+import Clients from "../components/Admin/Clients"
 import axios from "../axios/index"
 import jwt_decode from 'jwt-decode'
 
@@ -104,28 +120,38 @@ import jwt_decode from 'jwt-decode'
           boolMenu : false,
           boolHome: true,
           boolFoodType: false,
+          boolWorkers: false,
+          boolClients:false,
         };
     },
     components:{
       Menu,
       FoodType,
       Login,
-      Register
+      Register,
+      Clients,
+      Workers
     },
     
     methods:{
       home(){
         this.boolMenu = false
         this.boolFoodType = false
+        this.boolWorkers = false
+        this.boolClients = false
 
       },
       menu(){
         this.boolMenu = true
         this.boolFoodType = false
+        this.boolWorkers = false
+        this.boolClients = false
       },
       foodtype(){
         this.boolMenu = false
         this.boolFoodType = true
+        this.boolWorkers = false
+        this.boolClients = false
       },
       login(){
         this.$refs.login.dialog = true;
@@ -133,13 +159,25 @@ import jwt_decode from 'jwt-decode'
       register(){
         this.$refs.register.dialog = true;
       },
+      clients(){
+        this.boolMenu = false
+        this.boolFoodType = false
+        this.boolWorkers = false
+        this.boolClients = true
+      },
+      workers(){
+        this.boolMenu = false
+        this.boolFoodType = false
+        this.boolWorkers = true
+        this.boolClients = false
+      },
       logout(){
         axios.get("/user/logout").then(async()=>{
           await localStorage.removeItem("Authorization")
           await delete axios.defaults.headers.common["Authorization"];
           await this.$store.dispatch("setToken", "")
           await this.$store.dispatch("setNavbarKey")
-          await this.$router.push("/")
+          await this.home()
         })
      
 
@@ -155,16 +193,34 @@ import jwt_decode from 'jwt-decode'
           return true;
         return false;
       },
+      workersShow(){
+        if(this.token.type =="Admin")
+          return true;
+        return false;
+      },
+      clientsShow(){
+        if(this.token.type =="Admin")
+          return true;
+        return false;
+      },
       menuShow(){
-        return true;
+        if(this.token.type =="Worker")
+          return true;
+        return false;
       },
       foodtypeShow(){
-        return true;
+         if(this.token.type =="Worker")
+          return true;
+        return false;
       },
       orderShow(){
+         if(this.token.type == "Worker" || this.token.type =="Admin" || this.token.type =="Deliverer")
+          return false;
         return true;
       },
       cartShow(){
+         if(this.token.type == "Worker" || this.token.type =="Admin" || this.token.type =="Deliverer")
+          return false;
         return true;
       }
 
@@ -173,6 +229,8 @@ import jwt_decode from 'jwt-decode'
     mounted(){
         this.$store.dispatch("setAllFood");
         this.$store.dispatch("setAllTypes");
+        if(this.token.type == "Admin")
+          this.$store.dispatch("setWorkers");
 
     },
 

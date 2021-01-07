@@ -41,7 +41,7 @@ const registerClient = async (body, res)=>{
 
 const registerWorker = async (body, res)=>{
 
-    const user = await User.find({email:body.email})
+    const user = await User.findOne({email:body.email})
     if(user){
         res.status(409).json({message:"Email already exist!"});
         return
@@ -58,8 +58,15 @@ const registerWorker = async (body, res)=>{
     })
 
     try{
-        const savedUser = await UserCollection.insertOne(newUser)
-        return savedUser._id;
+        const worker = await UserCollection.insertOne(newUser)
+        const dto = {
+            "fullname": worker.name+" "+worker.surname,
+            "email":worker.email,
+            "address":worker.address,
+            "phone":worker.phone,
+            "id":worker._id
+        }
+        return dto;
     }catch(err){
         res.status(404).json({message:err});
     }
@@ -86,10 +93,62 @@ const login = async (body,res) =>{
 
 };
 
+const getWorkers = async(res)=>{
+    try{
+        const workers = await UserCollection.getWorkers()
+        const dtoWorkers = []
+        for(let worker of workers){
+            const dtoW = {
+                "fullname": worker.name+" "+worker.surname,
+                "email":worker.email,
+                "address":worker.address,
+                "phone":worker.phone,
+                "id":worker._id
+            }
+            dtoWorkers.push(dtoW);
+        }
 
+        return dtoWorkers;
+    }catch(err){
+        res.status(404).send({message:err})
+    }
+};
+
+const getClients = async(res)=>{
+    try{
+        const clients = await UserCollection.getClients()
+        const dtoclients = []
+        for(let client of clients){
+            const dto = {
+                "fullname": client.name+" "+client.surname,
+                "email":client.email,
+                "address":client.address,
+                "phone":client.phone,
+                "id":client._id
+            }
+            dtoclients.push(dto);
+        }
+
+        return dtoclients;
+    }catch(err){
+        res.status(404).send({message:err})
+    }
+};
+
+const deleteOne = async(id)=>{
+    try{
+        const deletedId =  await UserCollection.deleteOne(id);
+        return deletedId;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
 
 module.exports = {
     registerClient,
     registerWorker,
     login,
+    getWorkers,
+    getClients,
+    deleteOne,
 }
