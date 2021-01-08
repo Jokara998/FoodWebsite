@@ -4,18 +4,18 @@
 
      <v-toolbar :key="navbarKey" flat>
 
-      <v-toolbar-title> <v-btn  @click="home()" text style="height:60px"> Fast Food </v-btn></v-toolbar-title>
+      <v-toolbar-title> 
+        <v-btn  @click="home()" text style="height:60px;font-size:20px;"> 
+          <v-icon large color="dark">
+            mdi-home
+          </v-icon>
+          Fast Food 
+        </v-btn>
+        </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-
-        <v-btn text @click="home()" >
-          <v-icon color="dark">
-            mdi-home
-          </v-icon>
-          Home
-        </v-btn>
 
         <v-btn text @click="workers()" v-show="workersShow()">
           <v-icon color="dark">
@@ -86,10 +86,10 @@
       
     </v-toolbar>
     </v-app-bar>
-  
-    <br>
-    <br>
 
+    <br>
+    <br>
+    
     <Menu app v-show="this.boolMenu" />
     <FoodType app v-show="this.boolFoodType" />
     <Workers app v-show="this.boolWorkers" />
@@ -142,12 +142,19 @@ import jwt_decode from 'jwt-decode'
 
       },
       menu(){
+        if(this.token.type == "Worker"){
+          this.$store.dispatch("setAllFood");
+          this.$store.dispatch("setAllTypes");
+        }
         this.boolMenu = true
         this.boolFoodType = false
         this.boolWorkers = false
         this.boolClients = false
+        
       },
       foodtype(){
+        if(this.token.type == "Worker")
+          this.$store.dispatch("setAllTypes");
         this.boolMenu = false
         this.boolFoodType = true
         this.boolWorkers = false
@@ -160,16 +167,21 @@ import jwt_decode from 'jwt-decode'
         this.$refs.register.dialog = true;
       },
       clients(){
+         if(this.token.type == "Admin")
+          this.$store.dispatch("setClients");
         this.boolMenu = false
         this.boolFoodType = false
         this.boolWorkers = false
         this.boolClients = true
       },
       workers(){
+         if(this.token.type == "Admin")
+          this.$store.dispatch("setWorkers");
         this.boolMenu = false
         this.boolFoodType = false
         this.boolWorkers = true
         this.boolClients = false
+       
       },
       logout(){
         axios.get("/user/logout").then(async()=>{
@@ -227,11 +239,7 @@ import jwt_decode from 'jwt-decode'
   
     },
     mounted(){
-        this.$store.dispatch("setAllFood");
-        this.$store.dispatch("setAllTypes");
-        if(this.token.type == "Admin")
-          this.$store.dispatch("setWorkers");
-
+    
     },
 
     computed:{

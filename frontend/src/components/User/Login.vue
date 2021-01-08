@@ -14,10 +14,10 @@
                                 <v-row>
                                     <v-col cols="12">
                                         <v-text-field v-model="loginEmail" counter="30" :rules="loginEmailRules" type="email" label="Email" required>
-                                                <template v-slot:prepend>                                                   
+                                            <template v-slot:prepend>                                                   
                                                 <v-icon>
                                                 mdi-email-outline
-                                            </v-icon>
+                                                </v-icon>
                                             </template>
                                         </v-text-field>
                                     </v-col>
@@ -54,7 +54,45 @@
                         </v-card-text>
                     </v-card>
             </v-flex>
+
+            <v-dialog
+                color="dark"
+                max-width="400px"
+                v-model="snackbar"
+                centered
+                dark
+                >
+                    <v-card elevation="8">
+                    <v-card-title class="headline">
+                        <div> 
+                           <span style="display:inline;color:#E53935">Login Message </span>
+                            <v-icon medium color="red darken-1">
+                                mdi-alert-circle-outline
+                            </v-icon> 
+                        </div>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-flex> 
+                            <p justify-center > 
+                                {{ textError }} 
+                            </p>
+                        </v-flex>
+                    </v-card-text>
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                        <v-btn
+                        color="red darken-1"
+                        text
+                        @click="snackbar = false"
+                        >
+                        Close
+                        </v-btn>
+                    </v-card-actions>
+                    </v-card>
+                </v-dialog>
         </v-dialog>
+        
 </template>
 
 <script>
@@ -65,6 +103,8 @@ export default {
             dialog: false,
             valid: false,
             show1: false,
+            textError : "",
+            snackbar: false,
   
             loginEmailRules:[  
                 v => !!v || 'Email is required',
@@ -95,7 +135,7 @@ export default {
                     "email":this.loginEmail,
                     "password":this.loginPassword
                 }).then( async (response)=>{
-                    console.log(response.data)
+                    console.log(response)
                     this.$refs.loginForm.reset()
                     await localStorage.setItem("Authorization", response.data)
                     axios.defaults.headers.common['Authorization'] = response.data
@@ -103,7 +143,16 @@ export default {
                     await this.$store.dispatch("setNavbarKey")
                     this.dialog = false;
 
-                });
+                }).catch((error)=>{
+                    if (error.response) {
+                        if(error.response.status == 401){
+                            console.log(error.response.data.message)
+                            this.textError = error.response.data.message;
+                            this.snackbar = true;
+                        }
+                        
+                    }
+                })
             }
         }
     }

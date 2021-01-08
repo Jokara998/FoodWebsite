@@ -50,11 +50,25 @@ const getWorkers = async() =>{
 
 const getClients = async() =>{
     try{
-        const clients = await User.find({type:"Client"});
+        const clients = await User.find({type:"Client", approved:false});
         return clients;
     }catch(err){
         throw new Error(e.message);
     }
+}
+
+const patchOne = async(id, approved) =>{
+    const patch =  await User.updateOne(
+        { _id: id},
+        { $set:
+            {
+                approved:approved
+            }
+        }
+    );
+    
+    const client = await User.findById(id);
+    return client
 }
 
 module.exports = {
@@ -65,4 +79,5 @@ module.exports = {
     deleteOne,
     getWorkers,
     getClients,
+    patchOne,
 }

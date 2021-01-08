@@ -144,6 +144,15 @@ const deleteOne = async(id)=>{
     }
 }
 
+const patchOne = async (id, approved) =>{
+    try{
+        const patch =  await UserCollection.patchOne(id, approved);
+        return patch._id;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
 module.exports = {
     registerClient,
     registerWorker,
@@ -151,4 +160,5 @@ module.exports = {
     getWorkers,
     getClients,
     deleteOne,
+    patchOne,
 }
