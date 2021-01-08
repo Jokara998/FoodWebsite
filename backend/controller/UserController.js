@@ -23,6 +23,9 @@ const idValidation = Joi.object({
     id: Joi.string().required()
 })
 
+const approvedValidation = Joi.object({
+    approved: Joi.boolean().required()
+})
 
 // REGISTER CLIENT
 router.post(
@@ -99,7 +102,7 @@ router.get(
     }
 );
 
-// GET ALL WORKERS
+// GET ALL UNAPPROVED CLIENTS
 router.get(
     "/client",
     async (req, res) => {
@@ -130,5 +133,26 @@ router.delete(
         }
   }  
 );
+
+// PATCH CLIENT
+
+router.patch(
+    "/:id",
+    async (req, res) =>{
+          const {error} = idValidation.validate(req.params);
+          const {error1} = approvedValidation.validate(req.body);
+          if(error || error1)            
+              return res.status(422).send(error.details[0].message);
+          else{
+              try{
+                  const idd = await UserService.patchOne(req.params.id, req.body.approved);
+                  res.status(200).json(idd);
+              }catch(err){
+                  res.status(304).json({message:err});
+              }
+          }
+    }  
+  );
+  
 
 module.exports = router;

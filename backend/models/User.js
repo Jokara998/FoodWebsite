@@ -39,6 +39,9 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    approved:{
+        type: Boolean
+    },
     date:{
         type:Date,
         default:Date.now()
