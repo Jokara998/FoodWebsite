@@ -47,11 +47,14 @@ const registerWorker = async (body, res)=>{
         return
     }
 
+    // hash password
+    const hashPass = await hashPassword(body.password)
+
     const newUser = User({
         name: body.name,
         surname: body.surname,
         email: body.email,
-        password: body.password,
+        password: hashPass,
         type: "Worker",
         phone: body.phone,
         address: body.address

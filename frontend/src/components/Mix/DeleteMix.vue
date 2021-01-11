@@ -1,13 +1,13 @@
 <template>
     <v-container >
-            <v-dialog color="dark" dark max-width="500px" v-model="dialog" persistent>
+            <v-dialog color="dark" dark max-width="750px" v-model="dialog" persistent>
 
                 <v-card>
                     <v-card-title class="headline">
-                        <div> Delete <span style="color:green;display:inline"> {{worker.fullname}} </span> from System? </div>
+                        <div> Delete <span style="color:green;display:inline"> {{mix.name}} </span> from Menu? </div>
                     </v-card-title>
                     <v-card-text>
-                        <div>This action will result in pernamently deleting <span style="color:green;display:inline"> {{worker.fullname}} </span> from the system.</div>
+                        <div>This action will result in pernamently deleting <span style="color:green;display:inline"> {{mix.name}} </span> from the menu.</div>
                     </v-card-text>
 
                     <v-card-actions>
@@ -40,11 +40,22 @@
                 </v-card>
 
             </v-dialog>
+
+            <v-dialog
+            v-model="dialogLoading"
+            hide-overlay
+            persistent
+            width="450"
+            min-height="350"
+            >
+               <Loader/>
+            </v-dialog>
     </v-container>
 </template>
 
 <script>
 import axios from '../../axios/index'
+import Loader from '../Loaders/Loader'
 
 export default {
 
@@ -52,17 +63,24 @@ export default {
 
         return{
             dialog:false,
+            dialogLoading:false,
             valid:false,
-            worker:{}
+            mix:[]
+            
         };
     },
+    components:{
+        Loader,
+    },
+
     methods:{
        async confirm(){
-            await axios.delete('/user/'+this.worker.id).then(async(response) => {
+            this.dialogLoading = true
+            await axios.delete('/mix/'+this.mix.id).then(async (response) => {
+                await this.$store.dispatch("deleteMix", this.mix.id)
                 console.log(response.data)
-                await this.$store.dispatch("deleteWorker", response.data)
-                this.dialog = false;
-
+                this.dialogLoading = false
+                this.dialog = false
             })
        }
         

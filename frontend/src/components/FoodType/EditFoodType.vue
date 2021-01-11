@@ -88,34 +88,14 @@
             width="450"
             min-height="350"
             >
-                <v-card
-                    color="dark"
-                    dark
-                    elevation="8"
-                    outlined
-
-                >
-                    <v-card-title>   
-                        <v-icon left dark medium>
-                            mdi-information-outline
-                        </v-icon>
-                        Please wait
-                    </v-card-title>
-                    <v-card-text>
-                        Request Proccessing...
-                        <v-progress-linear
-                            indeterminate
-                            color="#FAFAFA"
-                            class="mb-0"
-                        ></v-progress-linear>
-                        </v-card-text>
-                </v-card>
+                <Loader/>
             </v-dialog>
     </v-container>
 </template>
 
 <script>
 import axios from '../../axios/index'
+import Loader from "../Loaders/Loader"
 
 export default {
 
@@ -138,12 +118,8 @@ export default {
         };
     },
 
-    watch: {
-      dialogLoading (val) {
-        if (!val) return
-
-        setTimeout(() => (this.dialog = false, this.dialogLoading = false), 5000)
-      },
+    components:{
+        Loader,
     },
 
     computed:{
@@ -153,16 +129,18 @@ export default {
     },
 
     methods:{
-        editFoodTypeForm(){
+        async editFoodTypeForm(){
             if(this.$refs.form.validate()){
                 event.preventDefault()
                 this.dialogLoading = true
-                axios.put('/foodtype/'+this.editFoodType.id,{
+                await axios.put('/foodtype/'+this.editFoodType.id,{
                     name:this.name,
-                }).then((response)=>{
+                }).then( async (response)=>{
                     let payload = response.data;
-                    this.$store.dispatch("setUpdatedFoodType", payload)
+                    await this.$store.dispatch("setUpdatedFoodType", payload)
                     this.$refs.form.reset()
+                    this.dialogLoading = false;
+                    this.dialog = false
                 })   
                
             }

@@ -17,9 +17,11 @@ app.use(cookieParser())
 const FoodRouter = require("./controller/FoodController");
 const FoodTypeRouter = require("./controller/FoodTypeController")
 const UserRouter = require("./controller/UserController")
+const MixRounter = require("./controller/MixController")
 app.use("/food", FoodRouter)
 app.use("/foodtype", FoodTypeRouter)
 app.use("/user", UserRouter)
+app.use("/mix", MixRounter)
 
 // Database connection
 mongoose.connect(

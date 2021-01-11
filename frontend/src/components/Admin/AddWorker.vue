@@ -221,10 +221,10 @@ export default {
     },
 
     methods:{
-        register(){
+        async register(){
             if(this.$refs.registerForm.validate()){
                 event.preventDefault()
-                axios.post("/user/register/worker",{
+                await axios.post("/user/register/worker",{
                     "name":this.name,
                     "surname":this.surname,
                     "address":this.address,

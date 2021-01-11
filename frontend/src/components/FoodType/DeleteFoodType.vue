@@ -51,28 +51,7 @@
             width="450"
             min-height="350"
             >
-                <v-card
-                    color="dark"
-                    dark
-                    elevation="8"
-                    outlined
-
-                >
-                    <v-card-title>   
-                        <v-icon left dark medium>
-                            mdi-information-outline
-                        </v-icon>
-                        Please wait
-                    </v-card-title>
-                    <v-card-text>
-                        Request Proccessing...
-                        <v-progress-linear
-                            indeterminate
-                            color="#FAFAFA"
-                            class="mb-0"
-                        ></v-progress-linear>
-                        </v-card-text>
-                </v-card>
+                <Loader/>
             </v-dialog>
             
             <v-snackbar
@@ -105,6 +84,7 @@
 
 <script>
 import axios from '../../axios/index'
+import Loader from "../Loaders/Loader"
 
 export default {
 
@@ -123,25 +103,22 @@ export default {
             return this.$store.getters.getEditFoodType;
         }
     },
-    watch: {
-      dialogLoading (val) {
-        if (!val) return
-
-        setTimeout(() => (this.dialog = false, this.dialogLoading = false), 4000)
-      },
+    components:{
+        Loader
     },
+
     methods:{
        async confirm(){
-            await axios.get('/foodtype/check/'+this.editFoodType.id).then((response) => {
+            await axios.get('/foodtype/check/'+this.editFoodType.id).then(async (response) => {
                 console.log(response.data)
                 if(response.data == false){
                     this.snackbar = true;
                 }else{
-
                     this.dialogLoading = true
-                    axios.delete('/foodtype/'+this.editFoodType.id).then((response) => {
-                        this.$store.dispatch("setDeleteFoodType", response.data)
-
+                    await axios.delete('/foodtype/'+this.editFoodType.id).then(async (response) => {
+                        await this.$store.dispatch("setDeleteFoodType", response.data)
+                        this.dialogLoading = false
+                        this.dialog = false
                     })       
                 }
               

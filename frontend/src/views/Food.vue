@@ -3,7 +3,7 @@
         
         <v-toolbar flat dark rounded >
 
-            <v-toolbar-title>Menu</v-toolbar-title>
+            <v-toolbar-title>Food</v-toolbar-title>
 
             <v-spacer></v-spacer>
     

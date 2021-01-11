@@ -14,18 +14,19 @@ const getAll = async () =>{
             const foodType = await FoodType.findById(f.type)
             const oneFood = {
                 name:f.name,
-                type:foodType.name,
-                typeId:foodType.id,
-                description:f.description,
-                price:parseFloat(f.price),
+                //type:foodType.name,
+                //typeId:foodType.id,
+                //description:f.description,
+                //price:parseFloat(f.price),
                 availability:f.availability,
-                image:f.image,
+                //image:f.image,
                 active:f.active,
                 date:f.date,
                 id:f._id,
-                rate:4.5
+                //rate:4.5
             }
-            dtoFood.push(oneFood)
+            if(oneFood.active)
+                dtoFood.push(oneFood)
         }
         return dtoFood;
     }catch(err){

@@ -57,12 +57,12 @@ export default {
         };
     },
     methods:{
-        confirm(){
-            axios.patch('/user/'+this.client.id,{
+        async confirm(){
+            await axios.patch('/user/'+this.client.id,{
                 "approved":true,
-            }).then((response) => {
+            }).then(async(response) => {
                 console.log(response.data)
-                this.$store.dispatch("deleteClient", response.data)
+                await this.$store.dispatch("deleteClient", response.data)
                 this.dialog = false;
 
             })
