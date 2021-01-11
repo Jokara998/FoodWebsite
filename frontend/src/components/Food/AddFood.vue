@@ -208,34 +208,14 @@
             width="450"
             min-height="350"
             >
-                <v-card
-                    color="dark"
-                    dark
-                    elevation="8"
-                    outlined
-
-                >
-                    <v-card-title>   
-                        <v-icon left dark medium>
-                            mdi-information-outline
-                        </v-icon>
-                        Please wait
-                    </v-card-title>
-                    <v-card-text>
-                        Request Proccessing...
-                        <v-progress-linear
-                            indeterminate
-                            color="#FAFAFA"
-                            class="mb-0"
-                        ></v-progress-linear>
-                        </v-card-text>
-                </v-card>
+              <Loader/>
             </v-dialog>
     </v-container>
 </template>
 
 <script>
 import axios from '../../axios/index'
+import Loader from "../Loaders/Loader"
 
 export default {
 
@@ -293,12 +273,8 @@ export default {
         };
     },
 
-    watch: {
-      dialogLoading (val) {
-        if (!val) return
-
-        setTimeout(() => (this.dialog = false, this.dialogLoading = false), 5000)
-      },
+    components:{
+        Loader
     },
 
     created(){
@@ -326,7 +302,7 @@ export default {
         removeChip(item){
             this.availability.splice(this.availability.indexOf(item), 1)
         },
-        addFood(){
+        async addFood(){
             if(this.$refs.form.validate()){
                 event.preventDefault()
                 let compressedImg = this.url.split('').reduce((o, c) => {
@@ -335,19 +311,21 @@ export default {
                 return o;
                 },[]).map(_ => typeof _ === 'number' ? _.toString(36) : _).join('');
                 this.dialogLoading = true
-                axios.post('/food',{
+                await axios.post('/food',{
                     name:this.name,
                     type:this.type,
                     description:this.description,
                     price:this.price,
                     availability:this.availability,
                     image:compressedImg
-                }).then(()=>{
+                }).then(async ()=>{
                 
-                    this.$store.dispatch("addFood")
+                    await this.$store.dispatch("addFood")
                     this.$refs.form.reset()
                     this.url = null
                     this.image = null
+                    this.dialogLoading = false
+                    this.dialog = false
                 })
 
              

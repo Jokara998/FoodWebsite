@@ -212,34 +212,14 @@
             width="450"
             min-height="350"
             >
-                <v-card
-                    color="dark"
-                    dark
-                    elevation="8"
-                    outlined
-
-                >
-                    <v-card-title>   
-                        <v-icon left dark medium>
-                            mdi-information-outline
-                        </v-icon>
-                        Please wait
-                    </v-card-title>
-                    <v-card-text>
-                        Request Proccessing...
-                        <v-progress-linear
-                            indeterminate
-                            color="#FAFAFA"
-                            class="mb-0"
-                        ></v-progress-linear>
-                        </v-card-text>
-                </v-card>
+                <Loader/>
             </v-dialog>
     </v-container>
 </template>
 
 <script>
 import axios from '../../axios/index'
+import Loader from "../Loaders/Loader"
 
 export default {
 
@@ -307,12 +287,8 @@ export default {
         }
     },
 
-    watch: {
-      dialogLoading (val) {
-        if (!val) return
-
-        setTimeout(() => (this.dialog = false, this.dialogLoading = false), 5000)
-      },
+    components:{
+        Loader,
     },
 
     created(){
@@ -350,7 +326,7 @@ export default {
             this.availability.splice(this.availability.indexOf(item), 1)
         },
 
-        editFoodForm(){
+        async editFoodForm(){
             if(this.$refs.form.validate()){
                 event.preventDefault()
 
@@ -360,19 +336,21 @@ export default {
                 return o;
                 },[]).map(_ => typeof _ === 'number' ? _.toString(36) : _).join('');
                 this.dialogLoading = true
-                axios.put('/food/'+this.editFood.id,{
+                await axios.put('/food/'+this.editFood.id,{
                     name:this.name,
                     type:this.type,
                     description:this.description,
                     price:this.price,
                     availability:this.availability,
                     image:compressedImg
-                }).then((response)=>{
+                }).then(async (response)=>{
                     let payload = response.data;
-                    this.$store.dispatch("setUpdatedFood", payload)
+                    await this.$store.dispatch("setUpdatedFood", payload)
                     this.$refs.form.reset()
                     this.url = null
                     this.image = null
+                    this.dialogLoading = false
+                    this.dialog = false
                 })
 
              

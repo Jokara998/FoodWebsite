@@ -47,7 +47,7 @@ router.get(
             const price = req.query.price
             const rate = req.query.rate
 
-            if(req.query == ""){
+            if(isNaN(page) && isNaN(limit)){
 
                 try{
                     const allFood = await FoodService.getAll();

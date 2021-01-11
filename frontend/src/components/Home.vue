@@ -30,12 +30,19 @@
           </v-icon>
           Clients
         </v-btn>
-        
-        <v-btn text @click="menu()" v-show="menuShow()">
+
+         <v-btn text @click="mix()" v-show="mixShow()">
           <v-icon color="dark">
-            mdi-silverware
+            mdi-star-box-outline
           </v-icon>
-          Menu
+          Mix
+        </v-btn>
+        
+        <v-btn text @click="food()" v-show="foodShow()">
+          <v-icon color="dark">
+            mdi-hamburger
+          </v-icon>
+          Food
         </v-btn>
 
          <v-btn text @click="foodtype()" v-show="foodtypeShow()">
@@ -89,8 +96,15 @@
 
     <br>
     <br>
+
+    <loader v-show="this.mixLoader"> </loader>
+    <loader v-show="this.foodLoader"> </loader>
+    <loader v-show="this.foodTypeLoader"> </loader>
+    <loader v-show="this.clientsLoader"> </loader>
+    <loader v-show="this.workersLoader"> </loader>
     
-    <Menu app v-show="this.boolMenu" />
+    <Mix app v-show="this.boolMix" />
+    <Food app v-show="this.boolFood" />
     <FoodType app v-show="this.boolFoodType" />
     <Workers app v-show="this.boolWorkers" />
     <Clients app v-show="this.boolClients" />
@@ -101,12 +115,14 @@
 </template>
 
 <script>
-import Menu from "../views/Menu.vue";
+import Mix from "../views/Mix.vue";
+import Food from "../views/Food.vue";
 import FoodType from "../views/FoodType";
 import Login from '../components/User/Login';
 import Register from '../components/User/Register';
 import Workers from "../components/Admin/Workers"
 import Clients from "../components/Admin/Clients"
+import Loader from '../components/Loaders/Loader'
 import axios from "../axios/index"
 import jwt_decode from 'jwt-decode'
 
@@ -117,48 +133,82 @@ import jwt_decode from 'jwt-decode'
     data(){
 
         return{
-          boolMenu : false,
+          boolFood : false,
           boolHome: true,
           boolFoodType: false,
           boolWorkers: false,
           boolClients:false,
+          boolMix:false,
+          mixLoader:false,
+          foodLoader:false,
+          foodTypeLoader:false,
+          clientsLoader:false,
+          workersLoader:false
         };
     },
     components:{
-      Menu,
+      Food,
       FoodType,
       Login,
       Register,
       Clients,
-      Workers
+      Workers,
+      Mix,
+      Loader,
     },
     
     methods:{
       home(){
-        this.boolMenu = false
+        this.boolFood = false
         this.boolFoodType = false
         this.boolWorkers = false
         this.boolClients = false
+        this.boolMix = false
 
       },
-      menu(){
-        if(this.token.type == "Worker"){
-          this.$store.dispatch("setAllFood");
-          this.$store.dispatch("setAllTypes");
-        }
-        this.boolMenu = true
+      async mix(){
+        this.boolMix = false
+        this.boolFood = false
         this.boolFoodType = false
         this.boolWorkers = false
         this.boolClients = false
-        
+        this.mixLoader = true;
+        if(this.token.type == "Worker"){
+          await this.$store.dispatch("setMixs");
+          this.mixLoader = false;
+          this.boolMix = true
+        }
+  
       },
-      foodtype(){
-        if(this.token.type == "Worker")
-          this.$store.dispatch("setAllTypes");
-        this.boolMenu = false
-        this.boolFoodType = true
+      async food(){
+        this.boolFood = false
+        this.boolFoodType = false
         this.boolWorkers = false
         this.boolClients = false
+        this.boolMix = false
+        this.foodLoader = true;
+        if(this.token.type == "Worker"){
+          await this.$store.dispatch("setAllFood");
+          await this.$store.dispatch("setAllTypes");
+          this.foodLoader = false;
+          this.boolFood = true
+
+        }
+      },
+      async foodtype(){
+        this.boolFoodType = false
+        this.boolFood = false
+        this.boolWorkers = false
+        this.boolClients = false
+        this.boolMix = false
+        this.foodTypeLoader = true;
+        if(this.token.type == "Worker"){
+          await this.$store.dispatch("setAllTypes");
+          this.foodTypeLoader = false;
+          this.boolFoodType = true
+
+        }
+       
       },
       login(){
         this.$refs.login.dialog = true;
@@ -166,22 +216,34 @@ import jwt_decode from 'jwt-decode'
       register(){
         this.$refs.register.dialog = true;
       },
-      clients(){
-         if(this.token.type == "Admin")
-          this.$store.dispatch("setClients");
-        this.boolMenu = false
-        this.boolFoodType = false
-        this.boolWorkers = false
-        this.boolClients = true
+      async clients(){
+          this.boolClients = false;
+          this.boolFood = false
+          this.boolFoodType = false
+          this.boolWorkers = false
+          this.boolMix = false
+          this.clientsLoader = true;
+         if(this.token.type == "Admin"){
+          await this.$store.dispatch("setClients");
+          this.clientsLoader = false;
+          this.boolClients = true
+         }
+     
       },
-      workers(){
-         if(this.token.type == "Admin")
-          this.$store.dispatch("setWorkers");
-        this.boolMenu = false
-        this.boolFoodType = false
-        this.boolWorkers = true
-        this.boolClients = false
-       
+      async workers(){
+          this.boolWorkers = false
+          this.boolFood = false
+          this.boolFoodType = false
+          this.boolClients = false
+          this.boolMix = false
+          this.workersLoader = true;
+         if(this.token.type == "Admin"){
+          await this.$store.dispatch("setWorkers");
+          this.workersLoader = false;
+          this.boolWorkers = true
+        
+         }
+     
       },
       logout(){
         axios.get("/user/logout").then(async()=>{
@@ -215,7 +277,12 @@ import jwt_decode from 'jwt-decode'
           return true;
         return false;
       },
-      menuShow(){
+      mixShow(){
+        if(this.token.type =="Worker")
+          return true;
+        return false;
+      },
+      foodShow(){
         if(this.token.type =="Worker")
           return true;
         return false;

@@ -50,34 +50,14 @@
             width="450"
             min-height="350"
             >
-                <v-card
-                    color="dark"
-                    dark
-                    elevation="8"
-                    outlined
-
-                >
-                    <v-card-title>   
-                        <v-icon left dark medium>
-                            mdi-information-outline
-                        </v-icon>
-                        Please wait
-                    </v-card-title>
-                    <v-card-text>
-                        Request Proccessing...
-                        <v-progress-linear
-                            indeterminate
-                            color="#FAFAFA"
-                            class="mb-0"
-                        ></v-progress-linear>
-                        </v-card-text>
-                </v-card>
+               <Loader/>
             </v-dialog>
     </v-container>
 </template>
 
 <script>
 import axios from '../../axios/index'
+import Loader from '../Loaders/Loader'
 
 export default {
 
@@ -95,19 +75,17 @@ export default {
             return this.$store.getters.getEditFood;
         }
     },
-    watch: {
-      dialogLoading (val) {
-        if (!val) return
-
-        setTimeout(() => (this.dialog = false, this.dialogLoading = false), 4000)
-      },
+    components: {
+     Loader,
     },
     methods:{
-       confirm(){
+       async confirm(){
             this.dialogLoading = true
-            axios.delete('/food/'+this.editFood.id).then((response) => {
+            await axios.delete('/food/'+this.editFood.id).then(async (response) => {
                 console.log(response.data)
-                this.$store.dispatch("setDeleteFood")
+                await this.$store.dispatch("setDeleteFood")
+                this.dialogLoading = false
+                this.dialog = false
 
             })
        }

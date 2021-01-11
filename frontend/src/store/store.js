@@ -16,7 +16,11 @@ const store = new Vuex.Store({
     filterParameters:{price:"",rate:""},
     token: localStorage.getItem('Authorization') || '',
     workers:[],
-    clients:[]
+    clients:[],
+
+    // mix
+    mixForm:[],
+    mixs:[],
 
   },
   // sinhrono
@@ -145,6 +149,32 @@ const store = new Vuex.Store({
       state.clients = state.clients.filter(item => item.id !== payload)
     },
 
+    // MIX
+
+    setMixForm(state, payload){
+      state.mixForm = payload
+    },
+     setMixs(state, payload){
+      state.mixs = payload
+    },
+    addMix(state, payload){
+      state.mixs.push(payload)
+    },
+    deleteMix(state, payload){
+      state.mixs = state.mixs.filter(item => item.id !== payload)
+    },
+    editMix(state, payload){
+      for(let i in state.mixs){
+        if(payload.id == state.mixs[i].id){
+          state.mixs[i].name = payload.name;
+          state.mixs[i].food = payload.food;
+          state.mixs[i].availability = payload.availability;
+          state.mixs[i].discount = payload.discount;
+          break;
+        }
+      }
+    }
+
   },
   // asihrono, odavde uzimas sa back-a info
   actions: {
@@ -264,6 +294,33 @@ const store = new Vuex.Store({
       state.commit("deleteClient", payload)
     },
 
+    // MIX
+
+    async setMixForm(state){
+      await axios.get("/food").then((response) =>{
+        let resp = response.data;
+        state.commit("setMixForm", resp)
+      })
+    },
+
+    async setMixs(state){
+      await axios.get("/mix").then((response) =>{
+        state.commit("setMixs", response.data)
+      })
+    },
+
+    async addMix(state, payload){
+       state.commit("addMix", payload)
+    },
+
+    async deleteMix(state, payload){
+      state.commit("deleteMix", payload)
+    },
+
+    async editMix(state, payload){
+      state.commit("editMix", payload)
+    },
+
 
   },
   getters:{
@@ -315,6 +372,15 @@ const store = new Vuex.Store({
        // CLIENTS
        getClients(state){
         return state.clients
+      },
+
+      //MIX
+
+      getMixForm(state){
+        return state.mixForm
+      },
+      getMixs(state){
+        return state.mixs
       }
 
   },
