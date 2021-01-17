@@ -2,7 +2,7 @@ const { FoodCollection } = require("../database/index")
 const Food = require("../models/Food")
 const FoodType = require("../models/FoodType")
 
-
+// WORKER
 const getAll = async () =>{
 
     try{
@@ -130,36 +130,135 @@ const getPageAndFilter = async (page, limit, price, rate, type) =>{
     }
 }
 
+// CLIENT
 
-const getFiltered = async (types) =>{
+const getAllType = async (type) =>{
 
     try{
+
+        const food = await FoodCollection.getAllType(type);
         const dtoFood = []
-        for(let type of types){
-            const foodType = await FoodType.findOne({name:type})
-            const foods = await FoodCollection.getFiltered(foodType._id);
-            for (let f of foods){
-                const oneFood = {
-                    name:f.name,
-                    type:foodType.name,
-                    typeId:foodType.id,
-                    description:f.description,
-                    price:parseFloat(f.price),
-                    availability:f.availability,
-                    image:f.image,
-                    active:f.active,
-                    date:f.date,
-                    id:f._id,
-                    rate:4.5
-                }
-                dtoFood.push(oneFood)
+        for (let f of food){
+            
+            const foodType = await FoodType.findById(f.type)
+            const oneFood = {
+                name:f.name,
+                //type:foodType.name,
+                //typeId:foodType.id,
+                //description:f.description,
+                //price:parseFloat(f.price),
+                availability:f.availability,
+                //image:f.image,
+                active:f.active,
+                date:f.date,
+                id:f._id,
+                //rate:4.5
             }
+            if(oneFood.active)
+                dtoFood.push(oneFood)
         }
         return dtoFood;
     }catch(err){
         throw new Error(e.message);
     }
 }
+
+const getPageType = async (page, limit, type, count) =>{
+
+    try{
+        const startIndex = (page-1)*limit
+        const endIndex = page*limit
+        const pageFood = {}
+        const dtoFood = []
+        const foodLenght = count
+
+        const foods = await FoodCollection.getPageType(limit, startIndex, type)
+        for (let f of foods){
+            const foodType = await FoodType.findById(f.type)
+            const oneFood = {
+                name:f.name,
+                type:foodType.name,
+                typeId:foodType.id,
+                description:f.description,
+                price:parseFloat(f.price),
+                availability:f.availability,
+                image:f.image,
+                active:f.active,
+                date:f.date,
+                id:f._id,
+                rate:4.5
+            }
+            dtoFood.push(oneFood)
+        }
+
+        pageFood.food = dtoFood
+        pageFood.totalFood = foodLenght
+        const totalLenght = foodLenght / limit
+        if(totalLenght % 1 != 0){
+            pageFood.lenghtFood = Math.ceil(totalLenght);
+        }else{
+            pageFood.lenghtFood = totalLenght;
+        }    
+        return pageFood;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
+const getPageAndFilterType = async (page, limit, price, rate, type, count) =>{
+
+    try{
+        const startIndex = (page-1)*limit
+        const endIndex = page*limit
+        const pageFood = {}
+        const dtoFood = []
+
+        const filter = {rate:"",price:""}
+        if(rate == "Ascending")
+            filter.rate = -1
+        else if(rate == "Descending")
+            filter.rate = 1
+        
+        if(price == "Ascending")
+            filter.price = -1
+        else if(price == "Descending")
+            filter.price = 1
+
+        const foods = await FoodCollection.getPageAndFilterType(limit, startIndex, filter, type)
+        const foodLenght = count
+
+        for (let f of foods){
+            const foodType = await FoodType.findById(f.type)
+            const oneFood = {
+                name:f.name,
+                type:foodType.name,
+                typeId:foodType.id,
+                description:f.description,
+                price:parseFloat(f.price),
+                availability:f.availability,
+                image:f.image,
+                active:f.active,
+                date:f.date,
+                id:f._id,
+                rate:4.5
+            }
+            dtoFood.push(oneFood)
+        }
+
+        pageFood.food = dtoFood
+        pageFood.totalFood = foodLenght
+        const totalLenght = foodLenght / limit
+        if(totalLenght % 1 != 0){
+            pageFood.lenghtFood = Math.ceil(totalLenght);
+        }else{
+            pageFood.lenghtFood = totalLenght;
+        }    
+        return pageFood;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
 
 const getOne = async (id) =>{
 
@@ -298,8 +397,10 @@ module.exports = {
     insertOne,
     updateOne,
     deleteOne,
-    getFiltered,
     getPage,
     getPageAndFilter,
     updateActive,
+    getAllType,
+    getPageType,
+    getPageAndFilterType
 };

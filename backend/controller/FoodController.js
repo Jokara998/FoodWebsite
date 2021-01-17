@@ -29,8 +29,18 @@ const pageValidation = Joi.object({
     rate: Joi.string().allow('')
 })
 
+const pageOrderValidation = Joi.object({
+    page: Joi.string(),
+    limit: Joi.string(),
+    type: Joi.string().required(),
+    count: Joi.string().required(),
+    price: Joi.string().allow(''),
+    rate: Joi.string().allow('')
+})
 
-// get all
+
+
+// get all for workers
 router.get(
     "/",
     async (req, res) => {
@@ -66,6 +76,53 @@ router.get(
             }else if(page != "" && limit != "" && (price!=undefined || rate!=undefined)){
                 try{
                     const allFood = await FoodService.getPageAndFilter(page,limit,price,rate);
+                    res.status(200).json(allFood);
+                }catch(err){
+                    res.status(404).json({message:err});
+                }
+            }
+        }
+    }
+);
+
+// get all for clients
+router.get(
+    "/type",
+    async (req, res) => {
+
+        //http://localhost:8080/food/type?type=Barbecue,Pizza - filter
+        //http://localhost:8080/food/type?page=1&limit=4 - pagination
+        const {error} = pageOrderValidation.validate(req.query);
+        if(error)            
+            return res.status(422).send(error.details[0].message);
+        else{
+         
+            const page = parseInt(req.query.page)
+            const limit = parseInt(req.query.limit)
+            const type = req.query.type
+            const count = parseInt(req.query.count)
+            const price = req.query.price
+            const rate = req.query.rate
+
+            if(isNaN(page) && isNaN(limit)){
+
+                try{
+                    const allFood = await FoodService.getAllType(type);
+                    res.status(200).json(allFood);
+                }catch(err){
+                    res.status(404).json({message:err});
+                }
+
+            }else if(page != "" && limit != "" && price==undefined && rate == undefined){
+                try{
+                    const allFood = await FoodService.getPageType(page,limit,type, count);
+                    res.status(200).json(allFood);
+                }catch(err){
+                    res.status(404).json({message:err});
+                }
+            }else if(page != "" && limit != "" && (price!=undefined || rate!=undefined)){
+                try{
+                    const allFood = await FoodService.getPageAndFilterType(page,limit,price,rate,type, count);
                     res.status(200).json(allFood);
                 }catch(err){
                     res.status(404).json({message:err});

@@ -156,6 +156,22 @@ const patchOne = async (id, approved) =>{
     }
 }
 
+const getOneEmail = async (email) =>{
+    try{
+        const user =  await UserCollection.getOneEmail(email);
+        let userDto ={
+            name:user.name,
+            surname:user.surname,
+            address:user.address,
+            phone:user.phone,
+            id:user._id
+        }
+        return userDto;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
 module.exports = {
     registerClient,
     registerWorker,
@@ -164,4 +180,5 @@ module.exports = {
     getClients,
     deleteOne,
     patchOne,
+    getOneEmail
 }

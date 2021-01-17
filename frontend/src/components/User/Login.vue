@@ -142,6 +142,7 @@ export default {
                     await this.$store.dispatch("setToken", response.data)
                     await this.$store.dispatch("setNavbarKey")
                     this.dialog = false;
+                    this.$parent.home()
 
                 }).catch((error)=>{
                     if (error.response) {

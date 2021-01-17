@@ -11,10 +11,12 @@ const getAll = async () =>{
         const dtoFoodType = []
         for (let ft of foodTypes){
 
+            const foodCount = await Food.countDocuments({type:ft._id})
             const oneType = {
                 name:ft.name,                
                 date:ft.date,
-                id:ft._id
+                id:ft._id,
+                count:foodCount
             }
             dtoFoodType.push(oneType)
         }
@@ -111,5 +113,6 @@ module.exports = {
     insertOne,
     updateOne,
     deleteOne,
-    checkOne
+    checkOne,
+    
 };

@@ -23,6 +23,10 @@ const idValidation = Joi.object({
     id: Joi.string().required()
 })
 
+const emailValidation = Joi.object({
+    email: Joi.string().required()
+})
+
 const approvedValidation = Joi.object({
     approved: Joi.boolean().required()
 })
@@ -153,6 +157,25 @@ router.patch(
           }
     }  
   );
+
+// GET ONE
+
+router.get(
+    "/:email",
+    async (req, res) =>{
+          const {error} = emailValidation.validate(req.params);
+          if(error)            
+              return res.status(422).send(error.details[0].message);
+          else{
+              try{
+                  const user = await UserService.getOneEmail(req.params.email);
+                  res.status(200).json(user);
+              }catch(err){
+                  res.status(304).json({message:err});
+              }
+          }
+    }  
+);
   
 
 module.exports = router;

@@ -126,7 +126,7 @@
 
                                             <v-card-text >
                                                 <v-flex>
-                                                    <v-card-title style="margin-left:-12px"> 
+                                                    <v-card-title style="margin-left:-12px;justify-content:center"> 
                                                             <v-icon color="#f5f5f5">
                                                                 mdi-currency-eur
                                                             </v-icon>
@@ -140,7 +140,7 @@
                                             <v-card-title class="food-rate">Food Rate</v-card-title>
                                             <v-card-text >
                                                 <v-flex>
-                                                    <v-card-title style="margin-left:-20px"> 
+                                                    <v-card-title style="margin-left:-20px; justify-content:center"> 
                                                             <v-icon color="#ffbe41">
                                                                 mdi-star
                                                             </v-icon>
@@ -153,12 +153,12 @@
 
                                     </v-row>
 
-                                    <v-footer dark style="margin-top:10px" justify-center>
+                                    <v-footer dark style="margin-top:10px">
                                           
-                                            <v-col class="col-6" justify-center>
+                                            <v-col class="col-6" style="justify-content:center">
 
-                                                <v-btn
-                                                    style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
+                                                <v-chip
+                                                    style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);  margin-left:15px;justify-content:center"
                                                     text
                                                     @click="descriptionOpen(fd)"
                                                 >
@@ -166,13 +166,13 @@
                                                         mdi-text-box-multiple-outline
                                                     </v-icon>
                                                     Description
-                                                </v-btn>  
+                                                </v-chip>  
 
                                             </v-col>
-                                             <v-col class="col-6" justify-center>
+                                             <v-col class="col-6" style="justify-content:center">
 
-                                                <v-btn
-                                                    style="background-image: linear-gradient(190deg,#a6d78d, #95c17e); margin-left:12px"
+                                                <v-chip
+                                                    style="background-image: linear-gradient(190deg,#a6d78d, #95c17e); margin-left:40px;justify-content:center"
                                                     text
                                                     @click="availabilityOpen(fd)"
                                                 >
@@ -180,7 +180,7 @@
                                                         mdi-food-fork-drink
                                                     </v-icon>
                                                     Availability
-                                                </v-btn>      
+                                                </v-chip>      
                                             
                                              </v-col>         
                                     </v-footer>                                          
@@ -466,19 +466,22 @@ border-radius: 2px;
 .food-name{
     border-bottom: 2px solid #f5f5f5;
     background-color:#a6d78d;
-    margin-left:10px
+    margin-left:10px;
+    justify-content: center;
 }
 
 .food-price{
     border-bottom: 2px solid #f5f5f5;
     background-color:#a6d78d;
-    margin-left:10px
+    margin-left:10px;
+    justify-content: center;
 }
 
 .food-rate{
     border-bottom: 2px solid #f5f5f5;
     background-image: linear-gradient(190deg,#a6d78d, #95c17e);
-    margin-right:10px
+    margin-right:10px;
+    justify-content: center;
 }
 
 .v-limit-select{
