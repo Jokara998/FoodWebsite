@@ -7,6 +7,9 @@
 
 <script>
 import Home from './components/Home';
+import jwt_decode from "jwt-decode"
+import axios from './axios/index'
+
 
 export default {
   name: 'App',
@@ -15,11 +18,31 @@ export default {
     Home,
   },
 
-  mounted(){
+  async mounted(){
+      if(this.token != ""){
+        axios.defaults.headers.common['Authorization'] = this.jwt
+      }
+      if(this.token.type == "Client" || this.token ==""){
+        const cart = localStorage.getItem('cart')
+        await this.$store.dispatch("setCartStorage", cart);
+      }
       this.$store.dispatch("setAllFood");
       this.$store.dispatch("setAllTypes");
-
   },
+
+  computed:{
+      token:function(){
+      const t = this.$store.getters.getToken
+      if(t != "")
+        return jwt_decode(t);
+      return t;
+    },
+    jwt:function(){
+      const t = this.$store.getters.getToken
+      return t;
+    },
+  },
+  
 
   data: () => ({
     //

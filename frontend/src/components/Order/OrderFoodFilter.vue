@@ -94,7 +94,28 @@
             width="450"
             min-height="350"
             >
-               <Loader />
+                <v-card
+                    color="dark"
+                    dark
+                    elevation="8"
+                    outlined
+
+                >
+                    <v-card-title>   
+                        <v-icon left dark medium>
+                            mdi-information-outline
+                        </v-icon>
+                        Please wait
+                    </v-card-title>
+                    <v-card-text>
+                        Request Proccessing...
+                        <v-progress-linear
+                            indeterminate
+                            color="#FAFAFA"
+                            class="mb-0"
+                        ></v-progress-linear>
+                        </v-card-text>
+                </v-card>
             </v-dialog>
 
       
@@ -102,7 +123,6 @@
 </template>
 
 <script>
-import Loader from "../Loaders/Loader"
 
 export default {
 
@@ -118,34 +138,54 @@ export default {
      
         };
     },
+     
 
-
-    components:{
-        Loader,
+    created(){
+       
     },
 
+ 
     methods:{
         async submit(){
-            this.dialogLoading = true;  
-            let filterParameters = {price:"", rate:""}
-            filterParameters.price = this.priceSelect
-            filterParameters.rate = this.rateSelect
-            await this.$store.dispatch("setFilterFood", filterParameters)
-            this.dialogLoading = false;  
+            let parameters = {
+                page:1,
+                limit:4,
+                type:this.orderType.id,
+                count:this.orderType.count,
+                price:this.priceSelect,
+                rate:this.rateSelect
+            }
+            this.dialogLoading = true;           
+            await this.$store.dispatch("setFilterOrderFood", parameters)
+            this.dialogLoading = false; 
         },
 
         async reset(){
             if(this.rateSelect=="" && this.priceSelect=="")
                 return
-            this.dialogLoading = true;  
+            this.dialogLoading = true;
             this.$refs.form.reset();
-            let filterParameters = {price:"", rate:""}
-            filterParameters.price = this.priceSelect
-            filterParameters.rate = this.rateSelect
-            await this.$store.dispatch("setFilterFood", filterParameters)
+            let parameters = {
+                page:1,
+                limit:4,
+                type:this.orderType.id,
+                count:this.orderType.count,
+                price:this.priceSelect,
+                rate:this.rateSelect
+            }
+            await this.$store.dispatch("setFilterOrderFood", parameters)
             this.dialogLoading = false;           
         }
         
+    },
+
+     computed:{
+        orderFood(){
+            return this.$store.getters.getOrderFood;
+        },
+        orderType(){
+            return this.$store.getters.getOrderType;
+        },
     }
 }
 </script>

@@ -21,6 +21,15 @@ const store = new Vuex.Store({
     // mix
     mixForm:[],
     mixs:[],
+    orderFood:[],
+    orderType:'',
+    paginationOrderKey:0,
+
+    // cart
+    cart:[],
+    cartNumber:0,
+    cartKey:0
+    
 
   },
   // sinhrono
@@ -114,6 +123,10 @@ const store = new Vuex.Store({
       state.paginationKey += 1
     },
 
+    setPaginationOrderKey(state){
+      state.paginationOrderKey += 1
+    },
+
     // FOOD FILTER
     setFilterParameters(state, payload){
       state.filterParameters = payload
@@ -173,6 +186,53 @@ const store = new Vuex.Store({
           break;
         }
       }
+    },
+
+    // ORDER
+
+    setOrderFood(state, payload){
+      state.orderFood = payload
+    },
+    setOrderType(state, payload){
+      state.orderType = payload
+    },
+
+    // CART
+    setCart(state, payload){
+      state.cart.push(payload)
+      state.cartNumber = state.cart.length
+      state.navbarKey += 1
+   
+      localStorage.removeItem("cart")
+      localStorage.setItem("cart", JSON.stringify(state.cart))
+    },
+    setCartStorage(state, payload){
+      if(payload == null || payload.length == 0)
+      return
+      console.log(JSON.parse(payload))
+
+      state.cart = JSON.parse(payload)
+      state.cartNumber = state.cart.length
+      state.navbarKey += 1
+    },
+    deleteItem(state, item){
+      state.cart.splice(item, 1);
+      state.cartNumber = state.cart.length
+      state.navbarKey += 1
+
+      localStorage.removeItem("cart")
+      localStorage.setItem("cart", JSON.stringify(state.cart))
+      state.cartKey += 1
+    },
+    editItem(state, item, index){
+      state.cart[index] = item
+      localStorage.removeItem("cart")
+      localStorage.setItem("cart", JSON.stringify(state.cart))
+      state.cartKey += 1
+    },
+
+    setCartkey(state){
+      state.cartKey += 1
     }
 
   },
@@ -244,6 +304,10 @@ const store = new Vuex.Store({
 
     async setPaginationKey(state){
       state.commit("setPaginationKey")
+    },
+
+    async setPaginationOrderKey(state){
+      state.commit("setPaginationOrderKey")
     },
 
     // FOOD FILTER
@@ -321,6 +385,50 @@ const store = new Vuex.Store({
       state.commit("editMix", payload)
     },
 
+    // ORDER
+    async setOrderFood(state, type){
+      
+      await axios.get("/food/type?page=1&limit=4&type="+type.id+"&count="+type.count).then((response) =>{
+        state.commit("setOrderFood", response.data)
+      })    
+    },
+
+    setOrderType(state, type){
+      state.commit("setOrderType", type)    
+    },
+
+    async setPaginationOrderFood(state, parameters){
+      
+      await axios.get("/food/type?page="+parameters.page+"&limit="+parameters.limit+"&type="+parameters.type+"&count="+parameters.count).then((response) =>{
+        state.commit("setOrderFood", response.data)
+      })    
+    },
+
+    async setFilterOrderFood(state, parameters){
+      
+      await axios.get("/food/type?page="+parameters.page+"&limit="+parameters.limit+"&type="+parameters.type+"&count="+parameters.count+"&price="+parameters.price+"&rate="+parameters.rate).then((response) =>{
+        state.commit("setPaginationOrderKey")
+        state.commit("setOrderFood", response.data)
+      })    
+    },
+
+    // CART
+    async setCart(state, payload){
+      state.commit("setCart", payload)
+    },
+    async setCartStorage(state, cart){
+      state.commit("setCartStorage", cart)
+    },
+    async deleteItem(state, index){
+      state.commit("deleteItem", index)
+    },
+    async editItem(state, item, index){
+      state.commit("editItem", item, index)
+    },
+    async setCartKey(state){
+      state.commit("setCartKey")
+    }
+
 
   },
   getters:{
@@ -350,6 +458,10 @@ const store = new Vuex.Store({
 
       getPaginationKey(state){
         return state.paginationKey
+      },
+
+      getPaginationOrderKey(state){
+        return state.paginationOrderKey
       },
       // FOOD FILTER
       getFilterParameters(state){
@@ -381,6 +493,26 @@ const store = new Vuex.Store({
       },
       getMixs(state){
         return state.mixs
+      },
+
+      // ORDER
+
+      getOrderFood(state){
+        return state.orderFood
+      },
+      getOrderType(state){
+        return state.orderType
+      },
+      // CART
+
+      getCart(state){
+        return state.cart
+      },
+      getCartNumber(state){
+        return state.cartNumber
+      },
+      getCartKey(state){
+        return state.cartKey
       }
 
   },

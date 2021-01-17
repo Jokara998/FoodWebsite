@@ -1,5 +1,6 @@
 const Food = require("../models/Food")
 
+// WORKER
 const getAll = async () => {
     const allFood = await Food.find();
     return allFood;
@@ -26,11 +27,29 @@ const getPageAndFilter = async (limit,startIndex, filter) => {
         return await Food.find().sort({date:-1}).limit(limit).skip(startIndex).exec()
 };
 
+// CLIENT
 
-const getFiltered = async(type)=>{
-    const filteredFood = await Food.find({type:type}).exec()
-    return filteredFood;
-}
+const getAllType = async (type) => {
+    const allFood = await Food.find({type:type});
+    return allFood;
+};
+
+const getPageType = async (limit, startIndex, type) => {
+    const page = await Food.find({type:type}).sort({date:-1}).limit(limit).skip(startIndex).exec()
+    return page;
+};
+
+const getPageAndFilterType = async (limit,startIndex, filter, type) => {
+    if(filter.price != "" && filter.rate == "")
+        return await Food.find({type:type}).sort({price:filter.price}).limit(limit).skip(startIndex).exec()
+    else if(filter.price == "" && filter.rate != "")
+        return await Food.find({type:type}).sort({rate:filter.rate}).limit(limit).skip(startIndex).exec()
+    else if(filter.price != "" && filter.rate != "")
+        return await Food.find({type:type}).sort({price:filter.price, rate:filter.rate}).limit(limit).skip(startIndex).exec()
+    else
+        return await Food.find({type:type}).sort({date:-1}).limit(limit).skip(startIndex).exec()
+};
+
 
 const getOne = async (id) => {
     const food = await Food.findById(id);
@@ -90,7 +109,9 @@ module.exports = {
     getCount,
     getPage,
     getPageAndFilter,
-    getFiltered,
+    getAllType,
+    getPageType,
+    getPageAndFilterType,
     insertOne,
     deleteOne,
     updateOne,

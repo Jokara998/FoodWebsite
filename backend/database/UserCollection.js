@@ -10,6 +10,11 @@ const getOne = async (id) =>{
     return user;
 }
 
+const getOneEmail = async (email) =>{
+    const user = await User.findOne({email:email});
+    return user;
+}
+
 const insertOne = async (newUser) =>{
     const user = await newUser.save();
     return user;
@@ -80,4 +85,5 @@ module.exports = {
     getWorkers,
     getClients,
     patchOne,
+    getOneEmail
 }
