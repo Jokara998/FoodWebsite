@@ -1,5 +1,6 @@
 const { OrderCollection } = require("../database/index")
 const Order = require("../models/Order")
+const User = require("../models/User")
 
 const getAll = async () =>{
 
@@ -27,12 +28,13 @@ const insertOne = async (req, res) =>{
 
     const newOrder = new Order({
         state: "PROCESSING",
-        client: "",
-        food: res.body.food,
-        mix: res.body.mix,
-        address: res.body.address,
-        phone: res.body.phone,
-        price: res.body.price,
+        name: req.body.name,
+        surname: req.body.surname,
+        email:"None",
+        address: req.body.address,
+        phone: req.body.phone,
+        price: parseFloat(req.body.price),
+        ordered: req.body.ordered
     });
 
     try{
@@ -42,6 +44,30 @@ const insertOne = async (req, res) =>{
         throw new Error(e.message);
     }
 }
+
+const insertOneEmail = async (req, res) =>{
+
+    const user = await User.findOne({email:req.params.email})
+
+    const newOrder = new Order({
+        state: "PROCESSING",
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        address: user.address,
+        phone: user.phone,
+        price: parseFloat(req.body.price),
+        ordered: req.body.ordered
+    });
+
+    try{
+        const savedOrder = await OrderCollection.insertOne(newOrder);
+        return savedOrder;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
 
 const deleteOne = async (id) =>{
 
@@ -69,6 +95,7 @@ module.exports = {
     getAll,
     getOne,
     insertOne,
+    insertOneEmail,
     deleteOne,
     patchOne,
 };

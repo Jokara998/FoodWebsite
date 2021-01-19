@@ -53,7 +53,7 @@
 
 <script>
 import Loader from "../components/Loaders/Loader"
-import OrderTypeFood from "../components/Order/OrderTypeFood"
+import OrderTypeFood from "../components/OrderFood/OrderTypeFood"
 export default {
 
     data(){

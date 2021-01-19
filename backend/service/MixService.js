@@ -27,6 +27,7 @@ const getAll = async () =>{
                     price:parseFloat(food.price),
                     date:food.date,
                     id:food._id,
+                    availability:food.availability
                 }
                 dtoMix.food.push(dtoFood)
             }

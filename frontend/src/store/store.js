@@ -26,7 +26,8 @@ const store = new Vuex.Store({
     paginationOrderKey:0,
 
     // cart
-    cart:[],
+    cartFood:[],
+    cartMix:[],
     cartNumber:0,
     cartKey:0
     
@@ -199,41 +200,91 @@ const store = new Vuex.Store({
 
     // CART
     setCart(state, payload){
-      state.cart.push(payload)
-      state.cartNumber = state.cart.length
-      state.navbarKey += 1
-   
-      localStorage.removeItem("cart")
-      localStorage.setItem("cart", JSON.stringify(state.cart))
+      if(payload.type=="food"){
+        state.cartFood.push(payload)
+        state.cartNumber += 1
+        state.navbarKey += 1
+        state.cartKey += 1
+    
+        localStorage.removeItem("cartFood")
+        localStorage.setItem("cartFood", JSON.stringify(state.cartFood))
+      }else if(payload.type=="mix"){
+        state.cartMix.push(payload)
+        state.cartNumber +=1
+        state.navbarKey += 1
+        state.cartKey += 1
+    
+        localStorage.removeItem("cartMix")
+        localStorage.setItem("cartMix", JSON.stringify(state.cartMix))
+      }
     },
-    setCartStorage(state, payload){
-      if(payload == null || payload.length == 0)
+    setCartFoodStorage(state, payload){
+      if(payload == null)
       return
-      console.log(JSON.parse(payload))
-
-      state.cart = JSON.parse(payload)
-      state.cartNumber = state.cart.length
+      state.cartNumber = 0
+      state.cartFood = JSON.parse(payload)
+      state.cartNumber += state.cartMix.length
+      state.cartNumber += state.cartFood.length
       state.navbarKey += 1
+      state.cartKey += 1
+    
     },
-    deleteItem(state, item){
-      state.cart.splice(item, 1);
-      state.cartNumber = state.cart.length
+    setCartMixStorage(state, payload){
+      if(payload == null)
+      return
+      state.cartNumber = 0
+      state.cartMix = JSON.parse(payload)
+      state.cartNumber += state.cartMix.length
+      state.cartNumber += state.cartFood.length
       state.navbarKey += 1
-
-      localStorage.removeItem("cart")
-      localStorage.setItem("cart", JSON.stringify(state.cart))
+      state.cartKey += 1
+      
+    },
+    deleteItem(state,payload){
+      if(payload.type == "food"){
+        state.cartFood.splice(payload.index, 1);
+        state.cartNumber -= 1
+        state.navbarKey += 1
+        localStorage.removeItem("cartFood")
+        localStorage.setItem("cartFood", JSON.stringify(state.cartFood))
+        state.cartKey += 1
+      }else if(payload.type=="mix"){
+        state.cartMix.splice(payload.index, 1);
+        state.cartNumber -= 1
+        state.navbarKey += 1
+        localStorage.removeItem("cartMix")
+        localStorage.setItem("cartMix", JSON.stringify(state.cartMix))
+        state.cartKey += 1
+      }
+     
+    },
+    editFoodItem(state, payload){
+      state.cartFood[payload.index] = payload.item
+      localStorage.removeItem("cartFood")
+      localStorage.setItem("cartFood", JSON.stringify(state.cartFood))
       state.cartKey += 1
     },
-    editItem(state, item, index){
-      state.cart[index] = item
-      localStorage.removeItem("cart")
-      localStorage.setItem("cart", JSON.stringify(state.cart))
+
+    editMixItem(state, payload){
+      state.cartMix[payload.index] = payload.item
+      localStorage.removeItem("cartMix")
+      localStorage.setItem("cartMix", JSON.stringify(state.cartMix))
       state.cartKey += 1
     },
 
     setCartkey(state){
       state.cartKey += 1
-    }
+    },
+
+    clearCart(state){
+      state.cartFood = [];
+      state.cartMix = [];
+      state.cartNumber = 0
+      state.navbarKey += 1
+      localStorage.removeItem("cartFood")
+      localStorage.removeItem("cartMix")
+      state.cartKey += 1
+    },
 
   },
   // asihrono, odavde uzimas sa back-a info
@@ -416,18 +467,27 @@ const store = new Vuex.Store({
     async setCart(state, payload){
       state.commit("setCart", payload)
     },
-    async setCartStorage(state, cart){
-      state.commit("setCartStorage", cart)
+    async setCartFoodStorage(state, cart){
+      state.commit("setCartFoodStorage", cart)
     },
-    async deleteItem(state, index){
-      state.commit("deleteItem", index)
+    async setCartMixStorage(state, cart){
+      state.commit("setCartMixStorage", cart)
     },
-    async editItem(state, item, index){
-      state.commit("editItem", item, index)
+    async deleteItem(state, payload){
+      state.commit("deleteItem", payload)
+    },
+    async editFoodItem(state, payload){
+      state.commit("editFoodItem", payload)
+    },
+    async editMixItem(state, payload){
+      state.commit("editMixItem", payload)
     },
     async setCartKey(state){
       state.commit("setCartKey")
-    }
+    },
+    async clearCart(state){
+      state.commit("clearCart")
+    },
 
 
   },
@@ -505,8 +565,11 @@ const store = new Vuex.Store({
       },
       // CART
 
-      getCart(state){
-        return state.cart
+      getCartFood(state){
+        return state.cartFood
+      },
+      getCartMix(state){
+        return state.cartMix
       },
       getCartNumber(state){
         return state.cartNumber

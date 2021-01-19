@@ -52,6 +52,12 @@
           Food Type
         </v-btn>
 
+        <v-btn text @click="orderMix()" v-show="orderShow()">
+          <v-icon color="dark">
+            mdi-star-box-outline
+          </v-icon>
+          Order Mix
+        </v-btn>
 
         <v-btn text v-show="orderShow()" @click="order_food()">
           <v-icon color="dark" >
@@ -60,7 +66,7 @@
           Order Food
         </v-btn>      
     
-        <v-btn text v-show="cartShow()" @click="cart()">
+        <v-btn text v-show="cartShow()" @click="cart_fun()">
           <v-btn
             readonly
             v-if="this.cartNumber >= 1"
@@ -130,6 +136,7 @@
     <loader v-show="this.workersLoader"> </loader>
     <loader v-show="this.orderLoader"> </loader>
     <loader v-show="this.cartLoader"> </loader>
+    <loader v-show="this.orderMixLoader"> </loader>
 
     
     <Mix app v-show="this.boolMix" />
@@ -137,7 +144,8 @@
     <FoodType app v-show="this.boolFoodType" />
     <Workers app v-show="this.boolWorkers" />
     <Clients app v-show="this.boolClients" />
-    <Order app ref="order" v-show="this.boolOrder" />
+    <OrderFood app ref="order" v-show="this.boolOrder" />
+    <OrderMix app ref="orderMix" v-show="this.boolOrderMix" />
     <Cart app ref="cart" v-show="this.boolCart" />
     <Login ref="login" />
     <Register ref="register" />
@@ -149,7 +157,8 @@
 import Mix from "../views/Mix.vue";
 import Food from "../views/Food.vue";
 import FoodType from "../views/FoodType";
-import Order from "../views/Order"
+import OrderFood from "../views/OrderFood"
+import OrderMix from "../views/OrderMix"
 import Cart from "../views/Cart"
 import Login from '../components/User/Login';
 import Register from '../components/User/Register';
@@ -175,6 +184,7 @@ import jwt_decode from 'jwt-decode'
           boolMix:false,
           boolOrder:false,
           boolCart:false,
+          boolOrderMix:false,
 
           mixLoader:false,
           foodLoader:false,
@@ -182,6 +192,7 @@ import jwt_decode from 'jwt-decode'
           clientsLoader:false,
           workersLoader:false,
           orderLoader:false,
+          orderMixLoader:false,
           cartLoader:false,
         };
     },
@@ -194,7 +205,8 @@ import jwt_decode from 'jwt-decode'
       Workers,
       Mix,
       Loader,
-      Order,
+      OrderFood,
+      OrderMix,
       Cart
     },
     
@@ -207,6 +219,7 @@ import jwt_decode from 'jwt-decode'
         this.boolMix = false
         this.boolOrder = false;
         this.boolCart = false;
+        this.boolOrderMix = false;
         this.boolHome = true
 
       },
@@ -216,6 +229,7 @@ import jwt_decode from 'jwt-decode'
         this.boolFood = false
         this.boolFoodType = false
         this.boolWorkers = false
+        this.boolOrderMix = false;
         this.boolClients = false
         this.boolCart = false;
         this.boolOrder = false;
@@ -234,6 +248,7 @@ import jwt_decode from 'jwt-decode'
         this.boolWorkers = false
         this.boolClients = false
         this.boolMix = false
+        this.boolOrderMix = false;
         this.boolCart = false;
         this.boolOrder = false;
         this.foodLoader = true;
@@ -251,6 +266,7 @@ import jwt_decode from 'jwt-decode'
         this.boolFood = false
         this.boolWorkers = false
         this.boolClients = false
+        this.boolOrderMix = false;
         this.boolCart = false;
         this.boolOrder = false;
         this.boolMix = false
@@ -269,6 +285,7 @@ import jwt_decode from 'jwt-decode'
         this.boolFoodType = false
         this.boolFood = false
         this.boolWorkers = false
+        this.boolOrderMix = false;
         this.boolClients = false
         this.boolCart = false;
         this.boolMix = false
@@ -283,19 +300,43 @@ import jwt_decode from 'jwt-decode'
        
       },
 
-       async cart(){
+       async orderMix(){
+        this.boolOrderMix = false;
+        this.boolHome = false
+        this.boolFoodType = false
+        this.boolFood = false
+        this.boolWorkers = false
+        this.boolOrder = false;
+        this.boolClients = false
+        this.boolCart = false;
+        this.boolMix = false
+        this.orderMixLoader = true
+        if(this.token.type == "Client" || this.token ==""){
+          await this.$store.dispatch("setMixs");
+          this.orderMixLoader = false;
+          this.boolOrderMix = true
+
+        }
+       
+      },
+
+       async cart_fun(){
         this.boolCart = false;
         this.boolHome = false
         this.boolOrder = false;
         this.boolFoodType = false
         this.boolFood = false
         this.boolWorkers = false
+        this.boolOrderMix = false;
         this.boolClients = false
         this.boolMix = false
         this.cartLoader = true
         if(this.token.type == "Client" || this.token ==""){
-          //await this.$store.dispatch("setCartStorage")
           this.cartLoader = false;
+          const cartFood = localStorage.getItem('cartFood')
+          const cartMix = localStorage.getItem('cartMix')
+          await this.$store.dispatch("setCartFoodStorage", cartFood)
+          await this.$store.dispatch("setCartMixStorage", cartMix)
           this.boolCart = true
         }
        
@@ -312,6 +353,7 @@ import jwt_decode from 'jwt-decode'
           this.boolFood = false
           this.boolFoodType = false
           this.boolWorkers = false
+          this.boolOrderMix = false;
           this.boolOrder = false;
           this.boolCart = false;
           this.boolMix = false
@@ -330,6 +372,7 @@ import jwt_decode from 'jwt-decode'
           this.boolFoodType = false
           this.boolClients = false
           this.boolOrder = false;
+          this.boolOrderMix = false;
           this.boolCart = false;
           this.boolMix = false
           this.workersLoader = true;
@@ -393,6 +436,7 @@ import jwt_decode from 'jwt-decode'
           return false;
         return true;
       },
+      
       cartShow(){
          if(this.token.type == "Worker" || this.token.type =="Admin" || this.token.type =="Deliverer")
           return false;
@@ -424,6 +468,7 @@ import jwt_decode from 'jwt-decode'
         const t = this.$store.getters.getToken
         return t;
       },
+   
     }
 
   }
