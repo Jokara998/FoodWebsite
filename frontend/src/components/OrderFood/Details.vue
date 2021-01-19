@@ -239,10 +239,11 @@ export default {
                 let cartObject = {
                     food:this.food,
                     availability:this.selectedAvailability,
-                    amount:this.selectedAmount
+                    amount:this.selectedAmount,
+                    type:"food",
                 }
 
-                await this.$store.dispatch("setCart", cartObject)
+                await this.$store.dispatch("setCart", cartObject, "food")
                 this.$refs.form.reset()
             }
         }

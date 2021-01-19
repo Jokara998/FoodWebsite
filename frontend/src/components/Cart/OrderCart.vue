@@ -158,7 +158,7 @@
                                                                     </v-list-item-content>
                                                                 </v-list-item>
                                                                 <v-flex
-                                                                    v-for="(item) in this.cart" :key="item.id" 
+                                                                    v-for="(item) in this.cartFood" :key="item.id" 
                                                                 >
                                                                 
                                                                     <v-list-item>
@@ -170,16 +170,9 @@
                                                                         </v-list-item-content>
                                                                       
                                                                         <v-list-item-content>
-                                                                            <v-list-item-title>Amount</v-list-item-title>
+                                                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
                                                                             <v-list-item-subtitle>  
-                                                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} </span>
-                                                                            </v-list-item-subtitle>
-                                                                        </v-list-item-content>
-
-                                                                        <v-list-item-content>
-                                                                            <v-list-item-title>Availability</v-list-item-title>
-                                                                            <v-list-item-subtitle>  
-                                                                                <span style="color:#95c17e;font-size:16px"> {{item.availability}} </span>
+                                                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
 
@@ -187,6 +180,40 @@
                                                                             <v-list-item-title>Price</v-list-item-title>
                                                                             <v-list-item-subtitle>
                                                                                 <span style="color:#95c17e;font-size:16px"> {{returnFinalPrice(item)}} </span>
+                                                                                <v-icon color="#95c17e" style="margin-top:-3px">
+                                                                                    mdi-currency-eur
+                                                                                </v-icon>
+                                                                            </v-list-item-subtitle>
+                                                                        </v-list-item-content>
+
+                                                                        
+                                                                    </v-list-item>
+                                                                </v-flex>
+
+                                                                 <v-flex
+                                                                    v-for="(item) in this.cartMix" :key="item.id" 
+                                                                >
+                                                                
+                                                                    <v-list-item>
+                                                                        <v-list-item-content>
+                                                                            <v-list-item-title>Name</v-list-item-title>
+                                                                            <v-list-item-subtitle>  
+                                                                                <span style="color:#95c17e;font-size:16px"> {{item.mix.name}} </span>
+                                                                            </v-list-item-subtitle>
+                                                                        </v-list-item-content>
+                                                                      
+                                                                        <v-list-item-content>
+                                                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
+                                                                            <v-list-item-subtitle>  
+                                                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
+                                                                            </v-list-item-subtitle>
+                                                                        </v-list-item-content>
+
+
+                                                                        <v-list-item-content>
+                                                                            <v-list-item-title>Price</v-list-item-title>
+                                                                            <v-list-item-subtitle>
+                                                                                <span style="color:#95c17e;font-size:16px"> {{returnMixFinalPrice(item.mix, item.amount)}} </span>
                                                                                 <v-icon color="#95c17e" style="margin-top:-3px">
                                                                                     mdi-currency-eur
                                                                                 </v-icon>
@@ -235,16 +262,61 @@
                         </v-stepper>
                     </template>
             </v-dialog>
+
+            <v-dialog
+            v-model="dialogLoading"
+            hide-overlay
+            persistent
+            width="450"
+            min-height="350"
+            >
+              <Loader/>
+            </v-dialog>
+
+            <v-dialog
+            v-model="dialogSuccess"
+            hide-overlay
+            persistent
+            width="450"
+            min-height="350"
+            >
+               <v-card>
+                   <v-card-title>
+                        <v-icon color="green">
+                            mdi-check-circle-outline
+                        </v-icon>
+                       Request Successful!
+                   </v-card-title>
+
+                   <v-card-text>
+                       Your order has been received!
+                   </v-card-text>
+
+                   <v-card-actions>
+                           <v-col cols="8" />
+                           <v-col cols="4">
+                                <v-btn @click="closeAll()" style="justify-content:end">
+                                    Close
+                                </v-btn>
+                           </v-col>
+                   </v-card-actions>
+               </v-card>
+            </v-dialog>
+           
      </v-container>
 </template>
 
 <script>
 import axios from "../../axios/index"
 import jwt_decode from "jwt-decode"
+import Loader from '../Loaders/Loader'
+
 export default {
     data(){
         return{
             dialog:false,
+            dialogLoading:false,
+            dialogSuccess:false,
             valid:false,
             valid2:false,
             name:"",
@@ -253,7 +325,8 @@ export default {
             phone:"",
             e1:1,
             checkbox:false,
-            cart:[],
+            cartFood:[],
+            cartMix:[],
 
             nameRules:[
                 v => !!v || 'Name is required',
@@ -286,6 +359,10 @@ export default {
         }
     },
 
+    components:{
+        Loader,
+    },
+
     methods:{
         async addressForm(){
             if(this.checkbox && this.token != ""){
@@ -303,6 +380,7 @@ export default {
                 }
             }
         },
+        // one Food Price
         returnFinalPrice(item){
             let price = item.food.price
             for(let i = 0; i < item.food.availability.length; i++){
@@ -317,25 +395,92 @@ export default {
             let total_price = item.amount * price // jos availability
             return total_price.toFixed(2);
         },
-        returnTotalPrice(){
-            let totalPrice = 0
-            this.cart.forEach(element=>{
-                let price = element.food.price
-                for(let i = 0; i < element.food.availability.length; i++){
-                    if(element.food.availability[i] == element.availability){
-                    if(i == 0){
+        // one MIX price
+         returnMixPrice(item){
+            let price = 0
+            for(let i of item.food){
+                let ind = 0
+                for(let index in i.availability){
+                    if(item.availability[0] == i.availability[index]){
+                        ind = index
                         break;
-                    }else{
-                        price = price + (price + (i*0.1)+2)
-                    }
                     }
                 }
-                let total_price = element.amount * price 
-                totalPrice += total_price
-            })
+                if(ind == 0)
+                    price += i.price
+                else
+                    price += i.price + (i.price + (ind*0.1)+2)
+            }
             
+            let total = price
+            let prc = total - price*item.discount/100
+            prc = prc.toFixed(2)
+            return prc
+        },
+        returnMixFinalPrice(item, amount){
+            let price = this.returnMixPrice(item)
+            let prc = price * parseInt(amount)
+            return prc.toFixed(2)
+        },
+
+
+        // Total Order Price
+        returnTotalPrice(){
+            let totalPrice = 0
+            this.cartFood.forEach(element=>{
+                let price = this.returnFinalPrice(element)
+                totalPrice = +totalPrice + +price
+            })
+
+            this.cartMix.forEach(element=>{
+                let price = this.returnMixFinalPrice(element.mix, element.amount)       
+                totalPrice = +totalPrice + +price
+            })
+
             return totalPrice.toFixed(2);
         },
+
+       async finish(){
+           event.preventDefault();
+           let ordered = {food:[],mix:[]}
+           for(let f of this.cartFood){
+               ordered.food.push(f.food.id)
+           }
+            for(let f of this.cartMix){
+               ordered.mix.push(f.mix.id)
+           }
+           if(this.token != ""){
+                await axios.post("/order/"+this.token.email,{
+                    name: this.name,
+                    surname: this.surname,
+                    address: this.address,
+                    phone: this.phone,
+                    price: this.returnTotalPrice(),
+                    ordered: ordered
+                }).then(()=>{
+                    console.log("uspesno")
+                })
+           }else{
+                this.dialogLoading = true;
+                await axios.post("/order",{
+                    name: this.name,
+                    surname: this.surname,
+                    address: this.address,
+                    phone: this.phone,
+                    price: this.returnTotalPrice(),
+                    ordered: ordered
+                }).then(async ()=>{
+                    this.dialogLoading = false;
+                    this.dialogSuccess = true;
+                    
+
+                })
+           }
+        },
+        async closeAll(){
+            await this.$store.dispatch("clearCart");
+            this.dialogSuccess = false
+        }
     },
     computed:{
         token:function(){

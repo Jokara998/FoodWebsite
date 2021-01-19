@@ -1,4 +1,3 @@
-const { string } = require("@hapi/joi");
 const mongoose = require("mongoose");
 
 const OrderSchema = mongoose.Schema({
@@ -6,17 +5,24 @@ const OrderSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    client:{
-        type: mongoose.Schema.Types.ObjectId,
+    email:{
+        type: String,
+        required:false,
     },
-    food:{
-        type: [mongoose.Schema.Types.ObjectId],
+    name:{
+        type: String,
         required: true
     },
-    mix:{
-        type: [mongoose.Schema.Types.ObjectId],
-        required: true,
+    surname:{
+        type: String,
+        required: true
     },
+    ordered:{
+        type:Object,
+        food:[mongoose.Schema.Types.ObjectId],
+        mix:[mongoose.Schema.Types.ObjectId],
+    },
+    
     address:{
         type:String,
         required:true,
@@ -31,7 +37,7 @@ const OrderSchema = mongoose.Schema({
     },
     date:{
         type: Date,
-        default: Date.now
+        default: Date.now()
     },
 
 })

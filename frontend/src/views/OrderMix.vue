@@ -15,13 +15,6 @@
                 hide-details
             ></v-text-field>
 
-            <v-btn @click="addMix()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
-                <v-icon dark medium>
-                    mdi-plus-circle-outline
-                </v-icon>
-                Add New Mix
-            </v-btn>
-            
             </v-card-title>
             <v-data-table
                 :headers="headers"
@@ -101,19 +94,11 @@
                             <v-row style="justify-content: flex-end;">
                                     
                                 <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
-                                    <v-btn x-medium block color="green darken-1" @click="editMix(item)">
+                                    <v-btn x-medium block color="green darken-1" @click="addToCartMix(item)">
                                          <v-icon>
-                                            mdi-circle-edit-outline
+                                            mdi-cart-arrow-down
                                         </v-icon> 
-                                        Edit Mix 
-                                    </v-btn>
-                                </v-col>
-                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
-                                    <v-btn x-medium block color="red darken-1" @click="deleteMix(item)">
-                                        <v-icon>
-                                            mdi-delete-circle-outline
-                                        </v-icon> 
-                                        Delete Mix
+                                        Add To Cart 
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -141,21 +126,14 @@
                 mdi-arrow-up-bold
             </v-icon>
         </v-btn>
-     
-        
 
-        <AddMix ref="addMixDialog" />
-        <EditMix ref="editMixDialog" />
-        <DeleteMix ref="deleteMixDialog" />
+        <AddMixCart ref="addmixcart" />
 
     </v-container>
 </template>
 
 <script>
-import AddMix from '../components/Mix/AddMix'
-import EditMix from '../components/Mix/EditMix'
-import DeleteMix from '../components/Mix/DeleteMix'
-
+import AddMixCart from "../components/Cart/AddMixCart"
 export default {
 
     data(){
@@ -176,9 +154,7 @@ export default {
         };
     },
     components:{
-        AddMix,
-        EditMix,
-        DeleteMix
+        AddMixCart
     },
 
     methods:{
@@ -190,46 +166,11 @@ export default {
         toTop () {
             this.$vuetify.goTo(0)
         },
-        async addMix(){
-            await this.$store.dispatch("setMixForm");
-            let itemsFood = [];
-            let itemsAvailability = [];
-        
-            this.mixForm.forEach(element => {
-                itemsFood.push(element.name)
-            });
-
-            this.$refs.addMixDialog.dialog = true
-            this.$refs.addMixDialog.itemsFood = itemsFood
-            this.$refs.addMixDialog.itemsAvailability = itemsAvailability
-
-        },
-        async editMix(item){
-            await this.$store.dispatch("setMixForm");
-            
-            this.$refs.editMixDialog.mix = item
-            this.$refs.editMixDialog.name = item.name
-            this.$refs.editMixDialog.discount = item.discount
-            this.$refs.editMixDialog.chips = []
-            for(var i = 0; i<item.food.length; i++){
-                this.$refs.editMixDialog.chips.push({name:item.food[i].name, availability:item.availability[i], id:item.food[i].id})
-            }
-            let itemsFood = []
-            this.mixForm.forEach(element => {
-                itemsFood.push(element.name)
-            });
-            this.$refs.editMixDialog.itemsFood = itemsFood
-            this.$refs.editMixDialog.dialog = true
-        },
-        deleteMix(item){
-            this.$refs.deleteMixDialog.dialog = true
-            this.$refs.deleteMixDialog.mix = item
-        },
         returnText(item, i){
             return item.food[i].name+" [ Availability: "+item.availability[i]+" ] "
         },
         returnPrice(item){
-           let price = 0
+            let price = 0
             for(let i in item.food){
                 let ind = 0
                 for(let index in item.food.availability){
@@ -247,16 +188,18 @@ export default {
             let total = price
             let prc = total - price*item.discount/100
             return parseFloat(prc).toFixed(2)
-        }  
+        },
+        addToCartMix(item){
+            this.$refs.addmixcart.mix = item
+            this.$refs.addmixcart.dialog = true
+        }
     },
 
     computed:{
         mixs(){
             return this.$store.getters.getMixs;
         },
-         mixForm(){
-            return this.$store.getters.getMixForm;
-        }
+       
      
     },
 

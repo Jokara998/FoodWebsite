@@ -96,7 +96,7 @@ import Loader from "../Loaders/Loader"
 export default {
     data(){
         return{
-            item:{},
+            item:{food:{availability:[]}},
             index:0,
             dialog:false,
             dialogLoading:false,
@@ -126,7 +126,8 @@ export default {
             this.dialogLoading = true;
             this.item.availability = this.selectedAvailability
             this.item.amount = this.selectedAmount
-            await this.$store.dispatch("editItem", this.item, this.index)
+            let payload = {item: this.item, index:this.index}
+            await this.$store.dispatch("editFoodItem", payload)
             this.dialogLoading = false;
             this.dialog = false
         }
