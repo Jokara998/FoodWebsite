@@ -29,6 +29,11 @@ const patchValidation = Joi.object({
     state: Joi.string().required()
 })
 
+const rejectValidation = Joi.object({
+    state: Joi.string().required(),
+    message: Joi.string().required()
+})
+
 
 
 // get all
@@ -44,6 +49,25 @@ router.get(
         }           
     }
 );
+
+// get by type
+router.get(
+    "/:state",
+    async (req, res) => {
+        const {error} = patchValidation.validate(req.params);
+        if(error)            
+            return res.status(422).send(error.details[0].message);
+        else{
+            try{
+                const allOrders = await OrderService.getAllByType(req.params.state);
+                res.status(200).json(allOrders);
+            }catch(err){
+                res.status(404).json({message:err});
+            } 
+        }          
+    }
+);
+
 
 // get one
 router.get(
@@ -105,24 +129,6 @@ router.post(
     }
 );
 
-// delete one
-router.delete(
-    "/:id",
-    async (req, res) => {
-        const {error} = idValidation.validate(req.params);
-        if(error)            
-            return res.status(422).send(error.details[0].message);
-        else{
-            try{
-                const removedOrder = await OrderService.deleteOne(req.params.id);
-                res.status(200).json(removedOrder);
-            }catch(err){
-                res.status(404).json({message:err});
-            }
-        }
-    }
-);
-
 // patch one
 router.patch(
     "/:id",
@@ -137,6 +143,28 @@ router.patch(
         else{
             try{
                 const patchOrder = await OrderService.patchOne(req)
+                res.status(200).json(patchOrder);
+            }catch(err){
+                res.status(304).json({message:err});
+            }
+        }
+    }
+);
+
+// reject one
+router.patch(
+    "/reject/:id",
+    async (req, res) => {
+
+        const {error} = idValidation.validate(req.params);
+        const {error1} = rejectValidation.validate(req.body);
+        if(error)            
+            return res.status(422).send(error.details[0].message);
+        else if(error1)
+            return res.status(422).send(error.details[0].message);
+        else{
+            try{
+                const patchOrder = await OrderService.rejectOne(req)
                 res.status(200).json(patchOrder);
             }catch(err){
                 res.status(304).json({message:err});

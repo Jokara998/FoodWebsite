@@ -1,7 +1,8 @@
+const { string } = require("@hapi/joi");
 const mongoose = require("mongoose");
 
 const OrderSchema = mongoose.Schema({
-    state:{
+    state:{ // PROCESSING, READY, TRANSPORT, DELIVERED, CANCELED
         type: String,
         required: true,
     },
@@ -19,8 +20,8 @@ const OrderSchema = mongoose.Schema({
     },
     ordered:{
         type:Object,
-        food:[mongoose.Schema.Types.ObjectId],
-        mix:[mongoose.Schema.Types.ObjectId],
+        food:[Object],
+        mix:[Object],
     },
     
     address:{
@@ -39,6 +40,10 @@ const OrderSchema = mongoose.Schema({
         type: Date,
         default: Date.now()
     },
+    message:{
+        type:String,
+        default:""
+    }
 
 })
 

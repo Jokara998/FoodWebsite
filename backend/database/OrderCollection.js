@@ -5,6 +5,12 @@ const getAll = async () => {
     return allOrders;
 };
 
+const getAllByType = async (state) => {
+    const allOrders = await Order.find({state:state}).sort({date:-1});
+    return allOrders;
+};
+
+
 const getOne = async (id) => {
     const order = await Order.findById(id);
     return order;
@@ -15,23 +21,28 @@ const insertOne = async (newOrder) => {
     return insertedOrder;
 };
 
-const deleteOne = async (id) => {
-    try{
-        const order = await Order.findById(id);
-        const idd = order._id
-        const deletedOrder = await Order.deleteOne({_id: id});        
-        return idd;
-    }catch(err){
-        throw new Error(e.message);
-    }
-};
-
 const patchOne = async (id, state) => {
     const updatedOrder =  await Order.updateOne(
         { _id: id},
         { $set:
             {
-               state:state
+               state:state,
+               date:Date.now(),
+            }
+        }
+    );
+    const order = await Order.findById(id);
+    return order;
+};
+
+const rejectOne = async (id, state, message) => {
+    const updatedOrder =  await Order.updateOne(
+        { _id: id},
+        { $set:
+            {
+               state:state,
+               message:message,
+               date:Date.now(),
             }
         }
     );
@@ -44,6 +55,7 @@ module.exports = {
     getAll,
     getOne,
     insertOne,
-    deleteOne,
     patchOne,
+    getAllByType,
+    rejectOne
 };

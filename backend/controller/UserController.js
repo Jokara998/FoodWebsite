@@ -11,6 +11,7 @@ const registerValidate = Joi.object({
     phone: Joi.string().max(15).pattern(/^[0-9]+$/).required(),
     email: Joi.string().min(6).max(30).required().email(),
     password: Joi.string().min(6).max(30).required(),
+    type: Joi.string().required(),
 });
 
 const loginValidate = Joi.object({
@@ -51,7 +52,7 @@ router.post(
 );
 // REGISTER WORKER
 router.post(
-    "/register/worker",
+    "/register",
     async (req, res) =>{
 
         const {error} = registerValidate.validate(req.body);

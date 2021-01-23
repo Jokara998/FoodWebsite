@@ -7,8 +7,44 @@ const getAll = async () =>{
     try{
 
         const orders = await OrderCollection.getAll();
-    
-        return orders;
+        const dtoOrders = []
+        for(let order of orders){
+            const dto = {
+                
+                id: order._id,
+                state: order.state,
+                fullname: order.name+" "+order.surname,
+                email: order.email,
+                ordered: order.ordered,
+                date:order.date
+                
+            }
+            dtoOrders.push(dto);
+        }
+        return dtoOrders;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
+const getAllByType = async (state) =>{
+
+    try{
+
+        const orders = await OrderCollection.getAllByType(state);
+        const dtoOrders = []
+        for(let order of orders){
+            const dto = {
+                id: order._id,
+                state: order.state,
+                fullname: order.name+" "+order.surname,
+                email: order.email,
+                ordered: order.ordered,
+                date:order.date
+            }
+            dtoOrders.push(dto);
+        }
+        return dtoOrders;
     }catch(err){
         throw new Error(e.message);
     }
@@ -18,7 +54,16 @@ const getOne = async (id) =>{
 
     try{
         const order = await OrderCollection.getOne(id)
-        return order;
+        const dto = {
+            id: order._id,
+            state: order.state,
+            fullname: order.name+" "+order.surname,
+            email: order.email,
+            ordered: order.ordered,
+            date:order.date
+        }
+        
+        return dto;
     }catch(err){
         throw new Error(e.message);
     }
@@ -68,17 +113,6 @@ const insertOneEmail = async (req, res) =>{
     }
 }
 
-
-const deleteOne = async (id) =>{
-
-    try{
-        const deletedOrder =  await OrderCollection.deleteOne(id);
-        return deletedOrder;
-    }catch(err){
-        throw new Error(e.message);
-    }
-}
-
 const patchOne = async (req) =>{
 
     const id = req.params.id
@@ -91,11 +125,27 @@ const patchOne = async (req) =>{
     }
 }
 
+const rejectOne = async (req) =>{
+
+    const id = req.params.id
+    const state = req.body.state
+    const message = req.body.message
+    console.log(req.body)
+    try{
+        const rejectOrder = await OrderCollection.rejectOne(id, state, message);
+        return rejectOrder;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
+
 module.exports = {
     getAll,
     getOne,
     insertOne,
     insertOneEmail,
-    deleteOne,
     patchOne,
+    getAllByType,
+    rejectOne,
 };

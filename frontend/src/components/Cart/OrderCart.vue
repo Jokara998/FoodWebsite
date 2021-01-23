@@ -444,10 +444,21 @@ export default {
            event.preventDefault();
            let ordered = {food:[],mix:[]}
            for(let f of this.cartFood){
-               ordered.food.push(f.food.id)
+               const foodObj = {
+                   id:f.food.id,
+                   amount:f.amount,
+                   availability:f.availability,
+                   name: f.food.name,
+               }
+               ordered.food.push(foodObj)
            }
             for(let f of this.cartMix){
-               ordered.mix.push(f.mix.id)
+                const mixObj = {
+                   id:f.mix.id,
+                   amount:f.amount,
+                   name: f.mix.name,
+               }
+               ordered.mix.push(mixObj)
            }
            if(this.token != ""){
                 await axios.post("/order/"+this.token.email,{
