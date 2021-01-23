@@ -17,56 +17,71 @@
 
       <v-toolbar-items>
 
-        <v-btn text @click="workers()" v-show="workersShow()">
+          <v-btn text @click="ordersWorkerFun()" v-show="worker()">
           <v-icon color="dark">
-            mdi-briefcase
+            mdi-truck-delivery-outline
           </v-icon>
-          Workers
+          Orders
         </v-btn>
 
-        <v-btn text @click="clients()" v-show="clientsShow()">
+        <v-btn text @click="ordersDelivererFun()" v-show="deliverer()">
+          <v-icon color="dark">
+            mdi-truck-delivery-outline
+          </v-icon>
+          Orders
+        </v-btn>
+
+
+        <v-btn text @click="workers()" v-show="admin()">
+          <v-icon color="dark">
+            mdi-account-hard-hat
+          </v-icon>
+          Employees
+        </v-btn>
+
+        <v-btn text @click="clients()" v-show="admin()">
           <v-icon color="dark">
             mdi-account-group
           </v-icon>
           Clients
         </v-btn>
 
-         <v-btn text @click="mix()" v-show="mixShow()">
+         <v-btn text @click="mix()" v-show="worker()">
           <v-icon color="dark">
             mdi-star-box-outline
           </v-icon>
           Mix
         </v-btn>
         
-        <v-btn text @click="food()" v-show="foodShow()">
+        <v-btn text @click="food()" v-show="worker()">
           <v-icon color="dark">
             mdi-hamburger
           </v-icon>
           Food
         </v-btn>
 
-         <v-btn text @click="foodtype()" v-show="foodtypeShow()">
+         <v-btn text @click="foodtype()" v-show="worker()">
           <v-icon color="dark">
             mdi-food
           </v-icon>
           Food Type
         </v-btn>
 
-        <v-btn text @click="orderMix()" v-show="orderShow()">
+        <v-btn text @click="orderMix()" v-show="client()">
           <v-icon color="dark">
             mdi-star-box-outline
           </v-icon>
           Order Mix
         </v-btn>
 
-        <v-btn text v-show="orderShow()" @click="order_food()">
+        <v-btn text v-show="client()" @click="order_food()">
           <v-icon color="dark" >
             mdi-hamburger
           </v-icon>
           Order Food
         </v-btn>      
     
-        <v-btn text v-show="cartShow()" @click="cart_fun()">
+        <v-btn text v-show="client()" @click="cart_fun()">
           <v-btn
             readonly
             v-if="this.cartNumber >= 1"
@@ -129,14 +144,8 @@
       </v-row>
     </v-flex>
 
-    <loader v-show="this.mixLoader"> </loader>
-    <loader v-show="this.foodLoader"> </loader>
-    <loader v-show="this.foodTypeLoader"> </loader>
-    <loader v-show="this.clientsLoader"> </loader>
-    <loader v-show="this.workersLoader"> </loader>
-    <loader v-show="this.orderLoader"> </loader>
-    <loader v-show="this.cartLoader"> </loader>
-    <loader v-show="this.orderMixLoader"> </loader>
+    <loader v-show="this.boolLoader"> </loader>
+
 
     
     <Mix app v-show="this.boolMix" />
@@ -146,6 +155,8 @@
     <Clients app v-show="this.boolClients" />
     <OrderFood app ref="order" v-show="this.boolOrder" />
     <OrderMix app ref="orderMix" v-show="this.boolOrderMix" />
+    <OrdersDeliverer app  v-show="this.boolOrdersDeliverer" />
+    <OrdersWorker app  v-show="this.boolOrdersWorker" />
     <Cart app ref="cart" v-show="this.boolCart" />
     <Login ref="login" />
     <Register ref="register" />
@@ -159,6 +170,8 @@ import Food from "../views/Food.vue";
 import FoodType from "../views/FoodType";
 import OrderFood from "../views/OrderFood"
 import OrderMix from "../views/OrderMix"
+import OrdersDeliverer from "../views/OrdersDeliverer"
+import OrdersWorker from "../views/OrdersWorker"
 import Cart from "../views/Cart"
 import Login from '../components/User/Login';
 import Register from '../components/User/Register';
@@ -176,6 +189,7 @@ import jwt_decode from 'jwt-decode'
     data(){
 
         return{
+          boolLoader:false,
           boolFood : false,
           boolHome: true,
           boolFoodType: false,
@@ -185,15 +199,8 @@ import jwt_decode from 'jwt-decode'
           boolOrder:false,
           boolCart:false,
           boolOrderMix:false,
-
-          mixLoader:false,
-          foodLoader:false,
-          foodTypeLoader:false,
-          clientsLoader:false,
-          workersLoader:false,
-          orderLoader:false,
-          orderMixLoader:false,
-          cartLoader:false,
+          boolOrdersWorker:false,
+          boolOrdersDeliverer:false,
         };
     },
     components:{
@@ -207,7 +214,9 @@ import jwt_decode from 'jwt-decode'
       Loader,
       OrderFood,
       OrderMix,
-      Cart
+      Cart,
+      OrdersWorker,
+      OrdersDeliverer
     },
     
     methods:{
@@ -216,6 +225,8 @@ import jwt_decode from 'jwt-decode'
         this.boolFoodType = false
         this.boolWorkers = false
         this.boolClients = false
+        this.boolOrdersWorker = false
+        this.boolOrdersDeliverer = false
         this.boolMix = false
         this.boolOrder = false;
         this.boolCart = false;
@@ -230,13 +241,15 @@ import jwt_decode from 'jwt-decode'
         this.boolFoodType = false
         this.boolWorkers = false
         this.boolOrderMix = false;
+        this.boolOrdersDeliverer = false
+        this.boolOrdersWorker = false
         this.boolClients = false
         this.boolCart = false;
         this.boolOrder = false;
-        this.mixLoader = true;
+        this.boolLoader = true;
         if(this.token.type == "Worker"){
           await this.$store.dispatch("setMixs");
-          this.mixLoader = false;
+          this.boolLoader = false;
           this.boolMix = true
         }
   
@@ -247,15 +260,17 @@ import jwt_decode from 'jwt-decode'
         this.boolFoodType = false
         this.boolWorkers = false
         this.boolClients = false
+        this.boolOrdersDeliverer = false
+        this.boolOrdersWorker = false
         this.boolMix = false
         this.boolOrderMix = false;
         this.boolCart = false;
         this.boolOrder = false;
-        this.foodLoader = true;
+        this.boolLoader = true;
         if(this.token.type == "Worker"){
           await this.$store.dispatch("setAllFood");
           await this.$store.dispatch("setAllTypes");
-          this.foodLoader = false;
+          this.boolLoader = false;
           this.boolFood = true
 
         }
@@ -266,14 +281,16 @@ import jwt_decode from 'jwt-decode'
         this.boolFood = false
         this.boolWorkers = false
         this.boolClients = false
+        this.boolOrdersDeliverer = false
         this.boolOrderMix = false;
+        this.boolOrdersWorker = false
         this.boolCart = false;
         this.boolOrder = false;
         this.boolMix = false
-        this.foodTypeLoader = true;
+        this.boolLoader = true;
         if(this.token.type == "Worker"){
           await this.$store.dispatch("setAllTypes");
-          this.foodTypeLoader = false;
+          this.boolLoader = false;
           this.boolFoodType = true
 
         }
@@ -285,14 +302,16 @@ import jwt_decode from 'jwt-decode'
         this.boolFoodType = false
         this.boolFood = false
         this.boolWorkers = false
+        this.boolOrdersDeliverer = false
         this.boolOrderMix = false;
+        this.boolOrdersWorker = false
         this.boolClients = false
         this.boolCart = false;
         this.boolMix = false
-        this.orderLoader = true
+        this.boolLoader = true
         if(this.token.type == "Client" || this.token ==""){
           await this.$store.dispatch("setAllTypes");
-          this.orderLoader = false;
+          this.boolLoader = false;
           this.$refs.order.boolOrderTypeFood = false
           this.boolOrder = true
 
@@ -305,15 +324,17 @@ import jwt_decode from 'jwt-decode'
         this.boolHome = false
         this.boolFoodType = false
         this.boolFood = false
+        this.boolOrdersDeliverer = false
         this.boolWorkers = false
+        this.boolOrdersWorker = false
         this.boolOrder = false;
         this.boolClients = false
         this.boolCart = false;
         this.boolMix = false
-        this.orderMixLoader = true
+        this.boolLoader = true
         if(this.token.type == "Client" || this.token ==""){
           await this.$store.dispatch("setMixs");
-          this.orderMixLoader = false;
+          this.boolLoader = false;
           this.boolOrderMix = true
 
         }
@@ -325,14 +346,16 @@ import jwt_decode from 'jwt-decode'
         this.boolHome = false
         this.boolOrder = false;
         this.boolFoodType = false
+        this.boolOrdersDeliverer = false
         this.boolFood = false
+        this.boolOrdersWorker = false
         this.boolWorkers = false
         this.boolOrderMix = false;
         this.boolClients = false
         this.boolMix = false
-        this.cartLoader = true
+        this.boolLoader = true
         if(this.token.type == "Client" || this.token ==""){
-          this.cartLoader = false;
+          this.boolLoader = false;
           const cartFood = localStorage.getItem('cartFood')
           const cartMix = localStorage.getItem('cartMix')
           await this.$store.dispatch("setCartFoodStorage", cartFood)
@@ -354,13 +377,15 @@ import jwt_decode from 'jwt-decode'
           this.boolFoodType = false
           this.boolWorkers = false
           this.boolOrderMix = false;
+          this.boolOrdersDeliverer = false
           this.boolOrder = false;
+          this.boolOrdersWorker = false
           this.boolCart = false;
           this.boolMix = false
-          this.clientsLoader = true;
+          this.boolLoader = true;
          if(this.token.type == "Admin"){
           await this.$store.dispatch("setClients");
-          this.clientsLoader = false;
+          this.boolLoader = false;
           this.boolClients = true
          }
      
@@ -372,17 +397,56 @@ import jwt_decode from 'jwt-decode'
           this.boolFoodType = false
           this.boolClients = false
           this.boolOrder = false;
+          this.boolOrdersWorker = false
           this.boolOrderMix = false;
+          this.boolOrdersDeliverer = false
           this.boolCart = false;
           this.boolMix = false
-          this.workersLoader = true;
+          this.boolLoader = true;
          if(this.token.type == "Admin"){
           await this.$store.dispatch("setWorkers");
-          this.workersLoader = false;
+          this.boolLoader = false;
           this.boolWorkers = true
         
          }
      
+      },
+      async ordersWorkerFun(){
+          this.boolOrdersWorker = false
+          this.boolWorkers = false
+          this.boolHome = false
+          this.boolFood = false
+          this.boolFoodType = false
+          this.boolClients = false
+          this.boolOrder = false;
+          this.boolOrderMix = false;
+          this.boolOrdersDeliverer = false
+          this.boolCart = false;
+          this.boolMix = false
+          this.boolLoader = true;
+          if(this.token.type == "Worker"){
+            await this.$store.dispatch("setOrders", "PROCESSING");
+            this.boolLoader = false;
+            this.boolOrdersWorker = true
+        
+          }
+      },
+      ordersDelivererFun(){
+          this.boolOrdersDeliverer = false
+          this.boolOrdersWorker = false
+          this.boolWorkers = false
+          this.boolHome = false
+          this.boolFood = false
+          this.boolFoodType = false
+          this.boolClients = false
+          this.boolOrder = false;
+          this.boolOrderMix = false;
+          this.boolCart = false;
+          this.boolMix = false
+          this.boolLoader = true;
+          this.boolLoader = false;
+          this.boolOrdersDeliverer = true
+        
       },
       logout(){
         axios.get("/user/logout").then(async()=>{
@@ -406,42 +470,27 @@ import jwt_decode from 'jwt-decode'
           return true;
         return false;
       },
-      workersShow(){
+      admin(){
         if(this.token.type =="Admin")
           return true;
         return false;
       },
-      clientsShow(){
-        if(this.token.type =="Admin")
-          return true;
-        return false;
-      },
-      mixShow(){
+      worker(){
         if(this.token.type =="Worker")
           return true;
         return false;
       },
-      foodShow(){
-        if(this.token.type =="Worker")
+      deliverer(){
+        if(this.token.type =="Deliverer")
           return true;
         return false;
       },
-      foodtypeShow(){
-         if(this.token.type =="Worker")
-          return true;
-        return false;
-      },
-      orderShow(){
+    
+      client(){
          if(this.token.type == "Worker" || this.token.type =="Admin" || this.token.type =="Deliverer")
           return false;
         return true;
       },
-      
-      cartShow(){
-         if(this.token.type == "Worker" || this.token.type =="Admin" || this.token.type =="Deliverer")
-          return false;
-        return true;
-      }
 
   
     },

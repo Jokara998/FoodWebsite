@@ -55,7 +55,7 @@ const registerWorker = async (body, res)=>{
         surname: body.surname,
         email: body.email,
         password: hashPass,
-        type: "Worker",
+        type: body.type,
         phone: body.phone,
         address: body.address
     })

@@ -6,7 +6,7 @@
                             
                         <v-card-title>   
                             <v-icon color="primary"> mdi-briefcase-plus</v-icon>
-                            <div ><span style="color:#1976d2;display:inline">Register Worker</span></div>
+                            <div ><span style="color:#1976d2;display:inline">Register Employee</span></div>
                         </v-card-title>
 
                         <v-card-text style="padding:40px">
@@ -47,6 +47,15 @@
                                                 </v-icon>
                                             </template>
                                         </v-text-field>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-select v-model="type" :rules="typeRules" label="Employee Type" :items="types" required dark color="dark" item-color = "dark">
+                                            <template v-slot:prepend>                                                   
+                                                <v-icon>
+                                                    mdi-account-question
+                                                </v-icon>
+                                            </template>
+                                        </v-select>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-text-field v-model="email" counter="30" :rules="emailRules" type="email" label="Email" required>
@@ -162,6 +171,14 @@ export default {
             email:"",
             password:"",
             verify:"",
+            type:"",
+            types:["Worker","Deliverer"],
+
+            typeRules:[
+                v => !!v || 'Type is required',
+                v => v!=null || 'Type is required',
+                v => v!="" || 'Type is required',
+            ],
             
             nameRules:[
                 v => !!v || 'Name is required',
@@ -224,13 +241,14 @@ export default {
         async register(){
             if(this.$refs.registerForm.validate()){
                 event.preventDefault()
-                await axios.post("/user/register/worker",{
+                await axios.post("/user/register",{
                     "name":this.name,
                     "surname":this.surname,
                     "address":this.address,
                     "phone":this.phone,
                     "email":this.email,
-                    "password":this.password
+                    "password":this.password,
+                    "type":this.type
                 }).then( async (response)=>{
                     console.log(response.data)
                     this.snackbar = true;
@@ -251,5 +269,12 @@ export default {
 <style scoped>
 .v-window .v-item-group{
     background-color: #1e1e11;
+    
+}
+
+.v-list {
+margin-top: 32px;
+padding: 0px;
+border-radius: 2px;
 }
 </style>

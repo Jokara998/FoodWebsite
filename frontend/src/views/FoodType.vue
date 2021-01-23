@@ -82,6 +82,7 @@ export default {
                     text: 'Actions', 
                     align: 'left',
                     value: 'actions',
+                    width:"30px"
 
                 },
             ],

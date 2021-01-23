@@ -18,6 +18,9 @@ const store = new Vuex.Store({
     workers:[],
     clients:[],
 
+    // orders
+    orders:[],
+
     // mix
     mixForm:[],
     mixs:[],
@@ -285,6 +288,10 @@ const store = new Vuex.Store({
       localStorage.removeItem("cartMix")
       state.cartKey += 1
     },
+    // ORDERS
+    setOrders(state, payload){
+      state.orders = payload
+    }
 
   },
   // asihrono, odavde uzimas sa back-a info
@@ -489,6 +496,13 @@ const store = new Vuex.Store({
       state.commit("clearCart")
     },
 
+    // ORDERS
+    async setOrders(state, payload){
+        await axios.get("/order/"+payload).then( response =>{
+          state.commit("setOrders", response.data)
+        })
+    }
+
 
   },
   getters:{
@@ -576,6 +590,10 @@ const store = new Vuex.Store({
       },
       getCartKey(state){
         return state.cartKey
+      },
+      // ORDERS
+      getOrders(state){
+        return state.orders
       }
 
   },
