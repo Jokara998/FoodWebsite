@@ -16,7 +16,8 @@ const getAll = async () =>{
                 fullname: order.name+" "+order.surname,
                 email: order.email,
                 ordered: order.ordered,
-                date:order.date
+                date:order.date,
+                rated:order.rated
                 
             }
             dtoOrders.push(dto);
@@ -27,24 +28,60 @@ const getAll = async () =>{
     }
 }
 
-const getAllByType = async (state) =>{
+const getAllByType = async (state, user) =>{
 
     try{
-
-        const orders = await OrderCollection.getAllByType(state);
-        const dtoOrders = []
-        for(let order of orders){
-            const dto = {
-                id: order._id,
-                state: order.state,
-                fullname: order.name+" "+order.surname,
-                email: order.email,
-                ordered: order.ordered,
-                date:order.date
+        if(user.type == "Client"){
+            if(state == "SENT"){
+                const orders = await OrderCollection.getAllByTypeClient(state, user.email);
+                const dtoOrders = []
+                for(let order of orders){
+                    const dto = {
+                        id: order._id,
+                        state: order.state,
+                        fullname: order.name+" "+order.surname,
+                        email: order.email,
+                        ordered: order.ordered,
+                        date:order.date,
+                        rated:order.rated
+                    }
+                    dtoOrders.push(dto);
+                }
+                return dtoOrders;
+            }else{
+                const orders = await OrderCollection.getAllByTypeClient(state, user.email);
+                const dtoOrders = []
+                for(let order of orders){
+                    const dto = {
+                        id: order._id,
+                        state: order.state,
+                        fullname: order.name+" "+order.surname,
+                        email: order.email,
+                        ordered: order.ordered,
+                        date:order.date,
+                        rated:order.rated
+                    }
+                    dtoOrders.push(dto);
+                }
+                return dtoOrders;
             }
-            dtoOrders.push(dto);
+        }else{
+            const orders = await OrderCollection.getAllByType(state);
+            const dtoOrders = []
+            for(let order of orders){
+                const dto = {
+                    id: order._id,
+                    state: order.state,
+                    fullname: order.name+" "+order.surname,
+                    email: order.email,
+                    ordered: order.ordered,
+                    date:order.date,
+                    rated:order.rated
+                }
+                dtoOrders.push(dto);
+            }
+            return dtoOrders;
         }
-        return dtoOrders;
     }catch(err){
         throw new Error(e.message);
     }
@@ -60,7 +97,8 @@ const getOne = async (id) =>{
             fullname: order.name+" "+order.surname,
             email: order.email,
             ordered: order.ordered,
-            date:order.date
+            date:order.date,
+            rated:order.rated
         }
         
         return dto;
@@ -125,6 +163,19 @@ const patchOne = async (req) =>{
     }
 }
 
+
+const rateOne = async (req) =>{
+
+    const id = req.params.id
+    try{
+        const updatedOrder = await OrderCollection.rateOne(id);
+        return updatedOrder;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
+
 const rejectOne = async (req) =>{
 
     const id = req.params.id
@@ -148,4 +199,5 @@ module.exports = {
     patchOne,
     getAllByType,
     rejectOne,
+    rateOne,
 };

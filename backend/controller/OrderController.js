@@ -53,13 +53,14 @@ router.get(
 // get by type
 router.get(
     "/:state",
+    auth,
     async (req, res) => {
         const {error} = patchValidation.validate(req.params);
         if(error)            
             return res.status(422).send(error.details[0].message);
         else{
             try{
-                const allOrders = await OrderService.getAllByType(req.params.state);
+                const allOrders = await OrderService.getAllByType(req.params.state, req.user);
                 res.status(200).json(allOrders);
             }catch(err){
                 res.status(404).json({message:err});
@@ -150,6 +151,26 @@ router.patch(
         }
     }
 );
+
+// patch one
+router.patch(
+    "/rated/:id",
+    async (req, res) => {
+
+        const {error} = idValidation.validate(req.params);
+        if(error)            
+            return res.status(422).send(error.details[0].message);
+        else{
+            try{
+                const patchOrder = await OrderService.rateOne(req)
+                res.status(200).json(patchOrder);
+            }catch(err){
+                res.status(304).json({message:err});
+            }
+        }
+    }
+);
+
 
 // reject one
 router.patch(

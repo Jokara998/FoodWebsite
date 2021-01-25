@@ -1,6 +1,7 @@
 const { MixCollection } = require("../database/index")
 const Food = require("../models/Food")
 const Mix = require("../models/Mix")
+const RateService = require("../service/RateService")
 
 
 const getAll = async () =>{
@@ -16,8 +17,8 @@ const getAll = async () =>{
                 id: mix._id,
                 availability: mix.availability,
                 food:[],
-
             }
+            dtoMix.rate = await RateService.calculateRateMix(mix._id)
             const foods = mix.food
             for(let food_id of foods){
                 const food = await Food.findById(food_id)

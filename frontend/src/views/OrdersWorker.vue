@@ -21,6 +21,10 @@
                 :headers="headers"
                 :items="orders"
             >
+
+               <template v-slot:item.date="{item}">                            
+                                <span>{{formatDate(item.date)}}</span>                        
+                </template>
               
                 <template v-slot:item.actions="{item}">
                             <v-col cols="2" style="height:30px;">
@@ -99,6 +103,11 @@ export default {
                     value: 'state',
                     align: "start"
                 },
+                 {
+                    text: 'Date',
+                    value: 'date',
+                    align: "start"
+                },
                 {
                     text: '',
                     sortable:false,
@@ -123,6 +132,12 @@ export default {
         show(item){
             this.$refs.show.order = item
             this.$refs.show.dialog = true
+        },
+         formatDate(date){
+            let d = date.split("T")
+            let ymd = d[0].split("-")
+            let hms = d[1].split(".")
+            return ymd[2]+"/"+ymd[1]+"/"+ymd[0]+" "+hms[0]
         }
     },
 

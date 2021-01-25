@@ -79,7 +79,7 @@
 
                         <v-card-text>
 
-                            <v-col class="d-flex" cols="12" sm="3" xsm="12" align-start>  
+                            <v-col class="d-flex" cols="6" sm="3" xsm="6" align-start>  
                                 <v-chip
                                     medium
                                     outlined
@@ -91,6 +91,31 @@
                                     <span style="display:inline;color:#E53935"> 
                                         Discount: {{item.discount}}%
                                     </span>
+                                </v-chip>
+                            </v-col>
+
+                            <v-col class="d-flex" cols="6" sm="3" xsm="6" align-start>  
+                                <v-chip
+                                    medium
+                                    outlined
+                                    style="pointer-events:none"
+                                >
+                                   <v-flex v-show="item.rate.number > 0">
+                                        <v-card-title style="margin-left:-20px;justify-content:center"> 
+                                                <v-icon color="#ffbe41">
+                                                    mdi-star
+                                                </v-icon>
+                                                <span style="color:#f5f5f5;font-size:15px">Rate: {{item.rate.rate}} [users:{{item.rate.number}}] </span>
+                                        </v-card-title>
+                                    </v-flex>
+                                    <v-flex v-show="item.rate.number == 0">
+                                        <v-card-title style="margin-left:-20px;justify-content:center"> 
+                                                <v-icon color="#ffbe41">
+                                                    mdi-star
+                                                </v-icon>
+                                                <span style="color:#f5f5f5; font-size:15px">Rate: Not Rated </span>
+                                        </v-card-title>
+                                    </v-flex>
                                 </v-chip>
                             </v-col>
                         </v-card-text>

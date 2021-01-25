@@ -356,6 +356,7 @@ export default {
                     this.availability = []
                     this.dialogLoading = false
                     this.dialog = false;
+                    this.$parent.$forceUpdate();
                 })
             }
         },

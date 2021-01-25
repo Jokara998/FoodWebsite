@@ -139,12 +139,20 @@
                                         <v-col class="col-6">
                                             <v-card-title class="food-rate">Food Rate</v-card-title>
                                             <v-card-text >
-                                                <v-flex>
-                                                    <v-card-title style="margin-left:-20px; justify-content:center"> 
+                                              <v-flex v-show="fd.rate.number > 0">
+                                                    <v-card-title style="margin-left:-20px;justify-content:center"> 
                                                             <v-icon color="#ffbe41">
                                                                 mdi-star
                                                             </v-icon>
-                                                            <span style="color:#f5f5f5"> {{fd.rate}} </span>
+                                                            <span style="color:#f5f5f5"> {{fd.rate.rate}} [users:{{fd.rate.number}}] </span>
+                                                    </v-card-title>
+                                                </v-flex>
+                                                <v-flex v-show="fd.rate.number == 0">
+                                                    <v-card-title style="margin-left:-20px;justify-content:center"> 
+                                                            <v-icon color="#ffbe41">
+                                                                mdi-star
+                                                            </v-icon>
+                                                            <span style="color:#f5f5f5"> Not Rated </span>
                                                     </v-card-title>
                                                 </v-flex>
                                             </v-card-text>

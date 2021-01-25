@@ -43,6 +43,10 @@ const OrderSchema = mongoose.Schema({
     message:{
         type:String,
         default:""
+    },
+    rated:{
+        type:Boolean,
+        default:false,
     }
 
 })

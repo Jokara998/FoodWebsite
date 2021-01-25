@@ -98,7 +98,8 @@
                                     <v-icon color="#ffbe41">
                                         mdi-star
                                     </v-icon>
-                                    <span> {{food.rate}} </span></v-list-item-subtitle>
+                                    <span v-show="food.rate.number == 0"> Not Rated </span>
+                                    <span v-show="food.rate.number > 0"> {{food.rate.rate}} [users:{{food.rate.number}}] </span> </v-list-item-subtitle>
                                 </v-list-item-content>
                             </v-list-item>
 

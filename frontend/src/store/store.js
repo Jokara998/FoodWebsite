@@ -32,7 +32,11 @@ const store = new Vuex.Store({
     cartFood:[],
     cartMix:[],
     cartNumber:0,
-    cartKey:0
+    cartKey:0,
+
+    // rates
+    rates:[],
+    ratesKey:0,
     
 
   },
@@ -291,6 +295,17 @@ const store = new Vuex.Store({
     // ORDERS
     setOrders(state, payload){
       state.orders = payload
+    },
+    //RATES
+    setRates(state, payload){
+      state.rates.push(payload)
+      state.ratesKey += 1
+    },
+    setRatesKey(state){
+      state.ratesKey += 1
+    },
+    clearRates(state){
+      state.rates = []
     }
 
   },
@@ -501,6 +516,17 @@ const store = new Vuex.Store({
         await axios.get("/order/"+payload).then( response =>{
           state.commit("setOrders", response.data)
         })
+    },
+
+    // RATES
+    async setRates(state, payload){
+      state.commit("setRates", payload)
+    },
+    async setRatesKey(state){
+      state.commit("setRatesKey")
+    },
+    async clearRates(state){
+      state.commit("clearRates")
     }
 
 
@@ -594,6 +620,13 @@ const store = new Vuex.Store({
       // ORDERS
       getOrders(state){
         return state.orders
+      },
+      //Rates
+      getRates(state){
+        return state.rates
+      },
+      getRatesKey(state){
+        return state.ratesKey
       }
 
   },

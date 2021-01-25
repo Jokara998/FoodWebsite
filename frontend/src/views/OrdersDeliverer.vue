@@ -24,7 +24,7 @@
                 </v-tab>
 
                 <v-tab href="#delivered">
-                    In Transport Orders
+                    Delivered Orders
                     <v-icon>mdi-truck-check-outline</v-icon>
                 </v-tab>
             </v-tabs>
@@ -213,7 +213,7 @@ import ConfirmDelivery from "../components/OrdersDeliverer/ConfirmDelivery"
 export default {
     data(){
         return{
-            tab:null,
+            tab:"ready",
             dialogLoading:false,
             headers: [
                 {
@@ -251,17 +251,20 @@ export default {
     },
     methods:{
         async ready(){
-        
-        await this.$store.dispatch("setOrders", "READY");
-        this.dialogLoading = false
+            
+            await this.$store.dispatch("setOrders", "READY");
+            this.dialogLoading = false
+            this.$forceUpdate()
         },
         async transport(){
             await this.$store.dispatch("setOrders", "TRANSPORT");
             this.dialogLoading = false
+            this.$forceUpdate()
         },
         async delivered(){
             await this.$store.dispatch("setOrders", "DELIVERED");
             this.dialogLoading = false
+            this.$forceUpdate()
         },
         show(item){
             this.$refs.show.order = item

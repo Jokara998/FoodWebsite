@@ -10,6 +10,16 @@ const getAllByType = async (state) => {
     return allOrders;
 };
 
+const getAllByTypeClient = async (state, email) => {
+    if(state == "SENT"){
+        const allOrders = await Order.find({state:{$ne:"DELIVERED"}, email:email}).sort({date:-1,state:-1});
+        return allOrders;
+    }else{
+        const allOrders = await Order.find({state:state, email:email}).sort({date:-1,state:-1,rated:-1});
+        return allOrders;
+    }
+};
+
 
 const getOne = async (id) => {
     const order = await Order.findById(id);
@@ -27,6 +37,20 @@ const patchOne = async (id, state) => {
         { $set:
             {
                state:state,
+               date:Date.now(),
+            }
+        }
+    );
+    const order = await Order.findById(id);
+    return order;
+};
+
+const rateOne = async (id) => {
+    const updatedOrder =  await Order.updateOne(
+        { _id: id},
+        { $set:
+            {
+               rated:true,
                date:Date.now(),
             }
         }
@@ -57,5 +81,7 @@ module.exports = {
     insertOne,
     patchOne,
     getAllByType,
-    rejectOne
+    rejectOne,
+    getAllByTypeClient,
+    rateOne
 };
