@@ -1,6 +1,7 @@
 const { FoodCollection } = require("../database/index")
 const Food = require("../models/Food")
 const FoodType = require("../models/FoodType")
+const RateService = require("../service/RateService")
 
 // WORKER
 const getAll = async () =>{
@@ -57,8 +58,8 @@ const getPage = async (page, limit) =>{
                 active:f.active,
                 date:f.date,
                 id:f._id,
-                rate:4.5
             }
+            oneFood.rate = await RateService.calculateRateFood(f._id)
             dtoFood.push(oneFood)
         }
 
@@ -111,8 +112,9 @@ const getPageAndFilter = async (page, limit, price, rate, type) =>{
                 active:f.active,
                 date:f.date,
                 id:f._id,
-                rate:4.5
+               
             }
+            oneFood.rate = await RateService.calculateRateFood(f._id)
             dtoFood.push(oneFood)
         }
 
@@ -185,9 +187,9 @@ const getPageType = async (page, limit, type, count) =>{
                 image:f.image,
                 active:f.active,
                 date:f.date,
-                id:f._id,
-                rate:4.5
+                id:f._id,             
             }
+            oneFood.rate = await RateService.calculateRateFood(f._id)
             dtoFood.push(oneFood)
         }
 
@@ -240,8 +242,8 @@ const getPageAndFilterType = async (page, limit, price, rate, type, count) =>{
                 active:f.active,
                 date:f.date,
                 id:f._id,
-                rate:4.5
             }
+            oneFood.rate = await RateService.calculateRateFood(f._id)
             dtoFood.push(oneFood)
         }
 
@@ -277,8 +279,8 @@ const getOne = async (id) =>{
             active:food.active,
             date:food.date,
             id:food._id,
-            rate:4.5
         }
+        dtoFood.rate = await RateService.calculateRateFood(f._id)
         return dtoFood;
     }catch(err){
         throw new Error(e.message);

@@ -3,12 +3,14 @@ const FoodTypeService = require("./FoodTypeService")
 const UserService = require("./UserService")
 const MixService = require("./MixService")
 const OrderService = require("./OrderService")
+const RateService = require("./RateService")
 
 module.exports = {
     FoodService,
     FoodTypeService,
     UserService,
     MixService,
-    OrderService
+    OrderService,
+    RateService
 }
 

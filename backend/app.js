@@ -19,11 +19,13 @@ const FoodTypeRouter = require("./controller/FoodTypeController")
 const UserRouter = require("./controller/UserController")
 const MixRounter = require("./controller/MixController")
 const OrderRouter = require("./controller/OrderController")
+const RateRouter = require("./controller/RateController")
 app.use("/food", FoodRouter)
 app.use("/foodtype", FoodTypeRouter)
 app.use("/user", UserRouter)
 app.use("/mix", MixRounter)
 app.use("/order", OrderRouter)
+app.use("/rate", RateRouter)
 
 // Database connection
 mongoose.connect(

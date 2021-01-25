@@ -69,7 +69,7 @@
                                                             <v-checkbox
                                                                 v-show="this.token != '' "
                                                                 v-model="checkbox"
-                                                                label="I want to use my profile address."
+                                                                label="I want to use my profile information."
                                                             ></v-checkbox>
                                                         </v-col>                                              
                                                     </v-row>
@@ -469,7 +469,8 @@ export default {
                     price: this.returnTotalPrice(),
                     ordered: ordered
                 }).then(()=>{
-                    console.log("uspesno")
+                    this.dialogLoading = false;
+                    this.dialogSuccess = true;
                 })
            }else{
                 this.dialogLoading = true;
