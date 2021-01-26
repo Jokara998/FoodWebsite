@@ -7,7 +7,7 @@
 
             <v-spacer></v-spacer>
     
-            <v-btn @click="$refs.addFoodDialog.dialog = true" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
+            <v-btn @click="addFoodDiag()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
                 <v-icon dark medium>
                     mdi-plus-circle-outline
                 </v-icon>
@@ -323,6 +323,7 @@ import ActivateFood from '../components/Food/ActivateFood'
 import EditFood from '../components/Food/EditFood'
 import FilterFood from '../components/Food/FilterFood'
 import PaginationFood from '../components/Food/PaginationFood'
+import axios from '../axios/index'
 
 export default {
 
@@ -401,7 +402,7 @@ export default {
             this.$store.dispatch("setEditFood", payload);
             this.$refs.activateFoodDialog.dialog = true
         },
-        editFood(payload){
+        async editFood(payload){
             this.$store.dispatch("setEditFood", payload);
             this.$refs.editFoodDialog.dialog = true
             this.$refs.editFoodDialog.name = payload.name
@@ -412,7 +413,14 @@ export default {
             let img = this.ToBase64(payload.image)
             this.$refs.editFoodDialog.url = img
             this.$refs.editFoodDialog.image = this.toFile(img, payload.name)
+            this.$refs.editFoodDialog.itemsType = []
+            await axios.get("/foodtype").then((response) =>{
+                for(let t of response.data){
+                    this.$refs.editFoodDialog.itemsType.push({text:t.name,value:t.id})
+                }
+            })
             this.$refs.editFoodDialog.$forceUpdate();
+
 
         },
 
@@ -427,6 +435,18 @@ export default {
             this.availability.name = fd.name
             this.availability.availability = fd.availability
             console.log(this.availability)
+        },
+
+        async addFoodDiag(){
+            this.$refs.addFoodDialog.itemsType = []
+            await axios.get("/foodtype").then((response) =>{
+                for(let t of response.data){
+                    this.$refs.addFoodDialog.itemsType.push({text:t.name,value:t.id})
+                }
+            })
+            this.$refs.addFoodDialog.dialog = true
+            this.$refs.addFoodDialog.$forceUpdate();
+
         }
 
     },

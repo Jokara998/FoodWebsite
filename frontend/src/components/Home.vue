@@ -31,6 +31,20 @@
           Orders
         </v-btn>
 
+        <v-btn text @click="couponsFun()" v-show="admin()">
+          <v-icon color="dark">
+            mdi-label-percent-outline
+          </v-icon>
+          Coupons
+        </v-btn>
+
+         <v-btn text @click="commentsFun()" v-show="admin()">
+          <v-icon color="dark">
+            mdi-comment-text
+          </v-icon>
+          Comments
+        </v-btn>
+
 
         <v-btn text @click="workers()" v-show="admin()">
           <v-icon color="dark">
@@ -163,6 +177,8 @@
     <ClientOrders app v-show="this.boolClientOrders" ref="clientOrders" />
     <OrderFood app ref="order" v-show="this.boolOrder" />
     <OrderMix app ref="orderMix" v-show="this.boolOrderMix" />
+    <Coupon app ref="coupon" v-show="this.boolCoupon" />
+    <Comments app ref="comments" v-show="this.boolComments"/>
     <OrdersDeliverer app ref="ordersDel"  v-show="this.boolOrdersDeliverer" />
     <OrdersWorker app  v-show="this.boolOrdersWorker" />
     <Cart app ref="cart" v-show="this.boolCart" />
@@ -183,6 +199,8 @@ import OrdersDeliverer from "../views/OrdersDeliverer"
 import OrdersWorker from "../views/OrdersWorker"
 import Cart from "../views/Cart"
 import ClientOrders from "../views/ClientOrders"
+import Coupon from "../views/Coupon"
+import Comments from "../views/Comments"
 import Login from '../components/User/Login';
 import Register from '../components/User/Register';
 import Workers from "../components/Admin/Workers"
@@ -212,6 +230,8 @@ import jwt_decode from 'jwt-decode'
           boolOrdersWorker:false,
           boolOrdersDeliverer:false,
           boolClientOrders:false,
+          boolComments:false,
+          boolCoupon:false,
         };
     },
     components:{
@@ -228,7 +248,9 @@ import jwt_decode from 'jwt-decode'
       Cart,
       OrdersWorker,
       OrdersDeliverer,
-      ClientOrders
+      ClientOrders,
+      Comments,
+      Coupon
     },
     
     methods:{
@@ -245,6 +267,8 @@ import jwt_decode from 'jwt-decode'
         this.boolOrderMix = false;
         this.boolClientOrders = false;
         this.boolLoader = false;
+        this.boolCoupon = false;
+        this.boolComments = false;
         this.boolHome = true
 
       },
@@ -260,6 +284,8 @@ import jwt_decode from 'jwt-decode'
         this.boolClientOrders = false;
         this.boolClients = false
         this.boolCart = false;
+        this.boolCoupon = false;
+        this.boolComments = false;
         this.boolOrder = false;
         this.boolLoader = true;
         if(this.token.type == "Worker"){
@@ -279,6 +305,8 @@ import jwt_decode from 'jwt-decode'
         this.boolOrdersWorker = false
         this.boolMix = false
         this.boolOrderMix = false;
+        this.boolCoupon = false;
+        this.boolComments = false;
         this.boolClientOrders = false;
         this.boolCart = false;
         this.boolOrder = false;
@@ -299,6 +327,8 @@ import jwt_decode from 'jwt-decode'
         this.boolClients = false
         this.boolOrdersDeliverer = false
         this.boolOrderMix = false;
+        this.boolCoupon = false;
+        this.boolComments = false;
         this.boolOrdersWorker = false
         this.boolClientOrders = false;
         this.boolCart = false;
@@ -321,6 +351,8 @@ import jwt_decode from 'jwt-decode'
         this.boolWorkers = false
         this.boolOrdersDeliverer = false
         this.boolOrderMix = false;
+        this.boolCoupon = false;
+        this.boolComments = false;
         this.boolClientOrders = false;
         this.boolOrdersWorker = false
         this.boolClients = false
@@ -346,6 +378,8 @@ import jwt_decode from 'jwt-decode'
         this.boolWorkers = false
         this.boolOrdersWorker = false
         this.boolOrder = false;
+        this.boolCoupon = false;
+        this.boolComments = false;
         this.boolClientOrders = false;
         this.boolClients = false
         this.boolCart = false;
@@ -370,6 +404,8 @@ import jwt_decode from 'jwt-decode'
         this.boolOrdersWorker = false
         this.boolClientOrders = false;
         this.boolWorkers = false
+        this.boolCoupon = false;
+        this.boolComments = false;
         this.boolOrderMix = false;
         this.boolClients = false
         this.boolMix = false
@@ -396,6 +432,8 @@ import jwt_decode from 'jwt-decode'
           this.boolFood = false
           this.boolFoodType = false
           this.boolWorkers = false
+          this.boolCoupon = false;
+          this.boolComments = false;
           this.boolClientOrders = false;
           this.boolOrderMix = false;
           this.boolOrdersDeliverer = false
@@ -421,6 +459,8 @@ import jwt_decode from 'jwt-decode'
           this.boolOrdersWorker = false
           this.boolClientOrders = false;
           this.boolOrderMix = false;
+          this.boolCoupon = false;
+          this.boolComments = false;
           this.boolOrdersDeliverer = false
           this.boolCart = false;
           this.boolMix = false
@@ -443,6 +483,8 @@ import jwt_decode from 'jwt-decode'
           this.boolClientOrders = false;
           this.boolOrder = false;
           this.boolOrderMix = false;
+          this.boolCoupon = false;
+          this.boolComments = false;
           this.boolOrdersDeliverer = false
           this.boolCart = false;
           this.boolMix = false
@@ -464,6 +506,8 @@ import jwt_decode from 'jwt-decode'
           this.boolClientOrders = false;
           this.boolFoodType = false
           this.boolClients = false
+          this.boolCoupon = false;
+          this.boolComments = false;
           this.boolOrder = false;
           this.boolOrderMix = false;
           this.boolCart = false;
@@ -486,6 +530,8 @@ import jwt_decode from 'jwt-decode'
           this.boolFoodType = false
           this.boolClients = false
           this.boolOrder = false;
+          this.boolCoupon = false;
+          this.boolComments = false;
           this.boolOrderMix = false;
           this.boolCart = false;
           this.boolMix = false
@@ -496,6 +542,34 @@ import jwt_decode from 'jwt-decode'
           this.$refs.clientOrders.tab = "sent"
           this.boolClientOrders = true
       },
+      couponsFun(){
+        
+      },
+
+      async commentsFun(){
+          this.boolLoader = true;
+          this.boolComments = false;
+          this.boolClientOrders = false
+          this.boolOrdersDeliverer = false
+          this.boolOrdersWorker = false
+          this.boolWorkers = false
+          this.boolHome = false
+          this.boolFood = false
+          this.boolFoodType = false
+          this.boolClients = false
+          this.boolOrder = false;
+          this.boolCoupon = false;
+          this.boolOrderMix = false;
+          this.boolCart = false;
+          this.boolMix = false
+          await axios.get("/rate/"+0).then( async (response) =>{
+              await this.$store.dispatch("setComments", response.data);      
+              this.boolLoader = false;
+              this.boolComments = true
+          })
+        
+      },
+
       logout(){
         axios.get("/user/logout").then(async()=>{
           await localStorage.removeItem("Authorization")

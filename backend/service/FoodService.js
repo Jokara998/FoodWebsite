@@ -324,8 +324,9 @@ const insertOne = async (req, res) =>{
             active:savedFood.active,
             date:savedFood.date,
             id:savedFood._id,
-            rate:4.5
         }
+        dtoFood.rate = await RateService.calculateRateFood(savedFood._id)
+
         return dtoFood;
     }catch(err){
         throw new Error(e.message);
@@ -369,8 +370,9 @@ const updateOne = async (req) =>{
             active:updatedFood.active,
             date:updatedFood.date,
             id:updatedFood._id,
-            rate:4.5
+            
         }
+        dtoFood.rate = await RateService.calculateRateFood(updatedFood._id)
         return dtoFood;
     }catch(err){
         throw new Error(e.message);

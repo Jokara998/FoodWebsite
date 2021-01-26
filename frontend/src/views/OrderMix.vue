@@ -127,6 +127,15 @@
                                         Add To Cart 
                                     </v-btn>
                                 </v-col>
+
+                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
+                                    <v-btn x-medium block color="blue darken-1" @click="showComments(item)">
+                                         <v-icon>
+                                            mdi-comment-text
+                                        </v-icon> 
+                                        Comments
+                                    </v-btn>
+                                </v-col>
                             </v-row>
 
                         </v-card-text>
@@ -154,12 +163,15 @@
         </v-btn>
 
         <AddMixCart ref="addmixcart" />
+        <ShowComments ref="commentsmix"/>
 
     </v-container>
 </template>
 
 <script>
 import AddMixCart from "../components/Cart/AddMixCart"
+import ShowComments from "../components/Comments/ShowComments"
+import axios from "../axios/index"
 export default {
 
     data(){
@@ -180,7 +192,8 @@ export default {
         };
     },
     components:{
-        AddMixCart
+        AddMixCart,
+        ShowComments
     },
 
     methods:{
@@ -218,6 +231,13 @@ export default {
         addToCartMix(item){
             this.$refs.addmixcart.mix = item
             this.$refs.addmixcart.dialog = true
+        },
+        async showComments(item){
+            await axios.get("/rate/ratedMix/"+item.id).then((response) =>{
+                this.$refs.commentsmix.comments = response.data
+                this.$refs.commentsmix.dialog = true;
+
+            })
         }
     },
 

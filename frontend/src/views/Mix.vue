@@ -3,7 +3,7 @@
         
         <br>
 
-        <v-card dark >
+        <v-card dark :key="mixKey" >
             <v-card-title>
                 Food Mixes
             <v-spacer></v-spacer>
@@ -24,6 +24,7 @@
             
             </v-card-title>
             <v-data-table
+               
                 dense
                 :headers="headers"
                 :items="mixs"
@@ -189,6 +190,7 @@ export default {
         return{
             fab:false,
             search: '',
+            mixKey:0,
             headers: [
                 {
                     text: '',

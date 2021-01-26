@@ -15,9 +15,8 @@ const RateSchema = mongoose.Schema({
         required: true
     },
     approvedComment:{
-      type: Boolean,
-      required:false,
-      default:false  
+      type: Number,
+      default:0
     },
     ratedFood:{
         type: mongoose.Schema.Types.ObjectId,

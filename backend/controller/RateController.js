@@ -17,6 +17,19 @@ const idValidation = Joi.object({
     id: Joi.string().required()
 })
 
+const approvedValidation = Joi.object({
+    approvedComment: Joi.number().min(-1).max(1).required()
+})
+
+const ratedFoodValidation = Joi.object({
+    ratedFood: Joi.string().required()
+})
+
+const ratedMixValidation = Joi.object({
+    ratedMix: Joi.string().required()
+})
+
+
 
 // get all
 router.get(
@@ -28,6 +41,66 @@ router.get(
             res.status(200).json(allRates);
         }catch(err){
             res.status(404).json({message:err});
+        }
+
+    }
+);
+
+// get all comments
+router.get(
+    "/:approvedComment",
+    async (req, res) => {
+        const {error} = approvedValidation.validate(req.params);
+
+        if(error)            
+            return res.status(422).send(error.details[0].message);
+        else{
+            try{
+                const allRates = await RateService.getAllComments(req.params.approvedComment);
+                res.status(200).json(allRates);
+            }catch(err){
+                res.status(404).json({message:err});
+            }
+        }
+
+    }
+);
+
+// get all comments by mix
+router.get(
+    "/ratedMix/:ratedMix",
+    async (req, res) => {
+        const {error} = ratedMixValidation.validate(req.params);
+
+        if(error)            
+            return res.status(422).send(error.details[0].message);
+        else{
+            try{
+                const allRates = await RateService.getAllCommentsMix(req.params.ratedMix);
+                res.status(200).json(allRates);
+            }catch(err){
+                res.status(404).json({message:err});
+            }
+        }
+
+    }
+);
+
+// get all comments by food
+router.get(
+    "/ratedFood/:ratedFood",
+    async (req, res) => {
+        const {error} = ratedFoodValidation.validate(req.params);
+
+        if(error)            
+            return res.status(422).send(error.details[0].message);
+        else{
+            try{
+                const allRates = await RateService.getAllCommentsFood(req.params.ratedFood);
+                res.status(200).json(allRates);
+            }catch(err){
+                res.status(404).json({message:err});
+            }
         }
 
     }
@@ -79,8 +152,11 @@ router.patch(
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);
+        const {error1} = approvedValidation.validate(req.params);
 
         if(error)            
+            return res.status(422).send(error.details[0].message);
+        else if(error1)            
             return res.status(422).send(error.details[0].message);
         else{
             try{
