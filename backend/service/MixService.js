@@ -52,7 +52,7 @@ const getOne = async (id) =>{
             food:[],
 
         }
-
+        dtoMix.rate = await RateService.calculateRateMix(mix._id)
         const foods = oneMix.food
         for(let food_id of foods){
             const food = await Food.findById(food_id)
@@ -84,7 +84,29 @@ const insertOne = async (req, res) =>{
 
     try{
         const savedMix = await MixCollection.insertOne(newMix);
-        const dtoMix = await getOne(savedMix._id)
+        const oneMix = await MixCollection.getOne(savedMix._id)
+        const dtoMix = {
+            name: oneMix.name,
+            discount : oneMix.discount,
+            id: oneMix._id,
+            availability: oneMix.availability,
+            food:[],
+
+        }
+        dtoMix.rate = {rate:0, number:0}
+        const foods = oneMix.food
+        for(let food_id of foods){
+            const food = await Food.findById(food_id)
+            const dtoFood = {
+                name:food.name,
+                description:food.description,
+                price:parseFloat(food.price),
+                date:food.date,
+                id:food._id,
+            }
+            dtoMix.food.push(dtoFood)
+        }       
+        
         return dtoMix;
     }catch(err){
         throw new Error(e.message);
@@ -111,7 +133,29 @@ const updateOne = async (req) =>{
 
     try{
         const updatedMix = await MixCollection.updateOne(id, name, food, availability, discount);
-        const dtoMix = await getOne(id);
+        const oneMix = await MixCollection.getOne(id)
+        const dtoMix = {
+            name: oneMix.name,
+            discount : oneMix.discount,
+            id: oneMix._id,
+            availability: oneMix.availability,
+            food:[],
+
+        }
+        dtoMix.rate = await RateService.calculateRateMix(id)
+        const foods = oneMix.food
+        for(let food_id of foods){
+            const food = await Food.findById(food_id)
+            const dtoFood = {
+                name:food.name,
+                description:food.description,
+                price:parseFloat(food.price),
+                date:food.date,
+                id:food._id,
+            }
+            dtoMix.food.push(dtoFood)
+        }       
+        
         return dtoMix;
     }catch(err){
         throw new Error(e.message);

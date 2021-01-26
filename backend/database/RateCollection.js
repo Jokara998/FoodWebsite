@@ -5,6 +5,21 @@ const getAll = async () => {
     return allRates;
 };
 
+const getAllComments = async (number) => {
+    const allRates = await Rate.find({approvedComment:number}).sort({date:-1});
+    return allRates;
+};
+
+const getAllCommentsMix = async (ratedMix) => {
+    const allRates = await Rate.find({ratedMix:ratedMix, approvedComment:1}).sort({date:-1});
+    return allRates;
+};
+
+const getAllCommentsFood = async (ratedFood) => {
+    const allRates = await Rate.find({ratedFood:ratedFood, approvedComment:1}).sort({date:-1});
+    return allRates;
+};
+
 const getOne = async (id) => {
     const rate = await Rate.findById(id);
     return rate;
@@ -46,5 +61,8 @@ module.exports = {
     insertOne,
     patchOne,
     getAllByMix,
-    getAllByFood
+    getAllByFood,
+    getAllComments,
+    getAllCommentsMix,
+    getAllCommentsFood
 };

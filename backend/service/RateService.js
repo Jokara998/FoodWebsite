@@ -12,6 +12,77 @@ const getAll = async () =>{
     }
 }
 
+const getAllComments = async (number) =>{
+
+    try{
+
+        const rates = await RateCollection.getAllComments(number);
+        const ratesDto = []
+        for(let rate of rates){
+            let rateDto = {
+                email: rate.email,
+                date: rate.date,
+                comment: rate.comment,
+                id: rate._id,
+
+            }
+            ratesDto.push(rateDto)
+        }
+        return ratesDto;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
+const getAllCommentsMix = async (ratedMix) =>{
+
+    try{
+
+        const rates = await RateCollection.getAllCommentsMix(ratedMix);
+        const ratesDto = []
+        for(let rate of rates){
+            let rateDto = {
+                email: rate.email,
+                date: rate.date,
+                comment: rate.comment,
+                id: rate._id,
+                rateNumber:rate.rateNumber,
+
+            }
+            ratesDto.push(rateDto)
+        }
+        return ratesDto;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
+const getAllCommentsFood = async (ratedFood) =>{
+
+    try{
+
+        const rates = await RateCollection.getAllCommentsFood(ratedFood);
+        const ratesDto = []
+        for(let rate of rates){
+            let rateDto = {
+                email: rate.email,
+                date: rate.date,
+                comment: rate.comment,
+                id: rate._id,
+                rateNumber:rate.rateNumber,
+
+
+            }
+            ratesDto.push(rateDto)
+        }
+        return ratesDto;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
+
+
 const getOne = async (id) =>{
 
     try{
@@ -48,7 +119,7 @@ const patchOne = async (req) =>{
     const approved = req.body.approved;
     const id = req.params.id;
     try{
-        const updatedRate = await RateCollection.updateOne(id, approved);
+        const updatedRate = await RateCollection.patchOne(id, approved);
         return updatedRate;
     }catch(err){
         throw new Error(e.message);
@@ -97,6 +168,9 @@ module.exports = {
     insertOne,
     patchOne,
     calculateRateFood,
-    calculateRateMix
+    calculateRateMix,
+    getAllComments,
+    getAllCommentsFood,
+    getAllCommentsMix
   
 };

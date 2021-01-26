@@ -4,6 +4,7 @@ const UserService = require("./UserService")
 const MixService = require("./MixService")
 const OrderService = require("./OrderService")
 const RateService = require("./RateService")
+const CouponService = require("./CouponService")
 
 module.exports = {
     FoodService,
@@ -11,6 +12,7 @@ module.exports = {
     UserService,
     MixService,
     OrderService,
-    RateService
+    RateService,
+    CouponService
 }
 

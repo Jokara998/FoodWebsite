@@ -37,6 +37,9 @@ const store = new Vuex.Store({
     // rates
     rates:[],
     ratesKey:0,
+
+    //comments
+    comments:[]
     
 
   },
@@ -306,7 +309,11 @@ const store = new Vuex.Store({
     },
     clearRates(state){
       state.rates = []
-    }
+    },
+     //COMMENTS
+     setComments(state, payload){
+      state.comments = payload
+    },
 
   },
   // asihrono, odavde uzimas sa back-a info
@@ -527,8 +534,12 @@ const store = new Vuex.Store({
     },
     async clearRates(state){
       state.commit("clearRates")
-    }
+    },
 
+    //COMMENTS
+    async setComments(state, payload){
+      state.commit("setComments", payload)
+    },
 
   },
   getters:{
@@ -627,6 +638,10 @@ const store = new Vuex.Store({
       },
       getRatesKey(state){
         return state.ratesKey
+      },
+      //Comments
+      getComments(state){
+        return state.comments
       }
 
   },

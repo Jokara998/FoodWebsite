@@ -100,6 +100,8 @@
                                     </v-icon>
                                     <span v-show="food.rate.number == 0"> Not Rated </span>
                                     <span v-show="food.rate.number > 0"> {{food.rate.rate}} [users:{{food.rate.number}}] </span> </v-list-item-subtitle>
+
+                                    
                                 </v-list-item-content>
                             </v-list-item>
 
@@ -197,17 +199,34 @@
                             </v-list-item>
                             
                             </v-list>
-                            <v-divider></v-divider>                           
+                            <v-divider></v-divider> 
+                            <v-row>
+                                <v-col cols="10"/>   
+                                <v-col cols="2" >    
+                                <v-btn x-medium block color="blue darken-1" @click="showComments()">
+                                        <v-icon>
+                                        mdi-comment-text
+                                    </v-icon> 
+                                    Comments
+                                </v-btn>     
+                                </v-col>    
+                            </v-row>               
                     </v-col>
                 </v-row>
             </v-card-text>
 
           <div style="flex: 1 1 auto;"></div>
         </v-card>
+
+        <ShowComments ref="commentsfood"/>
+
       </v-dialog>
 </template>
 
 <script>
+import ShowComments from "../Comments/ShowComments"
+import axios from "../../axios/index"
+
 export default {
     data(){
         return{
@@ -247,7 +266,17 @@ export default {
                 await this.$store.dispatch("setCart", cartObject, "food")
                 this.$refs.form.reset()
             }
+        },
+        async showComments(){
+            await axios.get("/rate/ratedFood/"+this.food.id).then((response) =>{
+                this.$refs.commentsfood.comments = response.data
+                this.$refs.commentsfood.dialog = true;
+
+            })
         }
+    },
+    components:{
+        ShowComments,
     }
 }
 </script>
