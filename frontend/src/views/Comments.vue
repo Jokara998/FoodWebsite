@@ -63,7 +63,7 @@
 
         <v-dialog color="dark" dark max-width="750px" v-model="dialogApprove" persistent>
 
-            <v-card>
+            <v-card style="border:1px solid #D3D3D3">
                 <v-card-title class="headline">
                     <div> Approve comment from <span style="color:green;display:inline"> {{selected.email}} </span></div>
                 </v-card-title>
@@ -113,7 +113,7 @@
 
          <v-dialog color="dark" dark max-width="750px" v-model="dialogReject" persistent>
 
-            <v-card>
+            <v-card style="border:1px solid #D3D3D3">
                 <v-card-title class="headline">
                     <div> Reject comment from <span style="color:green;display:inline"> {{selected.email}} </span></div>
                 </v-card-title>

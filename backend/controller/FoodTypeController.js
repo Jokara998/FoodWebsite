@@ -2,6 +2,8 @@ const express = require("express")
 const router = express.Router();
 const {FoodTypeService} = require("../service/index")
 const Joi = require("@hapi/joi")
+const authorization = require("../authorization/authorization")
+const authentication = require("../auth/auth")
 
 // request validation rules
 const foodTypeValidation = Joi.object({
@@ -50,6 +52,8 @@ router.get(
 // add one
 router.post(
     "/",
+    authentication,
+    authorization.worker,
     async (req, res) => {
 
         const {error} = foodTypeValidation.validate(req.body);
@@ -70,6 +74,8 @@ router.post(
 // delete one
 router.delete(
     "/:id",
+    authentication,
+    authorization.worker,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);
@@ -108,6 +114,8 @@ router.get(
 // put one
 router.put(
     "/:id",
+    authentication,
+    authorization.worker,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);

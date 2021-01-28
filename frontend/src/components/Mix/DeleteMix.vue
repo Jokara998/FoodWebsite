@@ -2,7 +2,7 @@
     <v-container >
             <v-dialog color="dark" dark max-width="750px" v-model="dialog" persistent>
 
-                <v-card>
+                <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
                         <div> Delete <span style="color:green;display:inline"> {{mix.name}} </span> from Menu? </div>
                     </v-card-title>
@@ -81,7 +81,9 @@ export default {
                 console.log(response.data)
                 this.dialogLoading = false
                 this.dialog = false
-            })
+            }).catch(()=>{
+                this.dialogLoading = false
+            }) 
        }
         
     }

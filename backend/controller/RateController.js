@@ -2,8 +2,8 @@ const express = require("express")
 const router = express.Router();
 const {RateService} = require("../service/index")
 const Joi = require("@hapi/joi")
-const auth = require("../auth/auth")
-
+const authorization = require("../authorization/authorization")
+const authentication = require("../auth/auth")
 // request validation rules
 const rateValidation = Joi.object({
     rateNumber:Joi.number().max(5).min(0.5).required(),
@@ -128,7 +128,8 @@ router.get(
 // add one
 router.post(
     "/",
-    auth,
+    authentication,
+    authorization.client,
     async (req, res) => {
 
         const {error} = rateValidation.validate(req.body);
@@ -149,6 +150,8 @@ router.post(
 // patch one
 router.patch(
     "/:id",
+    authentication,
+    authorization.admin,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);

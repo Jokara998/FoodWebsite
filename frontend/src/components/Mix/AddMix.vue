@@ -2,7 +2,7 @@
     <v-container >
             <v-dialog  color="dark" dark max-width="750px" v-model="dialog" persistent>
 
-            <v-card>
+            <v-card dark style="border:1px solid #D3D3D3">
                 <v-card-title>
                    
                     <v-icon color="dark" left>
@@ -159,7 +159,7 @@
             persistent
             max-width="450"
             >
-                 <v-card dark>
+                 <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title>         
                         <v-icon color="dark" left>
                             mdi-food
@@ -357,7 +357,9 @@ export default {
                     this.dialogLoading = false
                     this.dialog = false;
                     this.$parent.mixKey +=1
-                })
+                }).catch(()=>{
+                    this.dialogLoading = false
+                }) 
             }
         },
         returnText(item){

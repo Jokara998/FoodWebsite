@@ -559,7 +559,9 @@ export default {
                         this.dialogLoading = false;
                         this.dialogSuccess = true;
                     }
-                })
+                }).catch(()=>{
+                    this.dialogLoading = false
+                }) 
            }else{
                 this.dialogLoading = true;
                 await axios.post("/order",{
@@ -574,7 +576,9 @@ export default {
                     this.dialogSuccess = true;
                     
 
-                })
+                }).catch(()=>{
+                    this.dialogLoading = false
+                }) 
            }
         },
         async closeAll(){

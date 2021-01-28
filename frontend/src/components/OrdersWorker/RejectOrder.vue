@@ -2,7 +2,7 @@
     <v-container>
          <v-dialog color="dark" dark max-width="500px" v-model="dialog" persistent>
 
-                <v-card>
+                <v-card style="border:1px solid #D3D3D3" dark>
                     <v-card-title class="headline">
                         <div> Reject Order? </div>
                     </v-card-title>
@@ -142,7 +142,9 @@ export default {
                     this.$refs.form.reset()
                     this.dialog = false;
                     this.dialog1 = true;
-                })
+                }).catch(()=>{
+                    this.dialogLoading = false
+                }) 
             }
         },
          close(){

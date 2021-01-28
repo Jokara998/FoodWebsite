@@ -2,7 +2,8 @@ const express = require("express")
 const router = express.Router();
 const {MixService} = require("../service/index")
 const Joi = require("@hapi/joi")
-
+const authorization = require("../authorization/authorization")
+const authentication = require("../auth/auth")
 // request validation rules
 
 const mixValidation = Joi.object({
@@ -53,6 +54,8 @@ router.get(
 // add one
 router.post(
     "/",
+    authentication,
+    authorization.worker,
     async (req, res) => {
         const {error} = mixValidation.validate(req.body);
         if(error)            
@@ -72,6 +75,8 @@ router.post(
 // delete one
 router.delete(
     "/:id",
+    authentication,
+    authorization.worker,
     async (req, res) => {
         const {error} = idValidation.validate(req.params);
         if(error)            
@@ -90,6 +95,8 @@ router.delete(
 // put one
 router.put(
     "/:id",
+    authentication,
+    authorization.worker,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);

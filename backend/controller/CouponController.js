@@ -2,7 +2,8 @@ const express = require("express")
 const router = express.Router();
 const {CouponService} = require("../service/index")
 const Joi = require("@hapi/joi")
-const auth = require("../auth/auth")
+const authentication = require("../auth/auth")
+const authorization = require("../authorization/authorization")
 
 // request validation rules
 const couponValidation = Joi.object({
@@ -65,7 +66,8 @@ router.get(
 // get one
 router.get(
     "/code/:code",
-    auth,
+    authentication,
+    authorization.client,
     async (req, res) => {
 
         const {error} = codeValidation.validate(req.params);
@@ -85,8 +87,10 @@ router.get(
 // add one
 router.post(
     "/",
-    auth,
+    authentication,
+    authorization.admin,
     async (req, res) => {
+
 
         const {error} = couponValidation.validate(req.body);
         if(error)            
@@ -106,6 +110,8 @@ router.post(
 // patch one percent
 router.patch(
     "/used/:id",
+    authentication,
+    authorization.client,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);
@@ -126,6 +132,8 @@ router.patch(
 // patch one used
 router.patch(
     "/percent/:id",
+    authentication,
+    authorization.admin,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);
@@ -151,7 +159,10 @@ router.patch(
 // delete one
 router.delete(
     "/:id",
+    authentication,
+    authorization.admin,
     async (req, res) => {
+
         const {error} = idValidation.validate(req.params);
         if(error)            
             return res.status(422).send(error.details[0].message);
@@ -169,6 +180,8 @@ router.delete(
 // get all by client email
 router.get(
     "/email/:email",
+    authentication,
+    authorization.admin_client,
     async (req, res) => {
 
         const {error} = emailValidation.validate(req.params);

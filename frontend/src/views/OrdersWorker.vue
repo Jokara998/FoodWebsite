@@ -22,8 +22,12 @@
                 :items="orders"
             >
 
-               <template v-slot:item.date="{item}">                            
-                                <span>{{formatDate(item.date)}}</span>                        
+                <template v-slot:item.date="{item}">                            
+                    <span>{{formatDate(item.date)}}</span>                        
+                </template>
+
+                <template v-slot:item.price="{item}">                            
+                    <span>{{item.price}} €</span>                        
                 </template>
               
                 <template v-slot:item.actions="{item}">
@@ -106,6 +110,11 @@ export default {
                  {
                     text: 'Date',
                     value: 'date',
+                    align: "start"
+                },
+                {
+                    text: 'Price',
+                    value: 'price',
                     align: "start"
                 },
                 {

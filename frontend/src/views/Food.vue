@@ -17,7 +17,6 @@
 
         <br>
     
-        <FilterFood ref="filterFoodDialog"  />
 
         <v-flex class="row" style="margin-top:-50px">
                 <div v-for="fd in this.allFood.food" :key="fd.id" class="col-12 col-xs-12 col-sm-12 col-md-6 col-lg-6" wrap>
@@ -207,7 +206,7 @@
         
          <v-dialog color="dark" dark max-width="350px" v-model="dialogAvailability" persistent>
 
-            <v-card>
+            <v-card dark style="border:1px solid #D3D3D3">
                 <v-card-title class="headline">
                     <div><span style="color:green;display:inline"> {{availability.name}} Availability</span></div>
                 </v-card-title>
@@ -259,7 +258,7 @@
 
          <v-dialog color="dark" dark max-width="500px" v-model="dialogDescription" persistent>
 
-            <v-card>
+            <v-card dark style="border:1px solid #D3D3D3">
                 <v-card-title class="headline">
                     <div><span style="color:green;display:inline"> {{description.name}} Description</span></div>
                 </v-card-title>
@@ -321,7 +320,6 @@ import RemoveFood from '../components/Food/RemoveFood'
 import DeleteFood from '../components/Food/DeleteFood'
 import ActivateFood from '../components/Food/ActivateFood'
 import EditFood from '../components/Food/EditFood'
-import FilterFood from '../components/Food/FilterFood'
 import PaginationFood from '../components/Food/PaginationFood'
 import axios from '../axios/index'
 
@@ -346,7 +344,6 @@ export default {
         DeleteFood,
         ActivateFood,
         EditFood,
-        FilterFood,
         PaginationFood
     },
 

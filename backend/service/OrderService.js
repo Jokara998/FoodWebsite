@@ -17,7 +17,8 @@ const getAll = async () =>{
                 email: order.email,
                 ordered: order.ordered,
                 date:order.date,
-                rated:order.rated
+                rated:order.rated,
+                price:order.price
                 
             }
             dtoOrders.push(dto);
@@ -43,7 +44,8 @@ const getAllByType = async (state, user) =>{
                         email: order.email,
                         ordered: order.ordered,
                         date:order.date,
-                        rated:order.rated
+                        rated:order.rated,
+                        price:order.price
                     }
                     dtoOrders.push(dto);
                 }
@@ -59,7 +61,8 @@ const getAllByType = async (state, user) =>{
                         email: order.email,
                         ordered: order.ordered,
                         date:order.date,
-                        rated:order.rated
+                        rated:order.rated,
+                        price:order.price
                     }
                     dtoOrders.push(dto);
                 }
@@ -76,7 +79,8 @@ const getAllByType = async (state, user) =>{
                     email: order.email,
                     ordered: order.ordered,
                     date:order.date,
-                    rated:order.rated
+                    rated:order.rated,
+                    price:order.price
                 }
                 dtoOrders.push(dto);
             }
@@ -98,7 +102,8 @@ const getOne = async (id) =>{
             email: order.email,
             ordered: order.ordered,
             date:order.date,
-            rated:order.rated
+            rated:order.rated,
+            price:order.price
         }
         
         return dto;
