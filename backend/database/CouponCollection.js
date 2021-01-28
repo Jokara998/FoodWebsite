@@ -10,6 +10,13 @@ const getOne = async (id) => {
     return coupon;
 };
 
+const getCodeCheck = async (code,email) => {
+    const coupon = await Coupon.findOne({code:code, email:email,used:false});
+    if(coupon==undefined || coupon == "")
+        return {validate:-1, coupon:undefined};
+    return {validate:1, coupon:coupon};
+};
+
 const insertOne = async (newCoupon) => {
     const inserted = await newCoupon.save();
     return inserted;
@@ -58,7 +65,7 @@ const deleteOne = async (id) => {
 
 
 const getAllByClient = async (email) => {
-    const all = await Coupon.find({email:email, used:false});
+    const all = await Coupon.find({email:email, used:false}).sort({date:-1, used:-1});
     return all;
 };
 
@@ -71,5 +78,6 @@ module.exports = {
     patchOnePercent,
     patchOneUsed,
     deleteOne,
-    getAllByClient
+    getAllByClient,
+    getCodeCheck
 };
