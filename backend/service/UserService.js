@@ -2,6 +2,7 @@ const { UserCollection } = require("../database/index")
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const Order = require("../models/Order")
 
 const hashPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
@@ -138,6 +139,32 @@ const getClients = async(res)=>{
     }
 };
 
+const getApprovedClients = async(res)=>{
+    try{
+        const clients = await UserCollection.getApprovedClients()
+        const dtoclients = []
+        for(let client of clients){
+            let ordersCount = await Order.countDocuments({email:client.email, state:"DELIVERED"})
+            const dto = {
+                "fullname": client.name+" "+client.surname,
+                "email":client.email,
+                "address":client.address,
+                "phone":client.phone,
+                "id":client._id,
+                "orders":ordersCount
+            }
+            dtoclients.push(dto);
+        }
+
+        dtoclients.sort((a, b) => (a.orders < b.orders) ? 1 : -1)
+
+        return dtoclients
+    }catch(err){
+        res.status(404).send({message:err})
+    }
+};
+
+
 const deleteOne = async(id)=>{
     try{
         const deletedId =  await UserCollection.deleteOne(id);
@@ -180,5 +207,6 @@ module.exports = {
     getClients,
     deleteOne,
     patchOne,
-    getOneEmail
+    getOneEmail,
+    getApprovedClients,
 }

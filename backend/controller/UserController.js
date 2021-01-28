@@ -120,6 +120,20 @@ router.get(
     }
 );
 
+
+// GET ALL APPROVED CLIENTS
+router.get(
+    "/client/approved",
+    async (req, res) => {
+        try{
+            const clients = await UserService.getApprovedClients(res);
+            res.status(200).json(clients)
+        }catch(err){
+            res.status(404).send({message:err})
+        }
+    }
+);
+
 // DELETE USER
 
 router.delete(

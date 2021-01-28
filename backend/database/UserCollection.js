@@ -62,6 +62,15 @@ const getClients = async() =>{
     }
 }
 
+const getApprovedClients = async() =>{
+    try{
+        const clients = await User.find({type:"Client", approved:true});
+        return clients;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
 const patchOne = async(id, approved) =>{
     const patch =  await User.updateOne(
         { _id: id},
@@ -85,5 +94,6 @@ module.exports = {
     getWorkers,
     getClients,
     patchOne,
-    getOneEmail
+    getOneEmail,
+    getApprovedClients
 }

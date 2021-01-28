@@ -23,6 +23,10 @@ const idValidation = Joi.object({
     id: Joi.string().required()
 })
 
+const codeValidation = Joi.object({
+    code: Joi.string().max(15).required()
+})
+
 
 // get all
 router.get(
@@ -51,6 +55,26 @@ router.get(
             try{
                 const oneC = await CouponService.getOne(req.params.id);
                 res.status(200).json(oneC)
+            }catch(err){
+                res.status(404).json({message:err});
+            }
+        }
+    }
+);
+
+// get one
+router.get(
+    "/code/:code",
+    auth,
+    async (req, res) => {
+
+        const {error} = codeValidation.validate(req.params);
+        if(error)            
+            return res.status(422).send(error.details[0].message);
+        else{
+            try{
+                const validate = await CouponService.getCodeCheck(req.params.code, req.user.email);
+                res.status(200).json(validate)
             }catch(err){
                 res.status(404).json({message:err});
             }
@@ -90,7 +114,7 @@ router.patch(
             return res.status(422).send(error.details[0].message);
         else{
             try{
-                const updateC = await CouponService.patchOneUser(req);
+                const updateC = await CouponService.patchOneUsed(req);
                 res.status(200).json(updateC);
             }catch(err){
                 res.status(404).json({message:err});
@@ -142,9 +166,9 @@ router.delete(
     }
 );
 
-// get all
+// get all by client email
 router.get(
-    "/:email",
+    "/email/:email",
     async (req, res) => {
 
         const {error} = emailValidation.validate(req.params);

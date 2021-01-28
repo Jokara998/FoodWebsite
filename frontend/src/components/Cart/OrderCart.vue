@@ -65,13 +65,23 @@
                                                                 </template>
                                                             </v-text-field>
                                                         </v-col>  
-                                                        <v-col cols="12">
+
+                                                        <v-col cols="6">
+                                                             <v-text-field outlined  v-show="this.token != '' " v-model="coupon" counter="15" :rules="couponRules" label="Coupon">
+                                                                <template v-slot:prepend>                                                   
+                                                                    <v-icon>
+                                                                        mdi-label-percent-outline
+                                                                    </v-icon>
+                                                                </template>
+                                                            </v-text-field>
+                                                        </v-col>    
+                                                        <v-col cols="6">
                                                             <v-checkbox
                                                                 v-show="this.token != '' "
                                                                 v-model="checkbox"
                                                                 label="I want to use my profile information."
                                                             ></v-checkbox>
-                                                        </v-col>                                              
+                                                        </v-col>
                                                     </v-row>
                                                     <v-divider />
                                                     <v-row>
@@ -251,7 +261,7 @@
                                                             <v-btn x-medium block color="primary darken-1" @click="finish()"> Finish </v-btn>
                                                         </v-col>
                                                         <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end style="margin-right:10px">
-                                                            <v-btn x-medium block color="red darken-1" @click="dialog=false; $refs.addressForm.reset(); e1=1"> Close </v-btn>
+                                                            <v-btn x-medium block color="red darken-1" @click="dialog=false; $refs.addressForm.reset(); e1=1; coupon = ''; realCoupon = {validate:0, coupon:undefined} "> Close </v-btn>
                                                         </v-col>
                                                     </v-row>                                                                                          
                                                 </v-form>
@@ -280,7 +290,7 @@
             width="450"
             min-height="350"
             >
-               <v-card>
+               <v-card dark style="border:2px solid #ffffff">
                    <v-card-title>
                         <v-icon color="green">
                             mdi-check-circle-outline
@@ -295,7 +305,33 @@
                    <v-card-actions>
                            <v-col cols="8" />
                            <v-col cols="4">
-                                <v-btn @click="closeAll()" style="justify-content:end">
+                                <v-btn color="green" @click="closeAll()" style="justify-content:end">
+                                    Close
+                                </v-btn>
+                           </v-col>
+                   </v-card-actions>
+               </v-card>
+            </v-dialog>
+
+             <v-dialog
+            v-model="dialogError"
+            hide-overlay
+            persistent
+            width="450"
+            min-height="350"
+            >
+               <v-card dark style="border:2px solid #ffffff">
+                   <v-card-title>
+                        <v-icon color="red">
+                            mdi-close-circle
+                        </v-icon>
+                       Code invalid or expired!
+                   </v-card-title>
+
+                   <v-card-actions>
+                           <v-col cols="8" />
+                           <v-col cols="4">
+                                <v-btn color="red" @click="closeError()" style="justify-content:end">
                                     Close
                                 </v-btn>
                            </v-col>
@@ -317,12 +353,14 @@ export default {
             dialog:false,
             dialogLoading:false,
             dialogSuccess:false,
+            dialogError:false,
             valid:false,
             valid2:false,
             name:"",
             surname:"",
             address:"",
             phone:"",
+            coupon:"",
             e1:1,
             checkbox:false,
             cartFood:[],
@@ -356,6 +394,12 @@ export default {
                 v => v!=null && v.length <= 15 || 'Phone must be less than 15 characters.',
                 v => !isNaN(v) || 'Phone must be a number.',
             ],
+
+            couponRules:[
+                v => v.length <= 15 || 'Coupon must have less than 15 characters or equal.',
+            ],
+
+            realCoupon:{validate:0, coupon:undefined},
         }
     },
 
@@ -364,6 +408,11 @@ export default {
     },
 
     methods:{
+        closeError(){
+            this.dialogError = false;
+            this.coupon = ""
+            this.realCoupon = {validate:0, coupon:undefined}
+        },
         async addressForm(){
             if(this.checkbox && this.token != ""){
                 
@@ -373,12 +422,39 @@ export default {
                     this.address = response.data.address
                     this.phone = response.data.phone
                 })
-                this.e1 = 2
+                this.dialogLoading = true;
+                await this.checkCoupon()
+                if(this.realCoupon.validate == 0 || this.realCoupon.validate == 1){
+                    this.dialogLoading = false;
+                    this.e1 = 2
+                }else{
+                    this.dialogLoading = false;
+                    this.dialogError = true;
+                }
             }else{
                 if(this.$refs.addressForm.validate()){
-                    this.e1 = 2
+                    await this.checkCoupon()
+                    this.dialogLoading = true;
+                    if(this.realCoupon.validate == 0 || this.realCoupon.validate == 1){
+                        this.dialogLoading = false;
+                        this.e1 = 2
+                    }else{
+                        this.dialogLoading = false;
+                        this.dialogError = true;
+                    }
                 }
             }
+        },
+        // check coupon
+        async checkCoupon(){
+            console.log(this.coupon)
+            if(this.coupon != ""){
+                await axios.get("/coupon/code/"+this.coupon).then((response)=>{
+                    this.realCoupon = response.data;
+                })
+            }
+            else
+                this.realCoupon = {validate:0, coupon:undefined};
         },
         // one Food Price
         returnFinalPrice(item){
@@ -437,7 +513,12 @@ export default {
                 totalPrice = +totalPrice + +price
             })
 
-            return totalPrice.toFixed(2);
+            if(this.realCoupon.validate == 0)
+                return String(totalPrice.toFixed(2));
+            else if(this.realCoupon.validate == 1){
+                console.log(this.realCoupon)
+                return String(totalPrice.toFixed(2) - (totalPrice.toFixed(2)*(+this.realCoupon.coupon.percent)/100))
+            }
         },
 
        async finish(){
@@ -468,9 +549,16 @@ export default {
                     phone: this.phone,
                     price: this.returnTotalPrice(),
                     ordered: ordered
-                }).then(()=>{
-                    this.dialogLoading = false;
-                    this.dialogSuccess = true;
+                }).then(async ()=>{
+                    if(this.realCoupon.validate == 1){
+                        await axios.patch("/coupon/used/"+this.realCoupon.coupon._id).then(async()=>{
+                            this.dialogLoading = false;
+                            this.dialogSuccess = true;
+                        })
+                    }else{
+                        this.dialogLoading = false;
+                        this.dialogSuccess = true;
+                    }
                 })
            }else{
                 this.dialogLoading = true;

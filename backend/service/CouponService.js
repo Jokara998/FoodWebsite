@@ -1,6 +1,17 @@
 const { CouponCollection } = require("../database/index")
 const Coupon = require("../models/Coupon")
 
+function generateCode(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+ 
+
 const getAll = async () =>{
 
     try{
@@ -22,13 +33,25 @@ const getOne = async (id) =>{
     }
 }
 
+const getCodeCheck = async (code, email) =>{
+
+    try{
+        const validate = await CouponCollection.getCodeCheck(code,email)
+        return validate;
+    }catch(err){
+        throw new Error(e.message);
+    }
+}
+
+
+
 const insertOne = async (req) =>{
 
     const newC = new Coupon({
         email:req.body.email,
         percent:req.body.percent,
         used:false,
-        code:"",
+        code:generateCode(15),
 
     });
     try{
@@ -62,9 +85,8 @@ const patchOneUsed = async (req) =>{
     }
 }
 
-const deleteOne = async (req) =>{
+const deleteOne = async (id) =>{
 
-    const id = req.params.id;
     try{
         const delC = await CouponCollection.deleteOne(id);
         return delC;
@@ -78,7 +100,19 @@ const getAllByClient = async (req) =>{
     const email = req.params.email;
     try{
         const allC = await CouponCollection.getAllByClient(email);
-        return allC;
+        let dtos = []
+        for(let c of allC){
+            let dto = {
+                email:c.email,
+                percent:c.percent,
+                code:c.code,
+                used:c.used,
+                date:c.date,
+                id:c._id
+            }
+            dtos.push(dto)
+        }
+        return dtos;
     }catch(err){
         throw new Error(e.message);
     }
@@ -93,6 +127,7 @@ module.exports = {
     patchOnePercent,
     patchOneUsed,
     deleteOne,
-    getAllByClient
+    getAllByClient,
+    getCodeCheck
   
 };

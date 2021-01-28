@@ -31,6 +31,14 @@
           Orders
         </v-btn>
 
+        <v-btn text @click="couponsClient()" v-show="clientR()">
+          <v-icon color="dark">
+            mdi-label-percent-outline
+          </v-icon>
+          My Coupons
+        </v-btn>
+
+
         <v-btn text @click="couponsFun()" v-show="admin()">
           <v-icon color="dark">
             mdi-label-percent-outline
@@ -178,6 +186,7 @@
     <OrderFood app ref="order" v-show="this.boolOrder" />
     <OrderMix app ref="orderMix" v-show="this.boolOrderMix" />
     <Coupon app ref="coupon" v-show="this.boolCoupon" />
+    <ClientCoupons app ref="clientCoupon" v-show="this.boolClientCoupons"/>
     <Comments app ref="comments" v-show="this.boolComments"/>
     <OrdersDeliverer app ref="ordersDel"  v-show="this.boolOrdersDeliverer" />
     <OrdersWorker app  v-show="this.boolOrdersWorker" />
@@ -199,6 +208,7 @@ import OrdersDeliverer from "../views/OrdersDeliverer"
 import OrdersWorker from "../views/OrdersWorker"
 import Cart from "../views/Cart"
 import ClientOrders from "../views/ClientOrders"
+import ClientCoupons from "../views/ClientCoupons"
 import Coupon from "../views/Coupon"
 import Comments from "../views/Comments"
 import Login from '../components/User/Login';
@@ -232,6 +242,7 @@ import jwt_decode from 'jwt-decode'
           boolClientOrders:false,
           boolComments:false,
           boolCoupon:false,
+          boolClientCoupons:false,
         };
     },
     components:{
@@ -250,7 +261,8 @@ import jwt_decode from 'jwt-decode'
       OrdersDeliverer,
       ClientOrders,
       Comments,
-      Coupon
+      Coupon,
+      ClientCoupons
     },
     
     methods:{
@@ -267,6 +279,7 @@ import jwt_decode from 'jwt-decode'
         this.boolOrderMix = false;
         this.boolClientOrders = false;
         this.boolLoader = false;
+        this.boolClientCoupons = false;
         this.boolCoupon = false;
         this.boolComments = false;
         this.boolHome = true
@@ -282,6 +295,7 @@ import jwt_decode from 'jwt-decode'
         this.boolOrdersDeliverer = false
         this.boolOrdersWorker = false
         this.boolClientOrders = false;
+        this.boolClientCoupons = false;
         this.boolClients = false
         this.boolCart = false;
         this.boolCoupon = false;
@@ -306,6 +320,7 @@ import jwt_decode from 'jwt-decode'
         this.boolMix = false
         this.boolOrderMix = false;
         this.boolCoupon = false;
+        this.boolClientCoupons = false;
         this.boolComments = false;
         this.boolClientOrders = false;
         this.boolCart = false;
@@ -330,6 +345,7 @@ import jwt_decode from 'jwt-decode'
         this.boolCoupon = false;
         this.boolComments = false;
         this.boolOrdersWorker = false
+        this.boolClientCoupons = false;
         this.boolClientOrders = false;
         this.boolCart = false;
         this.boolOrder = false;
@@ -352,6 +368,7 @@ import jwt_decode from 'jwt-decode'
         this.boolOrdersDeliverer = false
         this.boolOrderMix = false;
         this.boolCoupon = false;
+        this.boolClientCoupons = false;
         this.boolComments = false;
         this.boolClientOrders = false;
         this.boolOrdersWorker = false
@@ -378,6 +395,7 @@ import jwt_decode from 'jwt-decode'
         this.boolWorkers = false
         this.boolOrdersWorker = false
         this.boolOrder = false;
+        this.boolClientCoupons = false;
         this.boolCoupon = false;
         this.boolComments = false;
         this.boolClientOrders = false;
@@ -404,6 +422,7 @@ import jwt_decode from 'jwt-decode'
         this.boolOrdersWorker = false
         this.boolClientOrders = false;
         this.boolWorkers = false
+        this.boolClientCoupons = false;
         this.boolCoupon = false;
         this.boolComments = false;
         this.boolOrderMix = false;
@@ -434,6 +453,7 @@ import jwt_decode from 'jwt-decode'
           this.boolWorkers = false
           this.boolCoupon = false;
           this.boolComments = false;
+          this.boolClientCoupons = false;
           this.boolClientOrders = false;
           this.boolOrderMix = false;
           this.boolOrdersDeliverer = false
@@ -461,6 +481,7 @@ import jwt_decode from 'jwt-decode'
           this.boolOrderMix = false;
           this.boolCoupon = false;
           this.boolComments = false;
+          this.boolClientCoupons = false;
           this.boolOrdersDeliverer = false
           this.boolCart = false;
           this.boolMix = false
@@ -483,6 +504,7 @@ import jwt_decode from 'jwt-decode'
           this.boolClientOrders = false;
           this.boolOrder = false;
           this.boolOrderMix = false;
+          this.boolClientCoupons = false;
           this.boolCoupon = false;
           this.boolComments = false;
           this.boolOrdersDeliverer = false
@@ -509,6 +531,7 @@ import jwt_decode from 'jwt-decode'
           this.boolCoupon = false;
           this.boolComments = false;
           this.boolOrder = false;
+          this.boolClientCoupons = false;
           this.boolOrderMix = false;
           this.boolCart = false;
           this.boolMix = false
@@ -531,6 +554,7 @@ import jwt_decode from 'jwt-decode'
           this.boolClients = false
           this.boolOrder = false;
           this.boolCoupon = false;
+          this.boolClientCoupons = false;
           this.boolComments = false;
           this.boolOrderMix = false;
           this.boolCart = false;
@@ -542,8 +566,55 @@ import jwt_decode from 'jwt-decode'
           this.$refs.clientOrders.tab = "sent"
           this.boolClientOrders = true
       },
-      couponsFun(){
-        
+      async couponsFun(){
+          this.boolLoader = true;
+          this.boolCoupon = false;
+          this.boolClientOrders = false
+          this.boolOrdersDeliverer = false
+          this.boolOrdersWorker = false
+          this.boolWorkers = false
+          this.boolHome = false
+          this.boolFood = false
+          this.boolClientCoupons = false;
+          this.boolFoodType = false
+          this.boolClients = false
+          this.boolOrder = false;
+          this.boolComments = false;
+          this.boolOrderMix = false;
+          this.boolCart = false;
+          this.boolMix = false
+          if(this.token.type == "Admin"){
+            await this.$store.dispatch("setClientsApproved");      
+            this.boolLoader = false;
+            this.$refs.coupon.boolShowList = true;
+            this.$refs.coupon.boolShowOne = false;
+            this.boolCoupon = true
+          }
+      },
+
+      async couponsClient(){
+          this.boolLoader = true;
+          this.boolClientCoupons = false;
+          this.boolClientOrders = false
+          this.boolOrdersDeliverer = false
+          this.boolOrdersWorker = false
+          this.boolWorkers = false
+          this.boolHome = false
+          this.boolFood = false
+          this.boolCoupon = false;
+          this.boolFoodType = false
+          this.boolClients = false
+          this.boolOrder = false;
+          this.boolComments = false;
+          this.boolOrderMix = false;
+          this.boolCart = false;
+          this.boolMix = false
+          if(this.token.type == "Client"){
+            await this.$store.dispatch("setCoupons", this.token.email)
+            this.boolLoader = false;
+            this.$refs.clientCoupon.email = this.token.email;
+            this.boolClientCoupons = true
+          }
       },
 
       async commentsFun(){
@@ -557,16 +628,19 @@ import jwt_decode from 'jwt-decode'
           this.boolFood = false
           this.boolFoodType = false
           this.boolClients = false
+          this.boolClientCoupons = false;
           this.boolOrder = false;
           this.boolCoupon = false;
           this.boolOrderMix = false;
           this.boolCart = false;
           this.boolMix = false
-          await axios.get("/rate/"+0).then( async (response) =>{
-              await this.$store.dispatch("setComments", response.data);      
-              this.boolLoader = false;
-              this.boolComments = true
-          })
+          if(this.token.type == "Admin"){
+            await axios.get("/rate/"+0).then( async (response) =>{
+                await this.$store.dispatch("setComments", response.data);      
+                this.boolLoader = false;
+                this.boolComments = true
+            })
+          }
         
       },
 

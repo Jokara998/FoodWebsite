@@ -39,7 +39,10 @@ const store = new Vuex.Store({
     ratesKey:0,
 
     //comments
-    comments:[]
+    comments:[],
+
+    // coupons
+    coupons:[]
     
 
   },
@@ -314,6 +317,10 @@ const store = new Vuex.Store({
      setComments(state, payload){
       state.comments = payload
     },
+     //COUPONS
+     setCoupons(state, payload){
+      state.coupons = payload
+    },
 
   },
   // asihrono, odavde uzimas sa back-a info
@@ -434,6 +441,12 @@ const store = new Vuex.Store({
       })
     },
 
+    async setClientsApproved(state){
+      await axios.get("/user/client/approved").then((response)=>{
+        state.commit("setClients", response.data)
+      })
+    },
+
     async deleteClient(state, payload){
       state.commit("deleteClient", payload)
     },
@@ -541,6 +554,13 @@ const store = new Vuex.Store({
       state.commit("setComments", payload)
     },
 
+    //COUPONS
+    async setCoupons(state, payload){
+      await axios.get("/coupon/email/"+payload).then((response) =>{
+        state.commit("setCoupons", response.data)
+      })
+    },
+
   },
   getters:{
       // FOOD
@@ -642,6 +662,10 @@ const store = new Vuex.Store({
       //Comments
       getComments(state){
         return state.comments
+      },
+      //
+      getCoupons(state){
+        return state.coupons
       }
 
   },
