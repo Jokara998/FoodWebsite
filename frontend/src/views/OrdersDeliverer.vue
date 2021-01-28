@@ -52,6 +52,10 @@
                             <template v-slot:item.date="{item}">                            
                                 <span>{{formatDate(item.date)}}</span>                        
                             </template>
+
+                            <template v-slot:item.price="{item}">                            
+                                <span>{{item.price}} €</span>                        
+                            </template>
                         
                             <template v-slot:item.actions="{item}">
                                         <v-col cols="2" style="height:30px;">
@@ -107,6 +111,10 @@
                             <template v-slot:item.date="{item}">                            
                                 <span>{{formatDate(item.date)}}</span>                        
                             </template>
+
+                            <template v-slot:item.price="{item}">                            
+                                <span>{{item.price}} €</span>                        
+                            </template>
                         
                             <template v-slot:item.actions="{item}">
                                         <v-col cols="2" style="height:30px;">
@@ -161,6 +169,10 @@
                         >
                             <template v-slot:item.date="{item}">                            
                                 <span>{{formatDate(item.date)}}</span>                        
+                            </template>
+
+                            <template v-slot:item.price="{item}">                            
+                                <span>{{item.price}} €</span>                        
                             </template>
                         
                             <template v-slot:item.actions="{item}">
@@ -235,6 +247,11 @@ export default {
                 {
                     text: 'Date',
                     value: 'date',
+                    align: "start"
+                },
+                {
+                    text: 'Price',
+                    value: 'price',
                     align: "start"
                 },
                 {

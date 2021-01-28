@@ -3,6 +3,8 @@ const router = express.Router();
 const {UserService} = require("../service/index")
 const Joi = require("@hapi/joi");
 const User = require("../models/User");
+const authorization = require("../authorization/authorization")
+const authentication = require("../auth/auth")
 
 const registerValidate = Joi.object({
     name: Joi.string().max(30).required(),
@@ -53,6 +55,8 @@ router.post(
 // REGISTER WORKER
 router.post(
     "/register",
+    authentication,
+    authorization.admin,
     async (req, res) =>{
 
         const {error} = registerValidate.validate(req.body);
@@ -97,6 +101,8 @@ router.get(
 // GET ALL WORKERS
 router.get(
     "/worker",
+    authentication,
+    authorization.admin,
     async (req, res) => {
         try{
             const workers = await UserService.getWorkers(res);
@@ -110,6 +116,8 @@ router.get(
 // GET ALL UNAPPROVED CLIENTS
 router.get(
     "/client",
+    authentication,
+    authorization.admin,
     async (req, res) => {
         try{
             const clients = await UserService.getClients(res);
@@ -124,6 +132,8 @@ router.get(
 // GET ALL APPROVED CLIENTS
 router.get(
     "/client/approved",
+    authentication,
+    authorization.admin,
     async (req, res) => {
         try{
             const clients = await UserService.getApprovedClients(res);
@@ -137,8 +147,10 @@ router.get(
 // DELETE USER
 
 router.delete(
-  "/:id",
-  async (req, res) =>{
+    "/:id",
+    authentication,
+    authorization.admin,
+    async (req, res) =>{
         const {error} = idValidation.validate(req.params);
         if(error)            
             return res.status(422).send(error.details[0].message);
@@ -150,13 +162,15 @@ router.delete(
                 res.status(404).json({message:err});
             }
         }
-  }  
+    }  
 );
 
 // PATCH CLIENT
 
 router.patch(
     "/:id",
+    authentication,
+    authorization.admin,
     async (req, res) =>{
           const {error} = idValidation.validate(req.params);
           const {error1} = approvedValidation.validate(req.body);
@@ -177,6 +191,7 @@ router.patch(
 
 router.get(
     "/:email",
+    authentication,
     async (req, res) =>{
           const {error} = emailValidation.validate(req.params);
           if(error)            

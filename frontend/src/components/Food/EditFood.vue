@@ -2,7 +2,7 @@
     <v-container >
             <v-dialog color="dark" dark max-width="750px" v-model="dialog" persistent>
 
-            <v-card>
+            <v-card dark style="border:1px solid #D3D3D3">
                 <v-card-title>
                    
                     <v-icon color="dark" left>
@@ -351,7 +351,9 @@ export default {
                     this.image = null
                     this.dialogLoading = false
                     this.dialog = false
-                })
+                }).catch(()=>{
+                    this.dialogLoading = false
+                }) 
 
              
                

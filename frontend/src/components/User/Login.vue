@@ -2,7 +2,7 @@
       <v-dialog color="dark" v-model="dialog" persistent max-width="600px" min-width="360px">
             <v-flex style="background-color:#1e1e1e">
        
-                        <v-card dark>
+                        <v-card dark style="border:1px solid #D3D3D3">
                             
                         <v-card-title>   
                             <v-icon color="success">mdi-account</v-icon>

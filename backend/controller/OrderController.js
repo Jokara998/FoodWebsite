@@ -2,8 +2,8 @@ const express = require("express")
 const router = express.Router();
 const {OrderService} = require("../service/index")
 const Joi = require("@hapi/joi")
-const auth = require("../auth/auth")
-
+const authorization = require("../authorization/authorization")
+const authentication = require("../auth/auth")
 // request validation rules
 
 const orderValidation = Joi.object({
@@ -53,7 +53,7 @@ router.get(
 // get by type
 router.get(
     "/:state",
-    auth,
+    authentication,
     async (req, res) => {
         const {error} = patchValidation.validate(req.params);
         if(error)            
@@ -112,7 +112,8 @@ router.post(
 // add one
 router.post(
     "/:email",
-    auth,
+    authentication,
+    authorization.client,
     async (req, res) => {
         const {error} = orderValidation.validate(req.body);
         const {error1} = emailValidation.validate(req.params);
@@ -133,6 +134,8 @@ router.post(
 // patch one
 router.patch(
     "/:id",
+    authentication,
+    authorization.worker_deliverer,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);
@@ -155,6 +158,8 @@ router.patch(
 // patch one
 router.patch(
     "/rated/:id",
+    authentication,
+    authorization.client,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);
@@ -175,6 +180,8 @@ router.patch(
 // reject one
 router.patch(
     "/reject/:id",
+    authentication,
+    authorization.worker,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);

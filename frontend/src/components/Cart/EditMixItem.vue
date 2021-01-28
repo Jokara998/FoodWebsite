@@ -2,7 +2,7 @@
     <v-container >
             <v-dialog color="dark" dark max-width="400px" v-model="dialog" persistent>
 
-                <v-card>
+                <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
                         <div> Edit Cart Item </div>
                     </v-card-title>

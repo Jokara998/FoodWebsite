@@ -1,7 +1,7 @@
 <template>
       <v-dialog color="dark" dark max-width="350px" v-model="dialog" persistent>
 
-            <v-card>
+            <v-card dark style="border:1px solid #D3D3D3">
                 <v-card-title class="headline">
                     <div><span style="color:green;display:inline"> {{availability.name}} Availability</span></div>
                 </v-card-title>

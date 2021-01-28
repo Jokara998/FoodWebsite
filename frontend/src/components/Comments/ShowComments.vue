@@ -1,7 +1,7 @@
 <template>
      <v-container >
             <v-dialog color="dark" dark max-width="850px" v-model="dialog" persistent>
-               <v-card dark>
+               <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title>
                         Comments
                     <v-spacer></v-spacer>

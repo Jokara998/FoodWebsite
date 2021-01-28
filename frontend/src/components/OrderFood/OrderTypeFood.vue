@@ -9,9 +9,6 @@
 
         <br>
     
-        <!-- Filter -->
-        <OrderFoodFilter ref="filter"/>
-
         <v-flex class="row" style="margin-top:-30px">
                 <div v-for="fd in this.orderFood.food" :key="fd.id" class="col-12 col-xs-12 col-sm-12 col-md-6 col-lg-6" wrap>
                         <v-row style="margin-left:10px" wrap>
@@ -51,7 +48,6 @@
 
 <script>
 import OrderFoodPagination from './OrderFoodPagination'
-import OrderFoodFilter from './OrderFoodFilter'
 import OrderFoodCard from "./OrderFoodCard"
 export default {
 
@@ -68,7 +64,6 @@ export default {
     },
     components:{
         OrderFoodPagination,
-        OrderFoodFilter,
         OrderFoodCard
     },
 

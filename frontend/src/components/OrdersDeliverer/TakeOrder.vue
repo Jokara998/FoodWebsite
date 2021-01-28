@@ -112,7 +112,9 @@ export default {
                 this.dialogLoading = false;
                 this.dialog = false;
                 this.dialog1 = true;
-            })
+            }).catch(()=>{
+                this.dialogLoading = false
+            }) 
         },
         close(){
             this.dialog1 = false; 
