@@ -61,11 +61,16 @@ export default {
         return{
             boolLoader:false,
             boolOrderTypeFood:false,
+           
         };
     },
     components:{
         Loader,
         OrderTypeFood,
+    },
+    mounted(){
+        this.boolOrderTypeFood = false;
+        this.$forceUpdate();
     },
     computed:{
         allTypes(){

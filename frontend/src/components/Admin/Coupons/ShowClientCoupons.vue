@@ -1,5 +1,5 @@
 <template>
-    <v-container flat style="width:85%">
+    <v-container flat>
         
         <br>
 
@@ -15,7 +15,7 @@
                 </v-icon>
                 Add Coupon
             </v-btn>
-            
+
             </v-card-title>
             <v-data-table
                 :headers="headers"
@@ -144,7 +144,8 @@ export default {
             this.$refs.delete.coupon = coupon
             this.$refs.delete.client = this.client;
             this.$refs.delete.dialog= true;
-        }
+        },
+       
     },
 
     computed:{

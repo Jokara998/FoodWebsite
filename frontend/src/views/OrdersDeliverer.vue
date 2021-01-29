@@ -225,7 +225,7 @@ import ConfirmDelivery from "../components/OrdersDeliverer/ConfirmDelivery"
 export default {
     data(){
         return{
-            tab:"ready",
+            tab:'ready',
             dialogLoading:false,
             headers: [
                 {
@@ -266,6 +266,7 @@ export default {
             ],
         }
     },
+
     methods:{
         async ready(){
             
@@ -324,10 +325,16 @@ export default {
         ConfirmDelivery,
     },
 
+    mounted(){
+        this.tab = "ready";
+        this.ready();
+        this.$forceUpdate();
+    },
+
     computed:{
         orders(){
             return this.$store.getters.getOrders;
-        }
+        },
     }
 }
 </script>

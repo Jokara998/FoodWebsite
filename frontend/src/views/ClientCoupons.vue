@@ -13,7 +13,7 @@
        
         <v-card dark v-show="this.coupons.length > 0">
             <v-card-title>
-                Coupons [<span style="color:green"> {{email}} </span>]
+                Coupons [<span style="color:green"> {{token.email}} </span>]
             <v-spacer></v-spacer>           
             </v-card-title>
             <v-data-table
@@ -36,12 +36,13 @@
 </template>
 
 <script>
+import jwt_decode from 'jwt-decode'
+
 export default {
 
     data(){
 
         return{
-            email:"",
             search: '',
             headers: [
                 { 
@@ -85,7 +86,13 @@ export default {
     computed:{
         coupons(){
             return this.$store.getters.getCoupons;
-        }
+        },
+        token:function(){
+            const t = this.$store.getters.getToken
+            if(t != "")
+            return jwt_decode(t);
+            return t;
+        },
     }
 
 }

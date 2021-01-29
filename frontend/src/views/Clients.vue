@@ -3,9 +3,10 @@
         
         <br>
 
+       
         <v-card dark>
             <v-card-title>
-                Workers
+                Clients
             <v-spacer></v-spacer>
             <v-text-field
                 v-model="search"
@@ -14,43 +15,34 @@
                 single-line
                 hide-details
             ></v-text-field>
-
-            <v-btn @click="$refs.addWorkerDialog.dialog = true" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
-                <v-icon dark medium>
-                    mdi-briefcase-plus
-                </v-icon>
-                Add Worker
-            </v-btn>
-            
+         
             </v-card-title>
             <v-data-table
                 :headers="headers"
-                :items="workers"
+                :items="clients"
                 :search="search"
             >
                 <template v-slot:item.actions="{item}" >
-                            <v-tooltip dark color="red darken-1" top>
+                            <v-tooltip dark color="green darken-1" top>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon @click="deleteWorker(item)" class="mr-2" color="red darken-1" small depressed  rounded v-bind="attrs" v-on="on">
-                                        Remove
+                                    <v-btn icon @click="approveClient(item)" class="mr-2" color="green darken-1" small depressed  rounded v-bind="attrs" v-on="on">
+                                        Approve
                                     </v-btn>
                                 </template>
-                                <span>Remove worker?</span>
+                                <span>Approve Client?</span>
                             </v-tooltip>
                 </template>
             </v-data-table>
         </v-card>
 
-        <AddWorker ref="addWorkerDialog" />
-        <DeleteWorker ref="deleteWorkerDialog" />
+        <ApproveClient ref="approveDialog" />
+        
 
     </v-container>
 </template>
 
 <script>
-import AddWorker from '../Admin/AddWorker'
-import DeleteWorker from '../Admin/DeleteWorker'
-
+import ApproveClient from '../components/Admin/ApproveClient'
 
 export default {
 
@@ -94,20 +86,20 @@ export default {
     },
 
     components:{
-        AddWorker,
-        DeleteWorker,
+        ApproveClient,
     },
-  
+    
     methods:{
-      deleteWorker(item){
-          this.$refs.deleteWorkerDialog.worker = item;
-          this.$refs.deleteWorkerDialog.dialog = true;
-      }
+        approveClient(item){
+            this.$refs.approveDialog.client = item;
+            this.$refs.approveDialog.dialog = true;
+        },
+      
     },
 
     computed:{
-        workers(){
-           return this.$store.getters.getWorkers;
+        clients(){
+            return this.$store.getters.getClients;
         }
     },
 

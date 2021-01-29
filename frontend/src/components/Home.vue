@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    
     <v-app-bar app flat dark color="dark">
 
      <v-toolbar :key="navbarKey" flat>
@@ -155,42 +156,13 @@
     </v-toolbar>
     </v-app-bar>
 
-    <br>
-    <br>
-    <v-flex v-show="boolHome">
-      <v-row style="height:50px"/>
-      <v-row>
-        <v-col cols="7" />
-        <v-col cols="5">
-        <v-card dark flat style="background-color:transparent;" > 
-          <v-card-title primary-title class="justify-end" style="font-size:65px; text-shadow: -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 3px 3px 0 #000;" wrap>
-              Welcome 
-              to
-              Fast Food!
-          </v-card-title>
-        </v-card>
-        </v-col>
-      </v-row>
-    </v-flex>
+    <v-main>
+      <br>
+      <br>
+      <loader v-show="this.boolLoader"> </loader>
+      <router-view v-show="this.boolRouter"> </router-view>
+    </v-main>
 
-    <loader v-show="this.boolLoader"> </loader>
-
-
-    
-    <Mix app v-show="this.boolMix" />
-    <Food app v-show="this.boolFood" />
-    <FoodType app v-show="this.boolFoodType" />
-    <Workers app v-show="this.boolWorkers" />
-    <Clients app v-show="this.boolClients" />
-    <ClientOrders app v-show="this.boolClientOrders" ref="clientOrders" />
-    <OrderFood app ref="order" v-show="this.boolOrder" />
-    <OrderMix app ref="orderMix" v-show="this.boolOrderMix" />
-    <Coupon app ref="coupon" v-show="this.boolCoupon" />
-    <ClientCoupons app ref="clientCoupon" v-show="this.boolClientCoupons"/>
-    <Comments app ref="comments" v-show="this.boolComments"/>
-    <OrdersDeliverer app ref="ordersDel"  v-show="this.boolOrdersDeliverer" />
-    <OrdersWorker app  v-show="this.boolOrdersWorker" />
-    <Cart app ref="cart" v-show="this.boolCart" />
     <Login ref="login" />
     <Register ref="register" />
    
@@ -199,22 +171,9 @@
 </template>
 
 <script>
-import Mix from "../views/Mix.vue";
-import Food from "../views/Food.vue";
-import FoodType from "../views/FoodType";
-import OrderFood from "../views/OrderFood"
-import OrderMix from "../views/OrderMix"
-import OrdersDeliverer from "../views/OrdersDeliverer"
-import OrdersWorker from "../views/OrdersWorker"
-import Cart from "../views/Cart"
-import ClientOrders from "../views/ClientOrders"
-import ClientCoupons from "../views/ClientCoupons"
-import Coupon from "../views/Coupon"
-import Comments from "../views/Comments"
+
 import Login from '../components/User/Login';
 import Register from '../components/User/Register';
-import Workers from "../components/Admin/Workers"
-import Clients from "../components/Admin/Clients"
 import Loader from '../components/Loaders/Loader'
 import axios from "../axios/index"
 import jwt_decode from 'jwt-decode'
@@ -228,206 +187,83 @@ import jwt_decode from 'jwt-decode'
 
         return{
           boolLoader:false,
-          boolFood : false,
-          boolHome: true,
-          boolFoodType: false,
-          boolWorkers: false,
-          boolClients:false,
-          boolMix:false,
-          boolOrder:false,
-          boolCart:false,
-          boolOrderMix:false,
-          boolOrdersWorker:false,
-          boolOrdersDeliverer:false,
-          boolClientOrders:false,
-          boolComments:false,
-          boolCoupon:false,
-          boolClientCoupons:false,
+          boolRouter:false,
         };
     },
     components:{
-      Food,
-      FoodType,
+     
       Login,
       Register,
-      Clients,
-      Workers,
-      Mix,
       Loader,
-      OrderFood,
-      OrderMix,
-      Cart,
-      OrdersWorker,
-      OrdersDeliverer,
-      ClientOrders,
-      Comments,
-      Coupon,
-      ClientCoupons
+    
     },
     
     methods:{
       home(){
-        this.boolFood = false
-        this.boolFoodType = false
-        this.boolWorkers = false
-        this.boolClients = false
-        this.boolOrdersWorker = false
-        this.boolOrdersDeliverer = false
-        this.boolMix = false
-        this.boolOrder = false;
-        this.boolCart = false;
-        this.boolOrderMix = false;
-        this.boolClientOrders = false;
-        this.boolLoader = false;
-        this.boolClientCoupons = false;
-        this.boolCoupon = false;
-        this.boolComments = false;
-        this.boolHome = true
-
+        this.$router.push("/").catch(()=>{});
       },
       async mix(){
-        this.boolMix = false
-        this.boolHome = false
-        this.boolFood = false
-        this.boolFoodType = false
-        this.boolWorkers = false
-        this.boolOrderMix = false;
-        this.boolOrdersDeliverer = false
-        this.boolOrdersWorker = false
-        this.boolClientOrders = false;
-        this.boolClientCoupons = false;
-        this.boolClients = false
-        this.boolCart = false;
-        this.boolCoupon = false;
-        this.boolComments = false;
-        this.boolOrder = false;
+        this.boolRouter = false;
         this.boolLoader = true;
         if(this.token.type == "Worker"){
           await this.$store.dispatch("setMixs");
           this.boolLoader = false;
-          this.boolMix = true
+          this.$router.push("/mix").catch(()=>{});
+          this.boolRouter = true
         }
   
       },
       async food(){
-        this.boolFood = false
-        this.boolHome = false
-        this.boolFoodType = false
-        this.boolWorkers = false
-        this.boolClients = false
-        this.boolOrdersDeliverer = false
-        this.boolOrdersWorker = false
-        this.boolMix = false
-        this.boolOrderMix = false;
-        this.boolCoupon = false;
-        this.boolClientCoupons = false;
-        this.boolComments = false;
-        this.boolClientOrders = false;
-        this.boolCart = false;
-        this.boolOrder = false;
+        this.boolRouter = false;
         this.boolLoader = true;
         if(this.token.type == "Worker"){
           await this.$store.dispatch("setAllFood");
           await this.$store.dispatch("setAllTypes");
           this.boolLoader = false;
-          this.boolFood = true
+          this.$router.push("/food").catch(()=>{});
+          this.boolRouter = true;
 
         }
       },
       async foodtype(){
-        this.boolFoodType = false
-        this.boolHome = false
-        this.boolFood = false
-        this.boolWorkers = false
-        this.boolClients = false
-        this.boolOrdersDeliverer = false
-        this.boolOrderMix = false;
-        this.boolCoupon = false;
-        this.boolComments = false;
-        this.boolOrdersWorker = false
-        this.boolClientCoupons = false;
-        this.boolClientOrders = false;
-        this.boolCart = false;
-        this.boolOrder = false;
-        this.boolMix = false
+        this.boolRouter = false;
         this.boolLoader = true;
         if(this.token.type == "Worker"){
           await this.$store.dispatch("setAllTypes");
           this.boolLoader = false;
-          this.boolFoodType = true
+          this.$router.push("/foodtype").catch(()=>{});
+          this.boolRouter = true;
 
         }
        
       },
       async order_food(){
-        this.boolOrder = false;
-        this.boolHome = false
-        this.boolFoodType = false
-        this.boolFood = false
-        this.boolWorkers = false
-        this.boolOrdersDeliverer = false
-        this.boolOrderMix = false;
-        this.boolCoupon = false;
-        this.boolClientCoupons = false;
-        this.boolComments = false;
-        this.boolClientOrders = false;
-        this.boolOrdersWorker = false
-        this.boolClients = false
-        this.boolCart = false;
-        this.boolMix = false
+        this.boolRouter = false;
         this.boolLoader = true
         if(this.token.type == "Client" || this.token ==""){
           await this.$store.dispatch("setAllTypes");
           this.boolLoader = false;
-          this.$refs.order.boolOrderTypeFood = false
-          this.boolOrder = true
-
+          this.$router.push("/orderfood").catch(()=>{});
+          this.boolRouter = true
         }
        
       },
 
        async orderMix(){
-        this.boolOrderMix = false;
-        this.boolHome = false
-        this.boolFoodType = false
-        this.boolFood = false
-        this.boolOrdersDeliverer = false
-        this.boolWorkers = false
-        this.boolOrdersWorker = false
-        this.boolOrder = false;
-        this.boolClientCoupons = false;
-        this.boolCoupon = false;
-        this.boolComments = false;
-        this.boolClientOrders = false;
-        this.boolClients = false
-        this.boolCart = false;
-        this.boolMix = false
+        this.boolRouter = false;
         this.boolLoader = true
         if(this.token.type == "Client" || this.token ==""){
           await this.$store.dispatch("setMixs");
           this.boolLoader = false;
-          this.boolOrderMix = true
+          this.$router.push("/ordermix").catch(()=>{});
+          this.boolRouter = true
 
         }
        
       },
 
        async cart_fun(){
-        this.boolCart = false;
-        this.boolHome = false
-        this.boolOrder = false;
-        this.boolFoodType = false
-        this.boolOrdersDeliverer = false
-        this.boolFood = false
-        this.boolOrdersWorker = false
-        this.boolClientOrders = false;
-        this.boolWorkers = false
-        this.boolClientCoupons = false;
-        this.boolCoupon = false;
-        this.boolComments = false;
-        this.boolOrderMix = false;
-        this.boolClients = false
-        this.boolMix = false
+        this.boolRouter = false;
         this.boolLoader = true
         if(this.token.type == "Client" || this.token ==""){
           this.boolLoader = false;
@@ -435,7 +271,8 @@ import jwt_decode from 'jwt-decode'
           const cartMix = localStorage.getItem('cartMix')
           await this.$store.dispatch("setCartFoodStorage", cartFood)
           await this.$store.dispatch("setCartMixStorage", cartMix)
-          this.boolCart = true
+          this.$router.push("/cart").catch(()=>{});
+          this.boolRouter = true
         }
        
       },
@@ -446,199 +283,88 @@ import jwt_decode from 'jwt-decode'
         this.$refs.register.dialog = true;
       },
       async clients(){
-          this.boolClients = false;
-          this.boolHome = false
-          this.boolFood = false
-          this.boolFoodType = false
-          this.boolWorkers = false
-          this.boolCoupon = false;
-          this.boolComments = false;
-          this.boolClientCoupons = false;
-          this.boolClientOrders = false;
-          this.boolOrderMix = false;
-          this.boolOrdersDeliverer = false
-          this.boolOrder = false;
-          this.boolOrdersWorker = false
-          this.boolCart = false;
-          this.boolMix = false
+          this.boolRouter = false;
           this.boolLoader = true;
-         if(this.token.type == "Admin"){
-          await this.$store.dispatch("setClients");
-          this.boolLoader = false;
-          this.boolClients = true
-         }
+          if(this.token.type == "Admin"){
+            await this.$store.dispatch("setClients");
+            this.boolLoader = false;
+            this.$router.push("/clients").catch(()=>{});
+            this.boolRouter = true
+          }
      
       },
       async workers(){
-          this.boolWorkers = false
-          this.boolHome = false
-          this.boolFood = false
-          this.boolFoodType = false
-          this.boolClients = false
-          this.boolOrder = false;
-          this.boolOrdersWorker = false
-          this.boolClientOrders = false;
-          this.boolOrderMix = false;
-          this.boolCoupon = false;
-          this.boolComments = false;
-          this.boolClientCoupons = false;
-          this.boolOrdersDeliverer = false
-          this.boolCart = false;
-          this.boolMix = false
-          this.boolLoader = true;
-         if(this.token.type == "Admin"){
+        this.boolRouter = false;
+        this.boolLoader = true;
+        if(this.token.type == "Admin"){
           await this.$store.dispatch("setWorkers");
           this.boolLoader = false;
-          this.boolWorkers = true
-        
-         }
+          this.$router.push("/workers").catch(()=>{});
+          this.boolRouter = true
+      
+        }
      
       },
       async ordersWorkerFun(){
-          this.boolOrdersWorker = false
-          this.boolWorkers = false
-          this.boolHome = false
-          this.boolFood = false
-          this.boolFoodType = false
-          this.boolClients = false
-          this.boolClientOrders = false;
-          this.boolOrder = false;
-          this.boolOrderMix = false;
-          this.boolClientCoupons = false;
-          this.boolCoupon = false;
-          this.boolComments = false;
-          this.boolOrdersDeliverer = false
-          this.boolCart = false;
-          this.boolMix = false
+          this.boolRouter = false;
           this.boolLoader = true;
           if(this.token.type == "Worker"){
             await this.$store.dispatch("setOrders", "PROCESSING");
             this.boolLoader = false;
-            this.boolOrdersWorker = true
+            this.$router.push("/ordersworker").catch(()=>{});
+            this.boolRouter = true
         
           }
       },
       async ordersDelivererFun(){
+          this.boolRouter = false;
           this.boolLoader = true;
-          this.boolOrdersDeliverer = false
-          this.boolOrdersWorker = false
-          this.boolWorkers = false
-          this.boolHome = false
-          this.boolFood = false
-          this.boolClientOrders = false;
-          this.boolFoodType = false
-          this.boolClients = false
-          this.boolCoupon = false;
-          this.boolComments = false;
-          this.boolOrder = false;
-          this.boolClientCoupons = false;
-          this.boolOrderMix = false;
-          this.boolCart = false;
-          this.boolMix = false
-          await this.$store.dispatch("setOrders", "READY");
-          this.$refs.ordersDel.tab = "ready"
+          //await this.$store.dispatch("setOrders", "READY");
           this.boolLoader = false;
-          this.boolOrdersDeliverer = true
+          this.$router.push("/ordersdeliverer").catch(()=>{});
+          this.boolRouter = true
         
       },
 
       async clientOrders(){
+          this.boolRouter = false;
           this.boolLoader = true;
-          this.boolClientOrders = false
-          this.boolOrdersDeliverer = false
-          this.boolOrdersWorker = false
-          this.boolWorkers = false
-          this.boolHome = false
-          this.boolFood = false
-          this.boolFoodType = false
-          this.boolClients = false
-          this.boolOrder = false;
-          this.boolCoupon = false;
-          this.boolClientCoupons = false;
-          this.boolComments = false;
-          this.boolOrderMix = false;
-          this.boolCart = false;
-          this.boolMix = false
-          await this.$store.dispatch("setOrders", "SENT");      
+          //await this.$store.dispatch("setOrders", "SENT");      
           this.boolLoader = false;
-          this.$refs.clientOrders.boolShow = true;
-          this.$refs.clientOrders.boolShow1 = false;
-          this.$refs.clientOrders.tab = "sent"
-          this.boolClientOrders = true
+          this.$router.push("/clientorders").catch(()=>{});
+          this.boolRouter = true
       },
       async couponsFun(){
+          this.boolRouter = false;
           this.boolLoader = true;
-          this.boolCoupon = false;
-          this.boolClientOrders = false
-          this.boolOrdersDeliverer = false
-          this.boolOrdersWorker = false
-          this.boolWorkers = false
-          this.boolHome = false
-          this.boolFood = false
-          this.boolClientCoupons = false;
-          this.boolFoodType = false
-          this.boolClients = false
-          this.boolOrder = false;
-          this.boolComments = false;
-          this.boolOrderMix = false;
-          this.boolCart = false;
-          this.boolMix = false
           if(this.token.type == "Admin"){
             await this.$store.dispatch("setClientsApproved");      
             this.boolLoader = false;
-            this.$refs.coupon.boolShowList = true;
-            this.$refs.coupon.boolShowOne = false;
-            this.boolCoupon = true
+            this.$router.push("/coupon").catch(()=>{});
+            this.boolRouter = true
           }
       },
 
       async couponsClient(){
+          this.boolRouter = false;
           this.boolLoader = true;
-          this.boolClientCoupons = false;
-          this.boolClientOrders = false
-          this.boolOrdersDeliverer = false
-          this.boolOrdersWorker = false
-          this.boolWorkers = false
-          this.boolHome = false
-          this.boolFood = false
-          this.boolCoupon = false;
-          this.boolFoodType = false
-          this.boolClients = false
-          this.boolOrder = false;
-          this.boolComments = false;
-          this.boolOrderMix = false;
-          this.boolCart = false;
-          this.boolMix = false
           if(this.token.type == "Client"){
             await this.$store.dispatch("setCoupons", this.token.email)
             this.boolLoader = false;
-            this.$refs.clientCoupon.email = this.token.email;
-            this.boolClientCoupons = true
+            this.$router.push("/clientCoupons").catch(()=>{});
+            this.boolRouter = true
           }
       },
 
       async commentsFun(){
+          this.boolRouter = false;
           this.boolLoader = true;
-          this.boolComments = false;
-          this.boolClientOrders = false
-          this.boolOrdersDeliverer = false
-          this.boolOrdersWorker = false
-          this.boolWorkers = false
-          this.boolHome = false
-          this.boolFood = false
-          this.boolFoodType = false
-          this.boolClients = false
-          this.boolClientCoupons = false;
-          this.boolOrder = false;
-          this.boolCoupon = false;
-          this.boolOrderMix = false;
-          this.boolCart = false;
-          this.boolMix = false
           if(this.token.type == "Admin"){
             await axios.get("/rate/"+0).then( async (response) =>{
                 await this.$store.dispatch("setComments", response.data);      
                 this.boolLoader = false;
-                this.boolComments = true
+                this.$router.push("/comments").catch(()=>{});
+                this.boolRouter = true
             })
           }
         
@@ -646,8 +372,8 @@ import jwt_decode from 'jwt-decode'
 
       logout(){
         axios.get("/user/logout").then(async()=>{
-          await localStorage.removeItem("Authorization")
-          await delete axios.defaults.headers.common["Authorization"];
+          localStorage.removeItem("Authorization")
+          delete axios.defaults.headers.common["Authorization"];
           await this.$store.dispatch("setToken", "")
           await this.$store.dispatch("setNavbarKey")
           await this.home()

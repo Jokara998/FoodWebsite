@@ -4,6 +4,11 @@
         <v-toolbar flat dark rounded style="margin-top:-30px">
 
             <v-toolbar-title>{{orderType.name}}</v-toolbar-title>
+            <v-spacer/>
+            <v-btn right medium @click="back()" style="border:1px solid #f5f5f5">
+                <v-icon color="#f5f5f5">mdi-arrow-left-circle</v-icon>
+                Back
+            </v-btn>
 
         </v-toolbar>
 
@@ -107,6 +112,11 @@ export default {
             this.availability.availability = fd.availability
             console.log(this.availability)
         },
+        back(){
+            this.$parent.boolOrderTypeFood = false;
+            this.$parent.$forceUpdate();
+
+        }
       
 
     },
