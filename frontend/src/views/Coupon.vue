@@ -4,7 +4,7 @@
         <br>
 
        
-        <v-card dark v-show="this.boolShowList">
+        <v-card dark>
             <v-card-title>
                 Clients
             <v-spacer></v-spacer>
@@ -56,7 +56,6 @@ export default {
     data(){
 
         return{
-            boolShowList:true,
             boolShowOne:false,
             dialogLoading:false,
             search: '',
@@ -101,6 +100,11 @@ export default {
         };
     },
 
+    mounted(){
+        this.boolShowOne = false;
+        this.$forceUpdate();
+    },
+
     components:{
         ShowCoupon,
         Loader
@@ -112,7 +116,6 @@ export default {
             await this.$store.dispatch("setCoupons", item.email)
             this.dialogLoading = false;
             this.$refs.showCoupon.client = item;
-            this.boolShowList = false;
             this.boolShowOne = true;
             this.$forceUpdate()         
         }

@@ -207,6 +207,13 @@ export default {
             ],
         }
     },
+    mounted(){
+        this.tab = "sent";
+        this.boolShow = true;
+        this.boolShow1 = false;
+        this.sent();
+        this.$forceUpdate();
+    },
     methods:{
         async sent(){
             await this.$store.dispatch("setOrders", "SENT");

@@ -1,5 +1,5 @@
 <template>
-    <v-container flat style="width:85%">
+    <v-container app flat style="width:85%">
         
         <v-toolbar flat dark rounded >
 
