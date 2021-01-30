@@ -8,7 +8,8 @@
                     <v-icon color="dark" left>
                         mdi-tag-plus
                     </v-icon>
-                    <span class="headline">New Coupon [ {{client.email}} ]</span>
+                    <span class="hidden-xs-only">New Coupon [ <span style="color:green">{{client.email}} </span>]</span>
+                    <span class="hidden-sm-and-up"> <div> New Coupon </div> <div> <span style="color:green"> {{client.email}} </span> </div> </span>
                     </v-card-title>
                     <v-card-text>
                         <template>
@@ -39,6 +40,7 @@
                                     <v-col
                                         cols="12"
                                         md="3"
+                                        sm="4"
                                     >
                                     
                                         <v-btn
@@ -56,6 +58,7 @@
                                     <v-col
                                         cols="12"
                                         md="3"
+                                        sm="4"
                                     >
                                         <v-btn
                                             color="red darken-1"
@@ -65,7 +68,7 @@
                                         <v-icon color="dark" left>
                                             mdi-close-circle-outline
                                         </v-icon>
-                                            Close
+                                           Close
                                         </v-btn>
                                     </v-col>
                                     

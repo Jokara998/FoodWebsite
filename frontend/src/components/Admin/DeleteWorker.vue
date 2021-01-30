@@ -4,7 +4,9 @@
 
                 <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
-                        <div> Delete <span style="color:green;display:inline"> {{worker.fullname}} </span> from System? </div>
+                        <div class="hidden-xs-only"> Delete <span style="color:green;display:inline"> {{worker.fullname}} </span> from System? </div>
+                        <div class="hidden-sm-and-up"> <span style="color:green;display:inline"> {{worker.fullname}} </span> </div>
+
                     </v-card-title>
                     <v-card-text>
                         <div>This action will result in pernamently deleting <span style="color:green;display:inline"> {{worker.fullname}} </span> from the system.</div>
@@ -21,7 +23,7 @@
                         <v-icon color="dark" left>
                             mdi-check-circle-outline
                         </v-icon>
-                        Confirm
+                        <span class="hidden-xs-only"> Confirm </span>
                     </v-btn>
 
                      <v-btn
@@ -32,7 +34,7 @@
                         <v-icon color="dark" left>
                             mdi-close-circle-outline
                         </v-icon>
-                        Cancel
+                        <span class="hidden-xs-only"> Cancel </span>
                     </v-btn>
 
 

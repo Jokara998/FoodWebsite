@@ -4,51 +4,97 @@
 
                 <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
-                        <div>Order for <span style="display:inline;color:green"> {{order.fullname}} </span> </div>
+                        <div class="hidden-xs-only"> <span class="text-center" style="justify-content:center">Order for <span style="display:inline;color:green"> {{order.fullname}} </span> </span> </div>
+                        <div class="hidden-sm-and-up"> <span class="text-center" style="justify-content:center">Order</span></div>
                     </v-card-title>
                     <v-card-text>
                        <v-container>
+                            <v-divider/>
                            <v-flex
                                 v-for="(item) in this.order.ordered.food" :key="item.id" 
                             >
-                            
-                                <v-list-item>
-                                    <v-list-item-content>
-                                        <v-list-item-title>Name</v-list-item-title>
-                                        <v-list-item-subtitle>  
-                                            <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                    
-                                    <v-list-item-content>
-                                        <v-list-item-title>Amount[Availability]</v-list-item-title>
-                                        <v-list-item-subtitle>  
-                                            <span style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>                                    
-                                </v-list-item>
+
+                                <div class="hidden-xs-only">
+                                    <v-list-item>
+                                        <v-list-item-content class="justify-content:center">
+                                            <v-list-item-title>Name</v-list-item-title>
+                                            <v-list-item-subtitle>  
+                                                <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        
+                                        <v-list-item-content>
+                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
+                                            <v-list-item-subtitle>  
+                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>                                    
+                                    </v-list-item>
+                                </div>
+
+                                <div class="hidden-sm-and-up">
+                                    <v-list-item>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Name</v-list-item-title>
+                                            <v-list-item-subtitle>  
+                                                <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                    <v-list-item>                                 
+                                        <v-list-item-content>
+                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
+                                            <v-list-item-subtitle>  
+                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>                                    
+                                    </v-list-item>
+                                </div>
+                                <v-divider/>
                             </v-flex>
 
                             <v-flex
                                 v-for="(item) in this.order.ordered.mix" :key="item.id" 
                             >
-                            
-                                <v-list-item>
-                                    <v-list-item-content>
-                                        <v-list-item-title>Name</v-list-item-title>
-                                        <v-list-item-subtitle>  
-                                            <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                    
-                                    <v-list-item-content>
-                                        <v-list-item-title>Amount[Availability]</v-list-item-title>
-                                        <v-list-item-subtitle>  
-                                            <span style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                    
-                                </v-list-item>
+                                <div class="hidden-xs-only">
+                                    <v-list-item>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Name</v-list-item-title>
+                                            <v-list-item-subtitle>  
+                                                <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        
+                                        <v-list-item-content>
+                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
+                                            <v-list-item-subtitle>  
+                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        
+                                    </v-list-item>
+                                </div>
+
+                                <div class="hidden-sm-and-up">
+                                    <v-list-item>
+                                        <v-list-item-content>
+                                            <v-list-item-title>Name</v-list-item-title>
+                                            <v-list-item-subtitle>  
+                                                <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                    <v-list-item>                                 
+                                        <v-list-item-content>
+                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
+                                            <v-list-item-subtitle>  
+                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>                                    
+                                    </v-list-item>
+                                </div>
+                                <v-divider/>
+                                <v-divider/>
                             </v-flex>
                        </v-container>
                     </v-card-text>

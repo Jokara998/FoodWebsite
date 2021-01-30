@@ -21,7 +21,7 @@
                         <v-icon color="dark" left>
                             mdi-check-circle-outline
                         </v-icon>
-                        Confirm
+                        <span class="hidden-xs-only"> Confirm </span>
                     </v-btn>
 
                      <v-btn
@@ -32,7 +32,7 @@
                         <v-icon color="dark" left>
                             mdi-close-circle-outline
                         </v-icon>
-                        Cancel
+                        <span class="hidden-xs-only"> Cancel </span>
                     </v-btn>
 
 
@@ -48,7 +48,7 @@
                         <div> Order State! </div>
                     </v-card-title>
                     <v-card-text>
-                        <div> Order is in transport!</div>
+                        <div> Order in transport!</div>
                     </v-card-text>
 
                     <v-card-actions>
@@ -62,7 +62,7 @@
                         <v-icon color="dark" left>
                             mdi-close-circle-outline
                         </v-icon>
-                        Cancel
+                        <span class="hidden-xs-only"> Close </span>
                     </v-btn>
 
 

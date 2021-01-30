@@ -74,7 +74,7 @@ export default {
                     align: "start"
                 },
                 {
-                    text: '',
+                    text: 'Actions',
                     sortable:false,
                     value: 'actions',
                     align: "start"

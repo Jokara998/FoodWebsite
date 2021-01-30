@@ -6,6 +6,12 @@
         <v-card dark>
             <v-card-title>
                 Workers
+            <v-btn class="hidden-md-and-up" @click="$refs.addWorkerDialog.dialog = true" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:7px" >
+                <v-icon dark medium>
+                    mdi-briefcase-plus
+                </v-icon>
+                Add
+            </v-btn>
             <v-spacer></v-spacer>
             <v-text-field
                 v-model="search"
@@ -15,7 +21,7 @@
                 hide-details
             ></v-text-field>
 
-            <v-btn @click="$refs.addWorkerDialog.dialog = true" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
+            <v-btn class="hidden-sm-and-down" @click="$refs.addWorkerDialog.dialog = true" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
                 <v-icon dark medium>
                     mdi-briefcase-plus
                 </v-icon>
@@ -28,6 +34,7 @@
                 :items="workers"
                 :search="search"
             >
+
                 <template v-slot:item.actions="{item}" >
                             <v-tooltip dark color="red darken-1" top>
                                 <template v-slot:activator="{ on, attrs }">
@@ -82,7 +89,7 @@ export default {
                     align: "start"
                 },
                 {
-                    text: '',
+                    text: 'Actions',
                     sortable:false,
                     value: 'actions',
                     align: "start"
