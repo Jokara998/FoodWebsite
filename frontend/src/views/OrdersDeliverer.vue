@@ -5,6 +5,7 @@
         <v-card dark>
             <v-card-title style="justify-content:center"> Orders </v-card-title>
             <v-tabs
+            class="hidden-sm-and-down"
             v-model="tab"
             background-color="dark"
             centered
@@ -25,6 +26,29 @@
 
                 <v-tab href="#delivered">
                     Delivered Orders
+                    <v-icon>mdi-truck-check-outline</v-icon>
+                </v-tab>
+            </v-tabs>
+
+            <v-tabs
+            class="hidden-md-and-up"
+            v-model="tab"
+            background-color="dark"
+            centered
+            dark
+            icons-and-text
+            >
+                <v-tabs-slider></v-tabs-slider>
+
+                <v-tab href="#ready">
+                    <v-icon>mdi-truck-outline</v-icon>
+                </v-tab>
+
+                <v-tab href="#transport">
+                    <v-icon>mdi-truck-delivery-outline</v-icon>
+                </v-tab>
+
+                <v-tab href="#delivered">
                     <v-icon>mdi-truck-check-outline</v-icon>
                 </v-tab>
             </v-tabs>
@@ -54,7 +78,7 @@
                             </template>
 
                             <template v-slot:item.price="{item}">                            
-                                <span>{{item.price}} €</span>                        
+                                <span>{{item.price}}€</span>                        
                             </template>
                         
                             <template v-slot:item.actions="{item}">
@@ -65,7 +89,7 @@
                                                         <v-icon left>
                                                             mdi-truck-delivery-outline
                                                         </v-icon>
-                                                        Take Order
+                                                        <span class="hidden-sm-only">Take Order</span>
                                                     </v-btn>
                                                 </template>
                                                 <span>Take order for delivering?</span>
@@ -78,7 +102,7 @@
                                                         <v-icon left>
                                                             mdi-information-outline
                                                         </v-icon>
-                                                        Show Order
+                                                        <span class="hidden-sm-only">Show Order</span>
                                                     </v-btn>
                                                 </template>
                                                 <span>Show Order information?</span>
@@ -113,7 +137,7 @@
                             </template>
 
                             <template v-slot:item.price="{item}">                            
-                                <span>{{item.price}} €</span>                        
+                                <span>{{item.price}}€</span>                        
                             </template>
                         
                             <template v-slot:item.actions="{item}">
@@ -124,7 +148,7 @@
                                                         <v-icon left>
                                                             mdi-truck-check-outline
                                                         </v-icon>
-                                                        Confirm Delivery
+                                                        <span class="hidden-sm-only">Confirm Delivery</span>
                                                     </v-btn>
                                                 </template>
                                                 <span>Confirm that order is delivered?</span>
@@ -137,7 +161,7 @@
                                                         <v-icon left>
                                                             mdi-information-outline
                                                         </v-icon>
-                                                        Show Order
+                                                        <span class="hidden-sm-only">Show Order</span>
                                                     </v-btn>
                                                 </template>
                                                 <span>Show Order information?</span>
@@ -172,18 +196,18 @@
                             </template>
 
                             <template v-slot:item.price="{item}">                            
-                                <span>{{item.price}} €</span>                        
+                                <span>{{item.price}}€</span>                        
                             </template>
                         
                             <template v-slot:item.actions="{item}">
-                                <v-col cols="2"  style="height:50px;">
+                                <v-col cols="2">
                                     <v-tooltip dark color="primary" top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn text @click="show(item)" color="primary" small depressed  rounded v-bind="attrs" v-on="on">
                                                 <v-icon left>
                                                     mdi-information-outline
                                                 </v-icon>
-                                                Show Order
+                                                <span class="hidden-sm-only">Show Order</span>
                                             </v-btn>
                                         </template>
                                         <span>Show Order information?</span>
@@ -229,7 +253,7 @@ export default {
             dialogLoading:false,
             headers: [
                 {
-                    text: 'Full Name',
+                    text: 'Name',
                     value: 'fullname',
                     align: "start"
 
@@ -255,12 +279,11 @@ export default {
                     align: "start"
                 },
                 {
-                    text: '',
+                    text: 'Actions',
                     sortable:false,
                     value: 'actions',
-                    align: "end",
-                    width:"40px"
-                    
+                    align: "start",  
+                    width:"40px"                  
                 },
                
             ],

@@ -27,7 +27,7 @@
                         <v-icon left>
                             mdi-label-percent-outline
                         </v-icon>
-                        Show Coupons
+                        <span class="hidden-sm-and-down">Show Coupons</span>
                     </v-btn>
                 </template>
             </v-data-table>
@@ -66,7 +66,7 @@ export default {
                     align: "start"
                 },
                 {
-                    text: 'FullName',
+                    text: 'Name',
                     value: 'fullname',
                     align: "start"
 
@@ -83,12 +83,12 @@ export default {
                     align: "start"
                 },
                 {
-                    text: 'Delivered Orders',
+                    text: 'Orders',
                     value: 'orders',
                     align: "start"
                 },
                 {
-                    text: '',
+                    text: 'Actions',
                     sortable:false,
                     value: 'actions',
                     align: "start",

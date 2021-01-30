@@ -12,7 +12,7 @@
                         <v-card-text style="padding:40px">
                             <v-form ref="registerForm" v-model="valid" lazy-validation>
                                 <v-row>
-                                    <v-col cols="6">
+                                    <v-col cols="12" sm="6" xs="12" md="6">
                                         <v-text-field v-model="name" counter="30" :rules="nameRules" label="Name" required>
                                             <template v-slot:prepend>                                                   
                                                 <v-icon>
@@ -21,7 +21,7 @@
                                             </template>
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="6">
+                                    <v-col cols="12" sm="6" xs="12" md="6">
                                         <v-text-field v-model="surname" counter="30" :rules="surnameRules" label="Surname" required>
                                             <template v-slot:prepend>                                                   
                                                 <v-icon>
@@ -30,7 +30,7 @@
                                             </template>
                                         </v-text-field>
                                     </v-col>
-                                     <v-col cols="6">
+                                     <v-col cols="12" sm="6" xs="12" md="6">
                                         <v-text-field v-model="address" counter="30" :rules="addressRules" label="Address" required>
                                             <template v-slot:prepend>                                                   
                                                 <v-icon>
@@ -39,7 +39,7 @@
                                             </template>
                                         </v-text-field>
                                     </v-col>
-                                    <v-col cols="6">
+                                    <v-col cols="12" sm="6" xs="12" md="6">
                                         <v-text-field v-model="phone" counter="15" :rules="phoneRules" hint="Telephone:0645896236" label="Telephone" required>
                                             <template v-slot:prepend>                                                   
                                                 <v-icon>
@@ -130,7 +130,7 @@
                         <div> Register Request</div>
                     </v-card-title>
                     <v-card-text>
-                        <div>Worker <span style="dispay:inline;color:green">{{name}} {{surname}}</span> successfully registered!</div>
+                        <div>Worker <span style="dispay:inline;color:green">{{name}} {{surname}}</span> registered!</div>
                     </v-card-text>
 
                     <v-card-actions>
@@ -141,7 +141,7 @@
                             text
                             @click="closeDialog()"
                         >
-                            Close
+                        <span class="hidden-xs-only"> Close </span>
                         </v-btn>
 
                     </v-card-actions>

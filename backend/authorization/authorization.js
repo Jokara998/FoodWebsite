@@ -1,5 +1,5 @@
 
-const client = function (req, res, next){
+const client = async function (req, res, next){
    
     if(req.user.type == "Client"){
         next()
@@ -8,7 +8,7 @@ const client = function (req, res, next){
     }
 }
 
-const worker = function (req, res, next){
+const worker = async function (req, res, next){
    
     if(req.user.type == "Worker"){
         next()
@@ -17,7 +17,7 @@ const worker = function (req, res, next){
     }
 }
 
-const deliverer = function (req, res, next){
+const deliverer = async function (req, res, next){
    
     if(req.user.type == "Deliverer"){
         next()
@@ -26,7 +26,7 @@ const deliverer = function (req, res, next){
     }
 }
 
-const admin = function (req, res, next){
+const admin = async function (req, res, next){
    
     if(req.user.type == "Admin"){
         next()
@@ -35,7 +35,7 @@ const admin = function (req, res, next){
     }
 }
 
-const admin_client = function (req, res, next){
+const admin_client = async function (req, res, next){
    
     if(req.user.type == "Admin" || req.user.type == "Client"){
         next()
@@ -44,7 +44,7 @@ const admin_client = function (req, res, next){
     }
 }
 
-const worker_deliverer = function (req, res, next){
+const worker_deliverer = async function (req, res, next){
    
     if(req.user.type == "Worker" || req.user.type == "Deliverer"){
         next()

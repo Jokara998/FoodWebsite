@@ -65,7 +65,8 @@
 
             <v-card style="border:1px solid #D3D3D3">
                 <v-card-title class="headline">
-                    <div> Approve comment from <span style="color:green;display:inline"> {{selected.email}} </span></div>
+                    <div class="hidden-xs-only"> Approve comment from <span style="color:green;display:inline"> {{selected.email}} </span></div>
+                    <div class="hidden-sm-and-up"> Approve comment</div>
                 </v-card-title>
                 <v-card-text>
                      <v-container>
@@ -91,7 +92,7 @@
                     <v-icon color="dark" left>
                         mdi-check-circle-outline
                     </v-icon>
-                    Confirm
+                    <span class="hidden-xs-only"> Confirm </span>
                 </v-btn>
 
                     <v-btn
@@ -102,7 +103,7 @@
                     <v-icon color="dark" left>
                         mdi-close-circle-outline
                     </v-icon>
-                    Cancel
+                    <span class="hidden-xs-only"> Cancel </span>
                 </v-btn>
 
 
@@ -115,7 +116,8 @@
 
             <v-card style="border:1px solid #D3D3D3">
                 <v-card-title class="headline">
-                    <div> Reject comment from <span style="color:green;display:inline"> {{selected.email}} </span></div>
+                    <div class="hidden-xs-only"> Reject comment from <span style="color:green;display:inline"> {{selected.email}} </span></div>
+                    <div class="hidden-sm-and-up"> Reject comment</div>
                 </v-card-title>
                 <v-card-text>
                       <v-container>
@@ -141,7 +143,7 @@
                     <v-icon color="dark" left>
                         mdi-check-circle-outline
                     </v-icon>
-                    Confirm
+                    <span class="hidden-xs-only"> Confirm</span>
                 </v-btn>
 
                     <v-btn
@@ -152,7 +154,7 @@
                     <v-icon color="dark" left>
                         mdi-close-circle-outline
                     </v-icon>
-                    Cancel
+                    <span class="hidden-xs-only"> Cancel </span>
                 </v-btn>
 
 

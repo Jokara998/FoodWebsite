@@ -4,7 +4,8 @@
 
                 <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
-                        <div> Approve registration of <span style="color:green;display:inline"> {{client.fullname}} </span> </div>
+                        <div class="hidden-xs-only"> Approve registration of <span style="color:green;display:inline"> {{client.fullname}} </span> </div>
+                        <div class="hidden-sm-and-up"> <span style="color:green;display:inline"> {{client.fullname}} </span> </div>
                     </v-card-title>
                     <v-card-text>
                         <div>This action will result in approving registration of <span style="color:green;display:inline"> {{client.fullname}}.</span> </div>
@@ -21,7 +22,7 @@
                         <v-icon color="dark" left>
                             mdi-check-circle-outline
                         </v-icon>
-                        Confirm
+                        <span class="hidden-xs-only"> Confirm </span>
                     </v-btn>
 
                      <v-btn
@@ -32,7 +33,7 @@
                         <v-icon color="dark" left>
                             mdi-close-circle-outline
                         </v-icon>
-                        Cancel
+                        <span class="hidden-xs-only"> Cancel </span>
                     </v-btn>
 
 

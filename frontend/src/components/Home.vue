@@ -6,7 +6,15 @@
      <v-toolbar :key="navbarKey" flat>
 
       <v-toolbar-title> 
-        <v-btn  @click="home()" text style="height:60px;font-size:20px;"> 
+        
+
+        <v-btn  @click="home()" text style="height:60px;font-size:10px;" class="hidden-md-and-up"> 
+          <v-icon large color="dark">
+            mdi-home
+          </v-icon>
+        </v-btn>
+
+        <v-btn  @click="home()" text style="height:60px;font-size:20px;" class="hidden-sm-and-down" > 
           <v-icon large color="dark">
             mdi-home
           </v-icon>
@@ -15,10 +23,189 @@
         </v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <div class="hidden-md-and-up">
+        <v-menu offset-y dark>
+          <template v-slot:activator="{ on }">
+            <v-app-bar-nav-icon  v-on="on"/>
+          </template>
 
-      <v-toolbar-items>
+          <v-list>
+            <v-list-item-group>
 
-          <v-btn text @click="ordersWorkerFun()" v-show="worker()">
+              <v-list-item v-show="worker()" @click="ordersWorkerFun()">
+                <v-list-item-icon>
+                  <v-icon>mdi-truck-delivery-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Orders </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item v-show="deliverer()" @click="ordersDelivererFun()">
+                <v-list-item-icon>
+                  <v-icon>mdi-truck-delivery-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Orders </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+               <v-list-item @click="couponsClient()" v-show="clientR()">
+                <v-list-item-icon>
+                  <v-icon>mdi-label-percent-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> My Coupons </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="couponsFun()" v-show="admin()">
+                <v-list-item-icon>
+                  <v-icon>mdi-label-percent-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Coupons </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="commentsFun()" v-show="admin()">
+                <v-list-item-icon>
+                  <v-icon>mdi-comment-text</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Comments </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="workers()" v-show="admin()">
+                <v-list-item-icon>
+                  <v-icon>mdi-account-hard-hat</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Employees </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+               <v-list-item @click="clients()" v-show="admin()">
+                <v-list-item-icon>
+                  <v-icon>mdi-account-group</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Clients </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+               <v-list-item @click="mix()" v-show="worker()">
+                <v-list-item-icon>
+                  <v-icon>mdi-star-box-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Mix </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="food()" v-show="worker()">
+                <v-list-item-icon>
+                  <v-icon>mdi-hamburger</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Food </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="foodtype()" v-show="worker()">
+                <v-list-item-icon>
+                  <v-icon>mdi-food</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Food Type </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="clientOrders()" v-show="clientR()">
+                <v-list-item-icon>
+                  <v-icon>mdi-truck-delivery-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> My Orders </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="orderMix()" v-show="client()">
+                <v-list-item-icon>
+                  <v-icon>mdi-star-box-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Order Mix </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item v-show="client()" @click="order_food()">
+                <v-list-item-icon>
+                  <v-icon>mdi-hamburger</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Order Food </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item v-show="client()" @click="cart_fun()">
+                <v-list-item-icon>
+                  <v-btn
+                    readonly
+                    v-if="this.cartNumber >= 1"
+                    icon
+                    dark
+                    x-small
+                    color="red"
+                    outlined
+                  >
+                    <span > {{cartNumber}}</span>
+                  </v-btn>
+                </v-list-item-icon>
+                <v-list-item-icon>
+                  <v-icon>mdi-cart-variant</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Cart </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="login()" v-show="loginShow()">
+                <v-list-item-icon>
+                  <v-icon>mdi-account</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Log in </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="register()" v-show="loginShow()">
+                <v-list-item-icon>
+                  <v-icon>mdi-account-plus</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Register </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list-item @click="logout()" v-show="logoutShow()">
+                <v-list-item-icon>
+                  <v-icon>mdi-account-arrow-right</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> Log out </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+            </v-list-item-group>
+          </v-list>
+        </v-menu>
+      </div>
+
+      <v-toolbar-items class="hidden-sm-and-down">
+
+        <v-btn text @click="ordersWorkerFun()" v-show="worker()">
           <v-icon color="dark">
             mdi-truck-delivery-outline
           </v-icon>
@@ -201,6 +388,7 @@ import jwt_decode from 'jwt-decode'
     methods:{
       home(){
         this.$router.push("/").catch(()=>{});
+        this.$forceUpdate();
       },
       async mix(){
         this.boolRouter = false;
@@ -377,6 +565,7 @@ import jwt_decode from 'jwt-decode'
           await this.$store.dispatch("setToken", "")
           await this.$store.dispatch("setNavbarKey")
           await this.home()
+          this.$forceUpdate();
         })
      
 

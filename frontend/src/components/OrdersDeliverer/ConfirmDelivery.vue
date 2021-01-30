@@ -4,36 +4,38 @@
 
                 <v-card>
                     <v-card-title class="headline">
-                        <div> Confirm Order Delivery? </div>
+                        <div class="hidden-xs-only"> Confirm Order Delivery? </div>
+                        <div class="hidden-sm-and-up"> Confirm? </div>
                     </v-card-title>
                     <v-card-text>
-                        <div>Confirm that order is delivered?</div>
+                        <div class="hidden-xs-only">Confirm that order is delivered?</div>
+                        <div class="hidden-sm-and-up"> Confirm Delivery? </div>
                     </v-card-text>
 
                     <v-card-actions>
-                    <v-spacer></v-spacer>
-        
-                    <v-btn
-                        color="green darken-1"
-                        text
-                        @click="confirm()"
-                    >
-                        <v-icon color="dark" left>
-                            mdi-check-circle-outline
-                        </v-icon>
-                        Confirm
-                    </v-btn>
+                        <v-spacer></v-spacer>
+            
+                        <v-btn
+                            color="green darken-1"
+                            text
+                            @click="confirm()"
+                        >
+                            <v-icon color="dark" left>
+                                mdi-check-circle-outline
+                            </v-icon>
+                            <span class="hidden-xs-only"> Confirm </span>
+                        </v-btn>
 
-                     <v-btn
-                        color="red darken-1"
-                        text
-                        @click="dialog = false"
-                    >
-                        <v-icon color="dark" left>
-                            mdi-close-circle-outline
-                        </v-icon>
-                        Cancel
-                    </v-btn>
+                        <v-btn
+                            color="red darken-1"
+                            text
+                            @click="dialog = false"
+                        >
+                            <v-icon color="dark" left>
+                                mdi-close-circle-outline
+                            </v-icon>
+                            <span class="hidden-xs-only"> Cancel </span>
+                        </v-btn>
 
 
                     </v-card-actions>
@@ -48,7 +50,7 @@
                         <div> Order State! </div>
                     </v-card-title>
                     <v-card-text>
-                        <div> Order is delivered!</div>
+                        <div> Order delivered!</div>
                     </v-card-text>
 
                     <v-card-actions>
@@ -62,7 +64,7 @@
                         <v-icon color="dark" left>
                             mdi-close-circle-outline
                         </v-icon>
-                        Cancel
+                        <span class="hidden-xs-only"> Close </span>
                     </v-btn>
 
 

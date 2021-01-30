@@ -6,10 +6,18 @@
        
         <v-card dark>
             <v-card-title>
-                Coupons [<span style="color:green"> {{client.email}} </span>]
+                <span class="hidden-xs-only"> Coupons [<span style="color:green"> {{client.email}} </span>] </span>
+                <span class="hidden-sm-and-up"> <div> Coupons </div> <div> <span style="color:green"> {{client.email}} </span> </div> </span>
+                <div> <v-btn class="hidden-md-and-up" @click="addC()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:5px" >
+                    <v-icon dark medium>
+                        mdi-tag-plus
+                    </v-icon>
+                    Add
+                </v-btn>
+                </div>
             <v-spacer></v-spacer>
 
-            <v-btn @click="addC()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
+            <v-btn class="hidden-sm-and-down" @click="addC()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
                 <v-icon dark medium>
                     mdi-tag-plus
                 </v-icon>
@@ -32,18 +40,18 @@
                 </template>
                 <template v-slot:item.actions="{item}" >
                     
-                    <v-btn text @click="editC(item)" class="mr-2" color="primary" small depressed  rounded>
+                    <v-btn text @click="editC(item)" class="mr-1" color="primary" small depressed  rounded>
                         <v-icon>
                             mdi-circle-edit-outline
                         </v-icon>
-                        Edit
+                        <span class="hidden-sm-and-down">Edit</span>
                     </v-btn>
 
-                    <v-btn text @click="deleteC(item)" class="mr-2"  color="#cc222c" small depressed rounded>
+                    <v-btn text @click="deleteC(item)" class="mr-1"  color="#cc222c" small depressed rounded>
                         <v-icon>
                             mdi-delete-circle-outline
                         </v-icon>
-                        Delete
+                        <span class="hidden-sm-and-down">Delete</span>
                     </v-btn>
                 </template>
             </v-data-table>
@@ -104,7 +112,7 @@ export default {
                     align: "start"
                 },
                 {
-                    text: '',
+                    text: 'Actions',
                     sortable:false,
                     value: 'actions',
                     align: "start",
