@@ -2,8 +2,14 @@
   <v-dialog color="dark" dark max-width="500px" v-model="dialog" persistent>
       <v-card>
           <v-card-title>
-              <v-col cols="10">
+              <v-col cols="10" v-if="$vuetify.breakpoint.width >=420">
                 {{itemType}} Name: <span style="color:#95c17e;"> {{item.name}} </span>
+              </v-col>
+              <v-col cols="10" v-else-if="$vuetify.breakpoint.width <420">
+                {{itemType}} Name: 
+                <div>
+                    <span style="color:#95c17e;"> {{item.name}} </span>
+                </div>
               </v-col>
               <v-col cols="2">
                   <v-btn
@@ -27,6 +33,7 @@
                                     cols="8"
                                     >
                                         <v-rating
+                                            v-if="$vuetify.breakpoint.width >=550"
                                             half-increments
                                             hover
                                             length="5"
@@ -36,12 +43,47 @@
                                             :rules="starRules"
                                         >
                                         </v-rating>
+                                        <v-rating
+                                            v-else-if="$vuetify.breakpoint.width < 550 && $vuetify.breakpoint.width >= 420"
+                                            half-increments
+                                            hover
+                                            length="5"
+                                            size="30"
+                                            color="warning"
+                                            v-model="stars"
+                                            :rules="starRules"
+                                        >
+                                        </v-rating>
+                                          <v-rating
+                                            v-else-if="$vuetify.breakpoint.width < 420"
+                                            half-increments
+                                            hover
+                                            length="5"
+                                            size="15"
+                                            color="warning"
+                                            v-model="stars"
+                                            :rules="starRules"
+                                        >
+                                        </v-rating>
                                         
                                     </v-col>
-                                    <v-col cols="4" style="margin-top:18px">
+                                    <v-col  v-if="$vuetify.breakpoint.width >=550" cols="4" style="margin-top:18px">
                                         <span class="text-center" v-if="stars" style="font-size:20px;color:#f5f5f5; padding:10px; margin-top:-25px">
                                             ({{ stars }})
                                         </span>
+                                        
+                                    </v-col>
+                                    <v-col v-else-if="$vuetify.breakpoint.width < 550 && $vuetify.breakpoint.width >= 420" cols="4" style="margin-top:12px">
+                                        <span class="text-center" v-if="stars" style="font-size:15px;color:#f5f5f5; padding:10px; margin-top:-20px">
+                                            ({{ stars }})
+                                        </span>
+                                        
+                                    </v-col>
+                                    <v-col v-else-if="$vuetify.breakpoint.width < 420" cols="4" style="margin-top:3px">
+                                        <span class="text-center" v-if="stars" style="font-size:10px;color:#f5f5f5; padding:10px; margin-top:-25px">
+                                            ({{ stars }})
+                                        </span>
+                                        
                                     </v-col>
                                                             
                                 </v-row>   
@@ -72,7 +114,7 @@
                                 </v-row>   
                                 <v-row>
                                     <v-col cols="7"/>
-                                    <v-col
+                                    <v-col v-if="$vuetify.breakpoint.width >=420"
                                     cols="3"
                                     >
                                     
@@ -80,6 +122,23 @@
                                         style="margin-left:0px"
                                             color="green darken-1"
                                             text
+                                            outlined
+                                            @click="confirm()"
+                                        >
+                                        <v-icon color="dark" left>
+                                            mdi-star
+                                        </v-icon>
+                                            Confirm
+                                        </v-btn>
+                                    </v-col>
+                                    <v-col v-else-if="$vuetify.breakpoint.width <420"
+                                    cols="12"
+                                    >
+                                    
+                                        <v-btn
+                                        style="margin-left:0px"
+                                            color="green darken-1"
+                                            block
                                             outlined
                                             @click="confirm()"
                                         >

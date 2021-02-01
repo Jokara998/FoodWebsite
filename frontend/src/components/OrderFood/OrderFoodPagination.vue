@@ -1,22 +1,20 @@
 <template>
-      <v-container flat style="width:85%">
+      <v-container flat style="width:90%">
 
             <v-toolbar justify="center" elevation="15" flat dark style="border-radius:10px;">
-                
+                    
                     <v-row style="height:80%;"> 
-                        <v-col cols="3" justify="start" style="padding:0px;">
-                            <v-flex justify-start style="padding:0px;height:75%; display: inline-flex; justify-content: flex-start;">
+                        <v-col cols="12" md="3" justify="start" style="padding:0px;" class="hidden-sm-and-down">
+                            <v-flex justify-start style="padding:0px;display: inline-flex; justify-content: flex-start;">
                                 
-                                <v-chip large outlined readonly style="min-width:120px;margin-left:15px;margin-top:-2px;height:100%;pointer-events: none;">
-                                    <p style="margin-top:12px">
-                                        <span>Total Food:{{orderFood.totalFood}}</span>
-                                    </p>
-                                </v-chip>
+                                <v-btn large outlined readonly style="margin-left:15px;pointer-events: none;">
+                                    <span>Food:{{orderFood.totalFood}}</span>
+                                </v-btn>
 
                             </v-flex>
                         </v-col>
 
-                        <v-col cols="6" justify="center" style="padding:0px;">
+                        <v-col cols="12" md="6" justify="center" style="padding:0px;">
                             <v-card dark  class="rounded-pill" style="padding:0px;">
                                 <v-pagination
                                     v-model="page"
@@ -28,14 +26,28 @@
                             </v-card>
                         </v-col>
 
-                        <v-col cols="3" justify="end" style="padding:0px;">
-                            <v-flex justify-end style="padding:0px; height:75%; display: inline-flex; justify-content: space-between;">
+                        <v-col class="hidden-sm-and-down" cols="12" md="1"/>
+
+                        <v-col cols="12" lg="1" md="2" justify="end" style="padding:0px;" class="hidden-sm-and-down">
+                            <v-flex justify-end style="padding:0px; display: inline-flex; justify-content: space-between;">
                                 <v-select
+                                class="hidden-lg-and-down"
                                 right
                                 small
-                                class="v-limit-select"
                                 dense
-                                outlined
+                                solo
+                                :items="limits"
+                                label="Limit"
+                                v-model="limit"
+                                @change="pagination()"
+                                >
+                                </v-select>
+                                <v-select
+                                class="hidden-xl-only"
+                                right
+                                small
+                                dense
+                                solo
                                 :items="limits"
                                 label="Limit"
                                 v-model="limit"
@@ -44,6 +56,8 @@
                                 </v-select>
                             </v-flex>
                         </v-col>
+
+                        <v-col class="hidden-sm-and-down" cols="12" md="1"/>
                     </v-row>
 
             </v-toolbar>
@@ -113,12 +127,6 @@ export default {
     padding: 0px;
     border-radius: 2px;
 
-}
-
-.v-limit-select{
-    height:70%;
-    min-width: 30%;
-    max-width: 30%;
 }
 
 

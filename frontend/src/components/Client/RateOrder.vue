@@ -1,13 +1,14 @@
 <template>
     <v-container align-center justify-center >
         <v-flex align-center justify-center>
-            <v-card   align-center justify-center dark style="margin-left:200px;margin-right:200px" :key="ratesKey">
+            <v-card   align-center justify-center dark :key="ratesKey">
                 <v-card-title style="justify-content:center"> Order </v-card-title>
 
                 <v-card-text>
+                   
                     <v-row>
-                        <v-col cols="2"/>
-                        <v-col cols="8">
+                        <v-col cols="12">
+                                <v-divider/>
                                 <v-list
                                     nav
                                     dense
@@ -18,84 +19,212 @@
                                     <v-flex
                                         v-for="(item) in this.order.ordered.food" :key="item.id" 
                                     >
-                                    
-                                        <v-list-item>
-                                            <v-list-item-content>
-                                                <v-list-item-title class="text-center">Name</v-list-item-title>
-                                                <v-list-item-subtitle class="text-center">  
-                                                    <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
-                                                </v-list-item-subtitle>
-                                            </v-list-item-content>
-                                            
-                                            <v-list-item-content>
-                                                <v-list-item-title class="text-center">Amount[Availability]</v-list-item-title>
-                                                <v-list-item-subtitle class="text-center">  
-                                                    <span style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
-                                                </v-list-item-subtitle>
-                                            </v-list-item-content>
-
-                                            <v-list-item-content v-show="check(item)">
-                                                    <v-list-item-title class="text-center">Rate</v-list-item-title>
-                                                    <v-btn text @click="rateFood(item)" color="primary" small depressed  rounded>
-                                                        <v-icon left>
-                                                            mdi-star
-                                                        </v-icon>
-                                                        Rate Food
-                                                    </v-btn>
-                                                
-                                            </v-list-item-content>
-
-                                            <v-list-item-content v-show="!check(item)">
-                                                    <v-list-item-title class="text-center">Rate</v-list-item-title>
+                                        <v-flex v-if="$vuetify.breakpoint.width>=850">
+                                            <v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="text-center">Name</v-list-item-title>
                                                     <v-list-item-subtitle class="text-center">  
-                                                        <span style="color:#95c17e;font-size:16px"> Rated </span>
+                                                        <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
                                                     </v-list-item-subtitle>
+                                                </v-list-item-content>
                                                 
-                                            </v-list-item-content>
-                                            
-                                        </v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="text-center">Amount[Availability]</v-list-item-title>
+                                                    <v-list-item-subtitle class="text-center">  
+                                                        <span style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+
+                                                <v-list-item-content v-show="check(item)">
+                                                        <v-list-item-title class="text-center">Rate</v-list-item-title>
+                                                        <v-btn text @click="rateFood(item)" color="primary" small depressed  rounded>
+                                                            <v-icon left>
+                                                                mdi-star
+                                                            </v-icon>
+                                                            Rate Food
+                                                        </v-btn>
+                                                    
+                                                </v-list-item-content>
+
+                                                <v-list-item-content v-show="!check(item)">
+                                                        <v-list-item-title class="text-center">Rate</v-list-item-title>
+                                                        <v-list-item-subtitle class="text-center">  
+                                                            <span style="color:#95c17e;font-size:16px"> Rated </span>
+                                                        </v-list-item-subtitle>
+                                                    
+                                                </v-list-item-content>
+                                                
+                                            </v-list-item>
+                                        </v-flex>
+
+                                        <v-flex v-else-if="$vuetify.breakpoint.width<850">
+                                            <v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="text-center">
+                                                        <span v-if="$vuetify.breakpoint.width>=400" > Name </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" > Name </span>
+                                                    </v-list-item-title>
+                                                    <v-list-item-subtitle class="text-center">  
+                                                        <span v-if="$vuetify.breakpoint.width>=400" style="color:#95c17e;font-size:16px" > {{item.name}} </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 400" style="color:#95c17e;font-size:10px" > {{item.name}} </span>
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="text-center">
+                                                        <span v-if="$vuetify.breakpoint.width>=400" >  Amount[Availability] </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" >  Amount[Availability] </span>
+                                                    </v-list-item-title>
+                                                    <v-list-item-subtitle class="text-center"> 
+                                                        <span v-if="$vuetify.breakpoint.width>=400" style="color:#95c17e;font-size:16px" >{{item.amount}} [{{item.availability}}]</span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 400" style="color:#95c17e;font-size:10px" > {{item.amount}} [{{item.availability}}] </span> 
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <v-list-item-content v-show="check(item)">
+                                                        <v-list-item-title class="text-center">
+                                                            <span v-if="$vuetify.breakpoint.width >= 400"> Rate </span>
+                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" > Rate </span>
+                                                        </v-list-item-title>
+                                                        <v-btn text @click="rateFood(item)" color="primary" small depressed  rounded>
+                                                            <v-icon v-if="$vuetify.breakpoint.width>=400">
+                                                                mdi-star
+                                                            </v-icon>
+                                                            <v-icon small v-else-if="$vuetify.breakpoint.width < 400">
+                                                                mdi-star
+                                                            </v-icon>
+                                                            <span v-if="$vuetify.breakpoint.width>=400" > Rate Food </span>
+                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" > Rate Food </span>
+                                                        </v-btn>
+                                                    
+                                                </v-list-item-content>
+
+                                                <v-list-item-content v-show="!check(item)">
+                                                        <v-list-item-title class="text-center">
+                                                            <span v-if="$vuetify.breakpoint.width >= 400"> Rate </span>
+                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" > Rate </span>
+                                                        </v-list-item-title>
+                                                        <v-list-item-subtitle class="text-center">  
+                                                            <span v-if="$vuetify.breakpoint.width >= 400"> Rated </span>
+                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" > Rated </span>
+                                                        </v-list-item-subtitle>
+                                                    
+                                                </v-list-item-content>
+                                                
+                                            </v-list-item>
+                                        </v-flex>
+                                        
+                                         <v-divider/>
                                     </v-flex>
 
                                         <v-flex
                                         v-for="(item) in this.order.ordered.mix" :key="item.id" 
                                     >
-                                    
-                                        <v-list-item>
-                                            <v-list-item-content>
-                                                <v-list-item-title class="text-center">Name</v-list-item-title>
-                                                <v-list-item-subtitle class="text-center">  
-                                                    <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
-                                                </v-list-item-subtitle>
-                                            </v-list-item-content>
-                                            
-                                            <v-list-item-content>
-                                                <v-list-item-title class="text-center">Amount[Availability]</v-list-item-title>
-                                                <v-list-item-subtitle class="text-center">  
-                                                    <span style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
-                                                </v-list-item-subtitle>
-                                            </v-list-item-content>
-
-                                            <v-list-item-content v-show="check(item)">
-                                                    <v-list-item-title class="text-center">Rate</v-list-item-title>
-                                                    <v-btn text @click="rateMix(item)" color="primary" small depressed  rounded>
-                                                        <v-icon left>
-                                                            mdi-star
-                                                        </v-icon>
-                                                        Rate Mix
-                                                    </v-btn>
-                                                
-                                            </v-list-item-content>
-
-                                            <v-list-item-content v-show="!check(item)">
-                                                    <v-list-item-title class="text-center">Rate</v-list-item-title>
+                                        <v-flex v-if="$vuetify.breakpoint.width>=850">
+                                            <v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="text-center">Name</v-list-item-title>
                                                     <v-list-item-subtitle class="text-center">  
-                                                        <span style="color:#95c17e;font-size:16px"> Rated </span>
+                                                        <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
                                                     </v-list-item-subtitle>
+                                                </v-list-item-content>
                                                 
-                                            </v-list-item-content>
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="text-center">Amount[Availability]</v-list-item-title>
+                                                    <v-list-item-subtitle class="text-center">  
+                                                        <span style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
 
-                                        
-                                        </v-list-item>
+                                                <v-list-item-content v-show="check(item)">
+                                                        <v-list-item-title class="text-center">Rate</v-list-item-title>
+                                                        <v-btn text @click="rateMix(item)" color="primary" small depressed  rounded>
+                                                            <v-icon left>
+                                                                mdi-star
+                                                            </v-icon>
+                                                            Rate Mix
+                                                        </v-btn>
+                                                    
+                                                </v-list-item-content>
+
+                                                <v-list-item-content v-show="!check(item)">
+                                                        <v-list-item-title class="text-center">Rate</v-list-item-title>
+                                                        <v-list-item-subtitle class="text-center">  
+                                                            <span style="color:#95c17e;font-size:16px"> Rated </span>
+                                                        </v-list-item-subtitle>
+                                                    
+                                                </v-list-item-content>
+
+                                            
+                                            </v-list-item>
+                                        </v-flex>
+                                        <v-flex v-else-if="$vuetify.breakpoint.width<850">
+                                            <v-list-item>
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="text-center">
+                                                        <span v-if="$vuetify.breakpoint.width>=400" > Name </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" > Name </span>
+                                                    </v-list-item-title>
+                                                    <v-list-item-subtitle class="text-center">  
+                                                        <span v-if="$vuetify.breakpoint.width>=400" style="color:#95c17e;font-size:16px" > {{item.name}} </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 400" style="color:#95c17e;font-size:10px" > {{item.name}} </span>
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="text-center">
+                                                        <span v-if="$vuetify.breakpoint.width>=400" >  Amount[Availability] </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" >  Amount[Availability] </span>
+                                                       
+                                                    </v-list-item-title>
+                                                    <v-list-item-subtitle class="text-center">  
+                                                        <span v-if="$vuetify.breakpoint.width>=400" style="color:#95c17e;font-size:16px" > {{item.amount}} [mix] </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 400" style="color:#95c17e;font-size:10px" > {{item.amount}} [mix] </span>
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-list-item>
+
+                                                <v-list-item-content v-show="check(item)">
+                                                        <v-list-item-title class="text-center">
+                                                            <span v-if="$vuetify.breakpoint.width >= 400"> Rate </span>
+                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" > Rate </span>
+                                                        </v-list-item-title>
+                                                        <v-btn text @click="rateMix(item)" color="primary" small depressed  rounded>
+                                                            <v-icon v-if="$vuetify.breakpoint.width>=400">
+                                                                mdi-star
+                                                            </v-icon>
+                                                            <v-icon small v-else-if="$vuetify.breakpoint.width < 400">
+                                                                mdi-star
+                                                            </v-icon>
+                                                            <span v-if="$vuetify.breakpoint.width>=400" > Rate Mix </span>
+                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" > Rate Mix </span>
+                                                           
+                                                        </v-btn>
+                                                    
+                                                </v-list-item-content>
+
+                                                <v-list-item-content v-show="!check(item)">
+                                                        <v-list-item-title class="text-center">
+                                                            <span v-if="$vuetify.breakpoint.width >= 400"> Rate </span>
+                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" > Rate </span>
+                                                        </v-list-item-title>
+                                                        <v-list-item-subtitle class="text-center">  
+                                                            <span v-if="$vuetify.breakpoint.width>=400">   Rated </span>
+                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px" >  Rated </span>
+                                                        </v-list-item-subtitle>
+                                                    
+                                                </v-list-item-content>
+
+                                            
+                                            </v-list-item>
+                                        </v-flex>
+                                        <v-divider/>
                                     </v-flex>
                                     
                                     </v-list-item-group>
@@ -106,11 +235,10 @@
                 
                 </v-card-text>
 
-                <v-card-text >
+                <v-card-actions >
                     <v-row style="justify-content: flex-end;">                      
-                        <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
+                        <v-col cols="12" md="4" sm="6" xs="12" align-end v-if="$vuetify.breakpoint.width >=600">
                             <v-btn
-                                style="margin-left:0px"
                                     color="green darken-1"
                                     text
                                     outlined
@@ -119,11 +247,26 @@
                                 <v-icon color="dark" left>
                                     mdi-star
                                 </v-icon>
-                                    Finish Rating
+                                    <span v-if="$vuetify.breakpoint.width >=400"> Finish Rating </span>
+                                    <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:12px"> Finish Rating </span>
+                            </v-btn>
+                        </v-col>
+                        <v-col cols="12" md="4" sm="10" xs="12" align-center v-if="$vuetify.breakpoint.width < 600">
+                            <v-btn
+                                    color="green darken-1"
+                                    block
+                                    outlined
+                                    @click="finish()"
+                                >
+                                <v-icon color="dark" left>
+                                    mdi-star
+                                </v-icon>
+                                    <span v-if="$vuetify.breakpoint.width >=400"> Finish Rating </span>
+                                    <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:12px"> Finish Rating </span>
                             </v-btn>
                         </v-col>
                     </v-row>
-                 </v-card-text>
+                </v-card-actions>
             </v-card>
         </v-flex>
         <Rate ref="rateForm"/>

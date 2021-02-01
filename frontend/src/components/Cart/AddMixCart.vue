@@ -2,8 +2,14 @@
   <v-dialog color="dark" dark max-width="450px" v-model="dialog" persistent>
       <v-card>
           <v-card-title>
-              <v-col cols="10">
+              <v-col cols="10" v-if="$vuetify.breakpoint.width >= 420">
                 Mix Name: <span style="color:#95c17e;"> {{mix.name}} </span>
+              </v-col>
+            <v-col cols="10" v-else-if="$vuetify.breakpoint.width < 420">
+                Mix Name: 
+                <div>
+                    <span style="color:#95c17e;"> {{mix.name}} </span>
+                </div>
               </v-col>
               <v-col cols="2">
                   <v-btn
@@ -24,8 +30,9 @@
                                                                            
                                 <v-row>
                                     <v-col
-                                    cols="4"
+                                    cols="12"
                                     md="4"
+                                    sm="7"
                                     >
                                         <v-text-field
                                             dense
@@ -39,12 +46,12 @@
 
                                     </v-col>
                                     <v-col
-                                    cols="3"
+                                    cols="12"
                                     md="3"
+                                    sm="5"
                                     >
                                     
                                         <v-btn
-                                        style="margin-left:-13px"
                                             color="green darken-1"
                                             text
                                             outlined

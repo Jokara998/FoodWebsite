@@ -4,7 +4,8 @@
 
                 <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
-                        <div> Delete <span style="color:green;display:inline"> {{editFoodType.name}} </span> food type? </div>
+                        <div v-if="$vuetify.breakpoint.width >= 450"> Delete <span style="color:green;display:inline"> {{editFoodType.name}} </span> food type? </div>
+                        <div v-if="$vuetify.breakpoint.width < 450"> Delete <span style="color:green;display:inline"> {{editFoodType.name}} </span>? </div>
                     </v-card-title>
                     <v-card-text>
                         <div>This action will result in pernamently deleting <span style="color:green;display:inline"> {{editFoodType.name}} </span> food type.</div>
@@ -17,8 +18,6 @@
                         color="green darken-1"
                         text
                         @click="confirm()"
-                        :loading="dialogLoading"
-                        :disabled="dialogLoading"
                     >
                         <v-icon color="dark" left>
                             mdi-check-circle-outline

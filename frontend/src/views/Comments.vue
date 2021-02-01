@@ -19,6 +19,7 @@
                 :headers="headers"
                 :items="comments"
                 :search="search"
+                :mobile-breakpoint="750"
             >
 
                 <template v-slot:item.comment="{item}">   

@@ -1,5 +1,5 @@
 <template>
-    <v-container style="width:85%">
+    <v-container style="width:90%">
 
         <br>
 
@@ -32,7 +32,7 @@
                                         </v-col>
                                         <v-col cols="3">
                                             <v-btn icon right medium @click="showFood(type)">
-                                                <v-icon color="#f5f5f5">mdi-arrow-right-circle</v-icon>
+                                                <v-icon style="margin-right:10px" color="#f5f5f5">mdi-arrow-right-circle</v-icon>
                                             </v-btn>
                                         </v-col>
 

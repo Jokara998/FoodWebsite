@@ -21,6 +21,7 @@
                 :headers="headers"
                 :items="clients"
                 :search="search"
+                :mobile-breakpoint="700"
             >
                 <template v-slot:item.actions="{item}" >
                             <v-tooltip dark color="green darken-1" top>

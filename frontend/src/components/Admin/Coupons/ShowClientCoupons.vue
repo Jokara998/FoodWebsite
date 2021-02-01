@@ -29,6 +29,7 @@
                 :headers="headers"
                 :items="coupons"
                 :search="search"
+                :mobile-breakpoint="750"
             >
 
                 <template v-slot:item.used="{item}">                            
@@ -44,14 +45,14 @@
                         <v-icon>
                             mdi-circle-edit-outline
                         </v-icon>
-                        <span class="hidden-sm-and-down">Edit</span>
+                        Edit
                     </v-btn>
 
                     <v-btn text @click="deleteC(item)" class="mr-1"  color="#cc222c" small depressed rounded>
                         <v-icon>
                             mdi-delete-circle-outline
                         </v-icon>
-                        <span class="hidden-sm-and-down">Delete</span>
+                        Delete
                     </v-btn>
                 </template>
             </v-data-table>

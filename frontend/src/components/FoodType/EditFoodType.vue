@@ -30,14 +30,16 @@
                                         </v-col>
                                     </v-row>
                                 
-                                <v-row>
+                                <v-row v-if="$vuetify.breakpoint.width >=600">
                                     <v-col
                                         cols="12"
                                         md="8"
+                                        sm="6"
                                     />
                                     <v-col
                                         cols="12"
                                         md="2"
+                                        sm="3"
                                     >
                                     
                                         <v-btn
@@ -57,10 +59,46 @@
                                     <v-col
                                         cols="12"
                                         md="2"
+                                        sm="3"
                                     >
                                         <v-btn
                                             color="red darken-1"
                                             text
+                                            @click="dialog = false;  $refs.form.reset();"
+                                        >
+                                        <v-icon color="dark" left>
+                                            mdi-close-circle-outline
+                                        </v-icon>
+                                            Close
+                                        </v-btn>
+                                    </v-col>
+                                    
+                                </v-row>
+
+                                <v-row v-else-if="$vuetify.breakpoint.width <600">
+                                  
+                                    <v-col
+                                        cols="12"
+                                    >
+                                    
+                                        <v-btn
+                                            color="green darken-1"
+                                            block
+                                            @click="editFoodTypeForm()"
+                                        >
+                                        <v-icon color="dark" left>
+                                            mdi-check-circle-outline
+                                        </v-icon>
+                                            Submit
+                                        </v-btn>
+                                     </v-col>
+
+                                    <v-col
+                                        cols="12"
+                                    >
+                                        <v-btn
+                                            color="red darken-1"
+                                            block
                                             @click="dialog = false;  $refs.form.reset();"
                                         >
                                         <v-icon color="dark" left>

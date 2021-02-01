@@ -3,7 +3,7 @@
 
         <v-card dark style="border:1px solid #D3D3D3">
             <v-card-title class="headline">
-                <div><span style="color:green;display:inline"> {{description.name}} Description</span></div>
+                <div><span style="color:green;display:inline"> {{description.name}}</span></div>
             </v-card-title>
             <v-card-text>
                 <div> <p style="margin-left:5px">{{description.description}} </p> </div>

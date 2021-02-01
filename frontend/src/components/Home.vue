@@ -8,13 +8,13 @@
       <v-toolbar-title> 
         
 
-        <v-btn  @click="home()" text style="height:60px;font-size:10px;" class="hidden-md-and-up"> 
-          <v-icon large color="dark">
+        <v-btn  @click="home()" icon style="height:60px;font-size:10px;" class="hidden-lg-and-up"> <!-- xs,sm,md -->
+          <v-icon medium color="dark">
             mdi-home
           </v-icon>
         </v-btn>
-
-        <v-btn  @click="home()" text style="height:60px;font-size:20px;" class="hidden-sm-and-down" > 
+        
+        <v-btn @click="home()" text style="height:60px;font-size:20px;" class="hidden-md-and-down" > <!-- lg,xl-->
           <v-icon large color="dark">
             mdi-home
           </v-icon>

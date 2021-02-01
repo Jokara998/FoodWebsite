@@ -5,9 +5,12 @@
 
             <v-toolbar-title>{{orderType.name}}</v-toolbar-title>
             <v-spacer/>
-            <v-btn right medium @click="back()" style="border:1px solid #f5f5f5">
+            <v-btn class="hidden-xs-only" right medium @click="back()" style="border:1px solid #f5f5f5">
                 <v-icon color="#f5f5f5">mdi-arrow-left-circle</v-icon>
                 Back
+            </v-btn>
+            <v-btn class="hidden-sm-and-up" right small @click="back()" icon style="border:1px solid #f5f5f5">
+                <v-icon color="#f5f5f5">mdi-arrow-left-circle</v-icon>
             </v-btn>
 
         </v-toolbar>

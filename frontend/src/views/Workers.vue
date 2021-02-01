@@ -33,6 +33,7 @@
                 :headers="headers"
                 :items="workers"
                 :search="search"
+                :mobile-breakpoint="700"
             >
 
                 <template v-slot:item.actions="{item}" >
