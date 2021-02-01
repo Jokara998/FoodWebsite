@@ -13,13 +13,15 @@
        
         <v-card dark v-show="this.coupons.length > 0">
             <v-card-title>
-                Coupons [<span style="color:green"> {{token.email}} </span>]
+                <span v-if="$vuetify.breakpoint.width >=400"> Coupons [<span style="color:green"> {{token.email}} </span>] </span>
+                <span v-else-if="$vuetify.breakpoint.width < 400"> Coupons <div>[<span style="color:green"> {{token.email}} </span>]</div> </span>
             <v-spacer></v-spacer>           
             </v-card-title>
             <v-data-table
                 :headers="headers"
                 :items="coupons"
                 :search="search"
+                :mobile-breakpoint="700"
             >
 
                 <template v-slot:item.used="{item}">                            

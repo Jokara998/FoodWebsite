@@ -35,17 +35,26 @@
                                 <div class="hidden-sm-and-up">
                                     <v-list-item>
                                         <v-list-item-content>
-                                            <v-list-item-title>Name</v-list-item-title>
-                                            <v-list-item-subtitle>  
-                                                <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
+                                            <v-list-item-title>
+                                                <span v-if="$vuetify.breakpoint.width >= 330"> Name </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 330" style="font-size:12px"> Name </span>
+                                            </v-list-item-title>
+                                            <v-list-item-subtitle>
+                                                <span v-if="$vuetify.breakpoint.width >= 330"  style="color:#95c17e;font-size:16px">{{item.name}} </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 330"  style="color:#95c17e;font-size:12px">{{item.name}} </span>
                                             </v-list-item-subtitle>
                                         </v-list-item-content>
                                     </v-list-item>
                                     <v-list-item>                                 
                                         <v-list-item-content>
-                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
+                                            <v-list-item-title>
+                                                <span v-if="$vuetify.breakpoint.width >= 330"> Amount[Availability] </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 330" style="font-size:12px"> Amount[Availability] </span>
+                                                
+                                            </v-list-item-title>
                                             <v-list-item-subtitle>  
-                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
+                                                <span v-if="$vuetify.breakpoint.width >= 330" style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 330" style="color:#95c17e;font-size:12px"> {{item.amount}} [{{item.availability}}] </span>
                                             </v-list-item-subtitle>
                                         </v-list-item-content>                                    
                                     </v-list-item>
@@ -78,17 +87,25 @@
                                 <div class="hidden-sm-and-up">
                                     <v-list-item>
                                         <v-list-item-content>
-                                            <v-list-item-title>Name</v-list-item-title>
+                                            <v-list-item-title>
+                                                <span v-if="$vuetify.breakpoint.width >= 330"> Name </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 330" style="font-size:12px"> Name </span>
+                                            </v-list-item-title>
                                             <v-list-item-subtitle>  
-                                                <span style="color:#95c17e;font-size:16px"> {{item.name}} </span>
+                                                <span v-if="$vuetify.breakpoint.width >= 330"  style="color:#95c17e;font-size:16px">{{item.name}} </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 330"  style="color:#95c17e;font-size:12px">{{item.name}} </span>
                                             </v-list-item-subtitle>
                                         </v-list-item-content>
                                     </v-list-item>
                                     <v-list-item>                                 
                                         <v-list-item-content>
-                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
+                                            <v-list-item-title>
+                                                <span v-if="$vuetify.breakpoint.width >= 330"> Amount[Availability] </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 330" style="font-size:12px"> Amount[Availability] </span>
+                                            </v-list-item-title>
                                             <v-list-item-subtitle>  
-                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
+                                                <span v-if="$vuetify.breakpoint.width >= 330" style="color:#95c17e;font-size:16px"> {{item.amount}} [mix]  </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 330" style="color:#95c17e;font-size:12px"> {{item.amount}} [mix]  </span>
                                             </v-list-item-subtitle>
                                         </v-list-item-content>                                    
                                     </v-list-item>

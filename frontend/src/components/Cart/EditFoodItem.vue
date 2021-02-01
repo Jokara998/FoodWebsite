@@ -13,8 +13,10 @@
                                 <v-row>
 
                                     <v-col
-                                    cols="2"
-                                    md="4"
+                                        cols="12"
+                                        md="4"
+                                        sm="12"
+                                        xs="12"
                                     >
                                         <v-text-field
                                             
@@ -28,9 +30,11 @@
 
                                     </v-col> 
 
-                                    <v-col                   
-                                    cols="10"
-                                    md="8"
+                                    <v-col  
+                                        cols="12"                 
+                                        md="8"
+                                        sm="12"
+                                        xs="12"
                                     >                                           
                                         <v-select
                                         dense
@@ -57,7 +61,7 @@
                                                 <v-icon color="dark" left>
                                                     mdi-check-circle-outline
                                                 </v-icon>
-                                                Confirm
+                                                <span class="hidden-xs-only"> Confirm </span>
                                             </v-btn>
 
                                             <v-btn
@@ -68,7 +72,7 @@
                                                 <v-icon color="dark" left>
                                                     mdi-close-circle-outline
                                                 </v-icon>
-                                                Cancel
+                                                <span class="hidden-xs-only"> Cancel </span>
                                             </v-btn>
                                                                        
                                     </v-row>                                                                                          

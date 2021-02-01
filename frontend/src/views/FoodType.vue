@@ -6,6 +6,16 @@
         <v-card dark>
             <v-card-title>
                 Food Types
+            <v-btn class="hidden-md-and-up" @click="addFoodType()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:5px" >
+                <v-icon dark medium v-if="$vuetify.breakpoint.width >= 310">
+                    mdi-plus-circle-outline
+                </v-icon>
+                <v-icon dark medium v-else-if="$vuetify.breakpoint.width < 310">
+                    mdi-plus-circle-outline
+                </v-icon>
+                <span v-if="$vuetify.breakpoint.width >= 350">Add </span>
+
+            </v-btn>
             <v-spacer></v-spacer>
             <v-text-field
                 v-model="search"
@@ -15,7 +25,7 @@
                 hide-details
             ></v-text-field>
 
-            <v-btn @click="addFoodType()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
+            <v-btn class="hidden-sm-and-down" @click="addFoodType()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
                 <v-icon dark medium>
                     mdi-plus-circle-outline
                 </v-icon>

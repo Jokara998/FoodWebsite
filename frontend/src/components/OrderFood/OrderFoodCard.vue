@@ -31,16 +31,20 @@
                 </v-carousel>
                 <v-row style="border:none; height:80px">
                     <v-col class="col-12">
-                        <v-card-title class="food-name" style="margin-right:10px"><span> <h3 style="font-variant: small-caps;"> {{food.name}} </h3> </span> </v-card-title>
+                        <v-card-title class="food-name" style="margin-right:10px">
+                            <span v-if="$vuetify.breakpoint.width >= 400"> <h3 style="font-variant: small-caps;"> {{food.name}} </h3> </span> 
+                            <span v-else-if="$vuetify.breakpoint.width < 400 && $vuetify.breakpoint.width >=300 "> <h3 style="font-size:14px;font-variant: small-caps;"> {{food.name}} </h3> </span> 
+                            <span v-else-if="$vuetify.breakpoint.width < 300"> <h3 style="font-size:12px;font-variant: small-caps;"> {{food.name}} </h3> </span> 
+                        </v-card-title>
                     </v-col>
                     
                 </v-row>
                                     
             </v-card>
                             
-        <v-row style="height:130px">
-            <v-col class='col-6'>
-                <v-card-title class="food-price">Food Price
+        <v-row style="height:130px" v-if="$vuetify.breakpoint.width >= 500">
+            <v-col cols="6" >
+                <v-card-title class="food-price">Price
                       <v-tooltip
                             dark 
                             color="#313131"
@@ -69,21 +73,21 @@
                                 <v-icon color="#f5f5f5">
                                     mdi-currency-eur
                                 </v-icon>
-                                <span style="color:#f5f5f5"> {{food.price}} </span>
+                                <span style="color:#f5f5f5;font-size:16px;"> {{food.price}} </span>
                         </v-card-title>
                     </v-flex>
                 </v-card-text>
             </v-col>
 
             <v-col class="col-6">
-                <v-card-title class="food-rate">Food Rate</v-card-title>
+                <v-card-title class="food-rate">Rate</v-card-title>
                 <v-card-text >
                     <v-flex v-show="food.rate.number > 0">
                         <v-card-title style="margin-left:-20px;justify-content:center"> 
                                 <v-icon color="#ffbe41">
                                     mdi-star
                                 </v-icon>
-                                <span style="color:#f5f5f5"> {{food.rate.rate}} [users:{{food.rate.number}}] </span>
+                                <span style="color:#f5f5f5;font-size:16px"> {{food.rate.rate}} [users:{{food.rate.number}}] </span>
                         </v-card-title>
                     </v-flex>
                     <v-flex v-show="food.rate.number == 0">
@@ -91,7 +95,7 @@
                                 <v-icon color="#ffbe41">
                                     mdi-star
                                 </v-icon>
-                                <span style="color:#f5f5f5"> Not Rated </span>
+                                <span style="color:#f5f5f5;font-size:16px"> Not Rated </span>
                         </v-card-title>
                     </v-flex>
                 </v-card-text>
@@ -100,48 +104,103 @@
 
         </v-row>
 
-        <v-footer dark style="margin-top:10px" wrap>
-                
-                <v-col class="col-4">
+        <v-row style="height:130px" v-if="$vuetify.breakpoint.width < 500">
+            <v-col cols="12" >
+                <v-list dark style="margin-left:12px;margin-right:12px; margin-top:0px; border-bottom: 2px solid #f5f5f5; background-color:#a6d78d;">
+                    <v-list-item>
+                        <v-list-item-content >
+                            <v-list-item-title>
+                                <span v-if="$vuetify.breakpoint.width >= 400" style="color:black;font-size:16px;font-variant: small-caps;"> Price: {{food.price}}€</span>
+                                <span v-else-if="$vuetify.breakpoint.width < 400" style="color:black;font-size:12px;font-variant: small-caps;"> Price: {{food.price}}€</span>
 
-                    <v-chip
+
+                                <v-tooltip
+                                    dark 
+                                    color="#313131"
+                                    top
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn
+                                            icon
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            small
+                                            readonly
+                                            >
+                                            <v-icon color="#313131" left small >
+                                                mdi-information-variant
+                                            </v-icon>
+                                            </v-btn>
+                                        </template>
+                                    <span style="backgroud-color:red">Price for First Availability!</span>
+                                    </v-tooltip>
+                            </v-list-item-title>
+                        
+                        </v-list-item-content>
+
+                    </v-list-item>
+
+                    <v-list-item>
+                          
+                         <v-list-item-content>
+                            <v-list-item-title>
+                                 <v-flex v-show="food.rate.number > 0">
+                                    <span v-if="$vuetify.breakpoint.width >= 400"  style="color:black;font-size:16px;font-variant: small-caps;">Rate: {{food.rate.rate}}⭐ [{{food.rate.number}}] </span>
+                                    <span v-else-if="$vuetify.breakpoint.width < 400"  style="color:black;font-size:12px;font-variant: small-caps;">Rate: {{food.rate.rate}}⭐ [{{food.rate.number}}] </span>
+                                </v-flex>
+                                <v-flex v-show="food.rate.number == 0">
+                                  
+                                    <span v-if="$vuetify.breakpoint.width >= 400" style="color:black;font-size:16px;">Not Rated⭐ </span>
+                                    <span v-else-if="$vuetify.breakpoint.width < 400" style="color:black;font-size:12px;">Not Rated⭐ </span>
+                                </v-flex>
+                            </v-list-item-title>
+                        </v-list-item-content>
+
+                    </v-list-item>
+                </v-list>
+            </v-col>
+
+        </v-row>
+
+        <v-footer dark style="margin-top:10px"  class="text-center">
+                
+                <v-col md="4" sm="4" xs="3">       
+                    <v-btn class="hidden-xs-and-down"
                         style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
                         text
                         @click="descriptionOpen(food)"
                     >
-                        <v-icon color="dark" left>
+                        <v-icon color="dark">
                             mdi-text-box-multiple-outline
                         </v-icon>
-                        Description
-                    </v-chip>  
+                        
+                    </v-btn>  
 
                 </v-col>
-                <v-col class="col-4">
+                <v-col md="4" sm="4" xs="3">    
 
-                    <v-chip
+                     <v-btn class="hidden-xs-and-down"
                         style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
                         text
                         @click="availabilityOpen(food)"
                     >
-                        <v-icon color="dark" left>
+                        <v-icon color="dark">
                             mdi-food-fork-drink
                         </v-icon>
-                        Availability
-                    </v-chip>      
+                    </v-btn>      
             
                 </v-col>  
-                <v-col class="col-4">
-
-                    <v-chip
+                <v-col  md="4" sm="4" xs="3">
+                    <v-btn 
+                        class="hidden-xs-and-down"
                         style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
                         text
                         @click="details(food)"
                     >
-                        <v-icon color="dark" left>
+                        <v-icon color="dark" >
                             mdi-information-outline
                         </v-icon>
-                        Details
-                    </v-chip>      
+                    </v-btn>          
                 
                 </v-col>          
         </v-footer>  

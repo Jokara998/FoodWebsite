@@ -24,14 +24,15 @@
                     >
                     <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-toolbar-title>{{food.name}} Details</v-toolbar-title>
+                    <v-toolbar-title v-if="$vuetify.breakpoint.width >= 400">{{food.name}} Details</v-toolbar-title>
+                    <v-toolbar-title v-else-if="$vuetify.breakpoint.width < 400"> <span style="font-size:14px">{{food.name}} Details </span> </v-toolbar-title>
                 </v-toolbar>
                 </v-app-bar>
             </v-row>
 
                 <v-card-text>
                     <v-row>
-                        <v-col cols="3">
+                        <v-col cols="12" md="3" sm="4" xs="12">
 
              
                         
@@ -54,9 +55,10 @@
                                 </v-carousel>                                              
                             </v-card>                                   
                     </v-col>
-                    <v-col cols="9">
+                    <v-col cols="12" md="9" sm="8" xs="12">
                         <v-divider></v-divider>
                         <v-list
+                            v-if="$vuetify.breakpoint.width >= 400"
                             three-line
                             subheader
                             style="padding:10px"
@@ -64,7 +66,7 @@
                          
                             <v-list-item>
                                 <v-list-item-content style="margin-left:20px">
-                                <v-list-item-title>Food Price
+                                <v-list-item-title>Price
                                     <v-tooltip
                                     dark 
                                     color="#f7b05e"
@@ -93,7 +95,7 @@
                                     <span style="color:#95c17e;font-size:16px"> {{food.price}} </span></v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-content style="margin-left:20px">
-                                <v-list-item-title>Food Rate</v-list-item-title>
+                                <v-list-item-title>Rate</v-list-item-title>
                                 <v-list-item-subtitle>
                                     <v-icon color="#ffbe41">
                                         mdi-star
@@ -109,7 +111,7 @@
                                 <v-list-item-content> 
                                     <v-expansion-panels flat hover>
                                         <v-expansion-panel >
-                                            <v-expansion-panel-header> Food Description </v-expansion-panel-header>
+                                            <v-expansion-panel-header> Description </v-expansion-panel-header>
 
                                             <v-expansion-panel-content>
                                                {{food.description}}
@@ -121,7 +123,7 @@
                                 <v-list-item-content>
                                   <v-expansion-panels flat hover>
                                         <v-expansion-panel >
-                                            <v-expansion-panel-header> Food Availability </v-expansion-panel-header>
+                                            <v-expansion-panel-header> Availability </v-expansion-panel-header>
 
                                             <v-expansion-panel-content>
                                                 <v-chip-group v-for="(item, i) in this.food.availability" :key="i">
@@ -199,10 +201,153 @@
                             </v-list-item>
                             
                             </v-list>
+
+                            <v-list
+                            v-else-if="$vuetify.breakpoint.width < 400"
+                            three-line
+                            subheader
+                            style="padding:10px"
+                            >
+                         
+                            <v-list-item>
+                                <v-list-item-content style="margin-left:20px">
+                                <v-list-item-title> <span style="font-size:12px">Price</span>
+                                    <v-tooltip
+                                    dark 
+                                    color="#f7b05e"
+                                    top
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn
+                                            icon
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            small
+                                            readonly
+                                            >
+                                            <v-icon color="#f7b05e" left top style="margin-top:-4px;font-size:12px">
+                                                mdi-information-variant
+                                            </v-icon>
+                                            </v-btn>
+                                        </template>
+                                    <span style="backgroud-color:red,font-size:12px">Price for First Availability!</span>
+                                    </v-tooltip>
+                                </v-list-item-title>
+                                <v-list-item-subtitle>  
+                                    <span style="color:#95c17e;font-size:12px"> {{food.price}}€ </span></v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-content style="margin-left:20px">
+                                <v-list-item-title> <span style="font-size:12px">Rate </span> </v-list-item-title>
+                                <v-list-item-subtitle>
+                                    <span v-show="food.rate.number == 0" style="font-size:12px"> Not Rated⭐ </span>
+                                    <span v-show="food.rate.number > 0" style="font-size:12px"> {{food.rate.rate}}⭐ [users:{{food.rate.number}}] </span> </v-list-item-subtitle>
+
+                                    
+                                </v-list-item-content>
+                            </v-list-item>
+
+                            <v-list-item>
+                                <v-list-item-content> 
+                                    <v-expansion-panels flat hover>
+                                        <v-expansion-panel >
+                                            <v-expansion-panel-header> <span style="font-size:12px">Description </span> </v-expansion-panel-header>
+
+                                            <v-expansion-panel-content>
+                                               <span style="font-size:12px"> {{food.description}} </span>
+                                            </v-expansion-panel-content>
+                                        </v-expansion-panel>
+                                    </v-expansion-panels>   
+                                </v-list-item-content>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-list-item-content>
+                                  <v-expansion-panels flat hover>
+                                        <v-expansion-panel >
+                                            <v-expansion-panel-header> <span style="font-size:12px"> Availability </span> </v-expansion-panel-header>
+
+                                            <v-expansion-panel-content>
+                                                <v-chip-group v-for="(item, i) in this.food.availability" :key="i">
+                                                    <v-icon color="dark" left style="font-size:12px">
+                                                        mdi-food-fork-drink
+                                                    </v-icon> 
+                                                    <span style="font-size:12px">{{item}} </span>
+                                                </v-chip-group>
+                                            </v-expansion-panel-content>
+                                        </v-expansion-panel>
+                                    </v-expansion-panels>                        
+                                </v-list-item-content>
+                            </v-list-item>
+
+                            <v-divider/>
+
+                            <v-list-item>
+                                <v-form v-model="valid" ref="form" lazy-validation>
+                                    <v-container>
+                                        <v-row>
+                                            <v-col
+                                            cols="12"
+                                            md="8"
+                                            >                                           
+                                                <v-select
+                                                dense
+                                                filled
+                                                v-model="selectedAvailability"
+                                                :items="food.availability"
+                                                :rules="availabilityRules"
+                                                label="Select Availability"
+                                                ></v-select>
+                                            </v-col>                                          
+                                         </v-row>
+
+                                          <v-row>
+                                            <v-col
+                                            cols="12"
+                                            md="3"
+                                            >
+                                                <v-text-field
+                                                    dense
+                                                    filled
+                                                    label="Amount"
+                                                    v-model="selectedAmount"
+                                                    :rules="amountRules"
+                                                    required
+                                                    class="text-center"
+                                                ></v-text-field>
+
+                                            </v-col>
+                                            <v-col
+                                            cols="12"
+                                            md="3"
+                                            >
+                                            
+                                                <v-btn
+                                                style="margin-left:0px"
+                                                    color="green darken-1"
+                                                    text
+                                                    outlined
+                                                    @click="addToCart()"
+                                                >
+                                                <v-icon color="dark" left>
+                                                    mdi-cart-arrow-down
+                                                </v-icon>
+                                                   Add to Cart
+                                                </v-btn>
+                                            </v-col>
+
+                                            
+                                         </v-row>                                                                                          
+                                    </v-container>
+                                </v-form>
+
+                            </v-list-item>
+                            
+                            </v-list>
                             <v-divider></v-divider> 
                             <v-row>
                                 <v-col cols="10"/>   
-                                <v-col cols="2" >    
+                                <v-col cols="12" md="3" >    
                                 <v-btn x-medium block color="blue darken-1" @click="showComments()">
                                         <v-icon>
                                         mdi-comment-text

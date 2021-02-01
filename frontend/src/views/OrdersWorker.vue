@@ -20,6 +20,7 @@
                 dense
                 :headers="headers"
                 :items="orders"
+                :mobile-breakpoint="900"
             >
 
                 <template v-slot:item.date="{item}">                            
@@ -27,7 +28,7 @@
                 </template>
 
                 <template v-slot:item.price="{item}">                            
-                    <span>{{item.price}} €</span>                        
+                    <span>{{item.price}}€</span>                        
                 </template>
               
                 <template v-slot:item.actions="{item}">
@@ -35,10 +36,12 @@
                                 <v-tooltip dark color="#4db01b" top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn text @click="accept(item)" color="#4db01b" small depressed rounded v-bind="attrs" v-on="on">
-                                            <v-icon left>
+                                            <v-icon left v-if="$vuetify.breakpoint.width >= 350">
                                                 mdi-truck-check-outline
                                             </v-icon>
-                                            Accept Order
+                                            <span v-if="$vuetify.breakpoint.width >= 350"> Accept Order </span>
+                                            <span v-else-if="$vuetify.breakpoint.width < 350" style="font-size:10px"> Accept Order </span>
+                                            
                                         </v-btn>
                                     </template>
                                     <span>Accept order and make it ready for deliverer?</span>
@@ -48,10 +51,12 @@
                                 <v-tooltip dark color="#cc222c" top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn text @click="reject(item)" color="#cc222c" small depressed rounded v-bind="attrs" v-on="on">
-                                        <v-icon left >
+                                        <v-icon left v-if="$vuetify.breakpoint.width >= 350" >
                                             mdi-close-circle-outline
                                             </v-icon>
-                                            Reject Order
+                                            
+                                            <span v-if="$vuetify.breakpoint.width >= 350"> Reject Order </span>
+                                            <span v-else-if="$vuetify.breakpoint.width < 350" style="font-size:10px"> Reject Order </span>
                                         </v-btn>
                                     </template>
                                     <span>Reject order?</span>
@@ -61,10 +66,11 @@
                                 <v-tooltip dark color="primary" top>
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn text @click="show(item)" color="primary" small depressed  rounded v-bind="attrs" v-on="on">
-                                            <v-icon left>
+                                            <v-icon left v-if="$vuetify.breakpoint.width >= 350">
                                                 mdi-information-outline
                                             </v-icon>
-                                            Show Order
+                                            <span v-if="$vuetify.breakpoint.width >= 350"> Show Order </span>
+                                            <span v-else-if="$vuetify.breakpoint.width < 350" style="font-size:10px"> Show Order </span>
                                         </v-btn>
                                     </template>
                                     <span>Show Order information?</span>
@@ -118,10 +124,10 @@ export default {
                     align: "start"
                 },
                 {
-                    text: '',
+                    text: 'Actions',
                     sortable:false,
                     value: 'actions',
-                    align: "end",
+                    align: "center",
                     width:"40px"
                     
                 },

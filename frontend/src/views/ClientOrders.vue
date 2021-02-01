@@ -16,14 +16,15 @@
           
 
                 <v-tab href="#sent">
-                    Sent Orders
+                    <span v-if="$vuetify.breakpoint.width >= 460">Sent Orders</span>
                     <v-icon>mdi-truck-delivery-outline</v-icon>
                 </v-tab>
 
                 <v-tab href="#delivered">
-                    Delivered Orders
+                    <span v-if="$vuetify.breakpoint.width >= 460"> Delivered Orders </span>
                     <v-icon>mdi-truck-check-outline</v-icon>
                 </v-tab>
+                
             </v-tabs>
 
             <v-tabs-items v-model="tab" dark>
@@ -44,6 +45,7 @@
                             dense
                             :headers="headers"
                             :items="orders"
+                            :mobile-breakpoint="820"
                         >   
                             <template v-slot:item.date="{item}">                            
                                 <span>{{formatDate(item.date)}}</span>                        
@@ -54,14 +56,16 @@
                             </template>
                         
                             <template v-slot:item.actions="{item}">
-                                <v-col cols="2"  style="height:50px;">
+                                <v-col cols="12"  style="height:50px;">
                                     <v-tooltip dark color="primary" top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn text @click="show(item)" color="primary" small depressed  rounded v-bind="attrs" v-on="on">
-                                                <v-icon left>
+                                                <v-icon v-if="$vuetify.breakpoint.width >= 320">
                                                     mdi-information-outline
                                                 </v-icon>
-                                                Show Order
+                                         
+                                                <span v-if="$vuetify.breakpoint.width >= 320"> Show Order </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 320" style="font-size:12px"> Show Order </span>
                                             </v-btn>
                                         </template>
                                         <span>Show Order information?</span>
@@ -90,6 +94,7 @@
                             dense
                             :headers="headers"
                             :items="orders"
+                            :mobile-breakpoint="950"
                         >
                             <template v-slot:item.date="{item}">                            
                                 <span>{{formatDate(item.date)}}</span>                        
@@ -100,20 +105,22 @@
                             </template>
                         
                             <template v-slot:item.actions="{item}">
-                                <v-col cols="2"  style="height:75px;">
+                                <v-col cols="2">
                                     <v-tooltip dark color="#4db01b" top>
                                         <template v-slot:activator="{ on, attrs }">
                                              <v-btn text disabled color="#4db01b" small depressed  rounded v-show="item.rated">
-                                                <v-icon left>
+                                                <v-icon v-if="$vuetify.breakpoint.width >= 320">
                                                     mdi-star-circle-outline
                                                 </v-icon>
-                                                Rated
+                                                <span v-if="$vuetify.breakpoint.width >= 320"> Rated </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 320" style="font-size:12px"> Rated </span>
                                             </v-btn>
                                             <v-btn text @click="rate(item)" color="#4db01b" small depressed  rounded v-bind="attrs" v-on="on" v-show="!item.rated">
-                                                <v-icon left>
+                                                <v-icon v-if="$vuetify.breakpoint.width >= 320">
                                                     mdi-star-circle-outline
                                                 </v-icon>
-                                                Rate Order
+                                                <span v-if="$vuetify.breakpoint.width >= 320"> Rate Order </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 320" style="font-size:12px"> Rate Order </span>
                                             </v-btn>
                                         </template>
                                         <span>Rate Order quatility?</span>
@@ -121,10 +128,11 @@
                                     <v-tooltip dark color="primary" top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn text @click="show(item)" color="primary" small depressed  rounded v-bind="attrs" v-on="on">
-                                                <v-icon left>
+                                                <v-icon v-if="$vuetify.breakpoint.width >= 320">
                                                     mdi-information-outline
                                                 </v-icon>
-                                                Show Order
+                                                <span v-if="$vuetify.breakpoint.width >= 320"> Show Order </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 320" style="font-size:12px"> Show Order </span>
                                             </v-btn>
                                         </template>
                                         <span>Show Order information?</span>
@@ -196,11 +204,11 @@ export default {
                     align: "start"
                 },
                 {
-                    text: '',
+                    text: 'Actions',
                     sortable:false,
                     value: 'actions',
-                    align: "end",
-                    width:"40px"
+                    align: "center",
+                    width:"10px"
                     
                 },
                

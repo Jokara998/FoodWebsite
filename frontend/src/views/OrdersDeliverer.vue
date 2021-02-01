@@ -71,6 +71,7 @@
                             dense
                             :headers="headers"
                             :items="orders"
+                            :mobile-breakpoint="800" 
                         >
 
                             <template v-slot:item.date="{item}">                            
@@ -89,7 +90,7 @@
                                                         <v-icon left>
                                                             mdi-truck-delivery-outline
                                                         </v-icon>
-                                                        <span class="hidden-sm-only">Take Order</span>
+                                                        Take Order
                                                     </v-btn>
                                                 </template>
                                                 <span>Take order for delivering?</span>
@@ -102,10 +103,10 @@
                                                         <v-icon left>
                                                             mdi-information-outline
                                                         </v-icon>
-                                                        <span class="hidden-sm-only">Show Order</span>
+                                                        Show Order
                                                     </v-btn>
                                                 </template>
-                                                <span>Show Order information?</span>
+                                                Show Order information?
                                             </v-tooltip>
                                         </v-col>
                             </template>
@@ -131,6 +132,7 @@
                             dense
                             :headers="headers"
                             :items="orders"
+                            :mobile-breakpoint="800"
                         >   
                             <template v-slot:item.date="{item}">                            
                                 <span>{{formatDate(item.date)}}</span>                        
@@ -148,7 +150,7 @@
                                                         <v-icon left>
                                                             mdi-truck-check-outline
                                                         </v-icon>
-                                                        <span class="hidden-sm-only">Confirm Delivery</span>
+                                                        Confirm Delivery
                                                     </v-btn>
                                                 </template>
                                                 <span>Confirm that order is delivered?</span>
@@ -161,7 +163,7 @@
                                                         <v-icon left>
                                                             mdi-information-outline
                                                         </v-icon>
-                                                        <span class="hidden-sm-only">Show Order</span>
+                                                        Show Order
                                                     </v-btn>
                                                 </template>
                                                 <span>Show Order information?</span>
@@ -190,6 +192,7 @@
                             dense
                             :headers="headers"
                             :items="orders"
+                            :mobile-breakpoint="800"
                         >
                             <template v-slot:item.date="{item}">                            
                                 <span>{{formatDate(item.date)}}</span>                        
@@ -207,7 +210,7 @@
                                                 <v-icon left>
                                                     mdi-information-outline
                                                 </v-icon>
-                                                <span class="hidden-sm-only">Show Order</span>
+                                                Show Order
                                             </v-btn>
                                         </template>
                                         <span>Show Order information?</span>

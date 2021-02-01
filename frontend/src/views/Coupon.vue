@@ -21,13 +21,14 @@
                 :headers="headers"
                 :items="clients"
                 :search="search"
+                :mobile-breakpoint="830"
             >
                 <template v-slot:item.actions="{item}" >
                     <v-btn text @click="showCoupons(item)" color="green darken-1" small depressed  rounded>
                         <v-icon left>
                             mdi-label-percent-outline
                         </v-icon>
-                        <span class="hidden-sm-and-down">Show Coupons</span>
+                        Show Coupons
                     </v-btn>
                 </template>
             </v-data-table>

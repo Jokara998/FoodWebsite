@@ -1,5 +1,5 @@
 <template>
-    <v-container flat style="width:85%">
+    <v-container flat style="width:90%">
         
         <br>
 
@@ -7,33 +7,20 @@
             <v-card-title>
                 Food Mixes
             <v-spacer></v-spacer>
-            <v-text-field
-                v-model="search"
-                append-icon="mdi-magnify"
-                label="Search"
-                single-line
-                hide-details
-            ></v-text-field>
 
             </v-card-title>
-            <v-data-table
-                dense
-                :headers="headers"
-                :items="mixs"
-                :search="search"
-            >
+            <v-flex v-for="item in this.mixs" :key="item.id" >
             
-            <template v-slot:item.name="{item}" >
-                    <v-card  style="background-image:linear-gradient(80deg,#313131,#313131); padding:50px; margin:50px; margin-left:100px;margin-right:100px">
+                    <v-card  style="background-image:linear-gradient(80deg,#313131,#313131); padding:0px; margin:30px; ">
                         
                         <v-row>
                           
-                        <v-col cols="10" align-end>
+                        <v-col cols="12" md="9" align-end>
                             <v-card-title class="subheading font-weight-bold" >
                                 {{ item.name }}
                             </v-card-title>
                         </v-col>
-                        <v-col cols="2">  
+                        <v-col cols="12" md="3">  
                             <v-card-title class="subheading font-weight-bold" align-end>
                                  <v-icon color="#95C17E">
                                     mdi-currency-eur
@@ -48,7 +35,7 @@
 
                         <v-card-text>
 
-                             <v-list disabled>
+                             <v-list disabled v-if ="$vuetify.breakpoint.width >= 550">
                                 <v-list-item-group
                                     color="primary"
                                 >
@@ -68,45 +55,64 @@
                                     
                                 </v-list-item-group>
                             </v-list>
+                            <v-list disabled v-if ="$vuetify.breakpoint.width < 550">
+                                <v-list-item-group
+                                    color="primary"
+                                >
+                                    <v-list-item
+                                    v-for="(itemm, i) in item.food"
+                                    :key="i"
+                                    >
+                                    <v-list-item-content>
+                                        <v-list-item-title> <span style="font-size:11px"> {{returnText1(item, i)}} </span> </v-list-item-title>
+                                    </v-list-item-content>
+                                    </v-list-item>
+                                    
+                                </v-list-item-group>
+                            </v-list>
                         </v-card-text>
 
                         <v-card-text>
 
-                            <v-col class="d-flex" cols="12" sm="3" xsm="12" align-start>  
+                            <v-col class="d-flex" cols="12" md="6" sm="6"  align-start>  
                                 <v-chip
                                     medium
                                     outlined
                                     style="pointer-events:none"
                                 >
-                                    <v-icon left color="red darken-1">
+                                    <v-icon left color="red darken-1" v-if="$vuetify.breakpoint.width >= 340">
                                         mdi-label
                                     </v-icon>
-                                    <span style="display:inline;color:#E53935"> 
-                                        Discount: {{item.discount}}%
+                                    <v-icon left color="red darken-1" style="font-size:13px" v-else-if="$vuetify.breakpoint.width < 340">
+                                        mdi-label
+                                    </v-icon>
+                                    <span v-if="$vuetify.breakpoint.width >= 340" style="display:inline;color:#E53935"> 
+                                        Discount:{{item.discount}}%
+                                    </span>
+                                    <span v-else-if="$vuetify.breakpoint.width < 340" style="display:inline;color:#E53935;font-size:11px"> 
+                                        Discount:{{item.discount}}%
                                     </span>
                                 </v-chip>
                             </v-col>
 
-                              <v-col class="d-flex" cols="6" sm="3" xsm="6" align-start>  
+                              <v-col class="d-flex" cols="12" md="6" sm="6" align-start>  
                                 <v-chip
                                     medium
                                     outlined
                                     style="pointer-events:none"
                                 >
                                    <v-flex v-show="item.rate.number > 0">
-                                        <v-card-title style="margin-left:-20px;justify-content:center"> 
-                                                <v-icon color="#ffbe41">
-                                                    mdi-star
-                                                </v-icon>
-                                                <span style="color:#f5f5f5;font-size:15px">Rate: {{item.rate.rate}} [users:{{item.rate.number}}] </span>
+                                        <v-card-title style="margin-left:-10px;justify-content:center"> 
+                                             
+                                                <span v-if="$vuetify.breakpoint.width >= 340" style="color:#f5f5f5;font-size:15px">Rate:{{item.rate.rate}}⭐[{{item.rate.number}}] </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 340" style="color:#f5f5f5;font-size:11px">Rate:{{item.rate.rate}}⭐[{{item.rate.number}}] </span>
                                         </v-card-title>
                                     </v-flex>
                                     <v-flex v-show="item.rate.number == 0">
-                                        <v-card-title style="margin-left:-20px;justify-content:center"> 
-                                                <v-icon color="#ffbe41">
-                                                    mdi-star
-                                                </v-icon>
-                                                <span style="color:#f5f5f5; font-size:15px">Rate: Not Rated </span>
+                                        <v-card-title style="margin-left:-10px;justify-content:center"> 
+                                                
+                                                <span v-if="$vuetify.breakpoint.width >= 340" style="color:#f5f5f5; font-size:15px">Not Rated⭐ </span>
+                                                <span v-else-if="$vuetify.breakpoint.width < 340" style="color:#f5f5f5; font-size:11px">Not Rated⭐ </span>
                                         </v-card-title>
                                     </v-flex>
                                 </v-chip>
@@ -119,30 +125,30 @@
 
                             <v-row style="justify-content: flex-end;">
                                     
-                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
+                                <v-col class="d-flex" cols="12" md="6" sm="6" align-end>
                                     <v-btn x-medium block color="green darken-1" @click="addToCartMix(item)">
                                          <v-icon>
                                             mdi-cart-arrow-down
                                         </v-icon> 
-                                        Add To Cart 
+                                        <span v-if="$vuetify.breakpoint.width >= 340">Add To Cart</span>
                                     </v-btn>
                                 </v-col>
 
-                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
+                                <v-col class="d-flex" cols="12" md="6" sm="6" align-end>
                                     <v-btn x-medium block color="blue darken-1" @click="showComments(item)">
                                          <v-icon>
                                             mdi-comment-text
                                         </v-icon> 
-                                        Comments
+                                        <span v-if="$vuetify.breakpoint.width >= 340">Comments</span>
                                     </v-btn>
                                 </v-col>
                             </v-row>
 
                         </v-card-text>
-                    </v-card>   
-                </template>
+                    </v-card>
+                    <br>   
 
-            </v-data-table>
+            </v-flex>
         </v-card>
 
         <v-btn
@@ -182,7 +188,7 @@ export default {
             headers: [
                 {
                     text: '',
-                    align: 'start',
+                    align: 'center',
                     value: 'name',
                     sortable:false,
                 },
@@ -207,6 +213,9 @@ export default {
         },
         returnText(item, i){
             return item.food[i].name+" [ Availability: "+item.availability[i]+" ] "
+        },
+        returnText1(item, i){
+            return item.food[i].name+" ["+item.availability[i]+"] "
         },
         returnPrice(item){
             let price = 0

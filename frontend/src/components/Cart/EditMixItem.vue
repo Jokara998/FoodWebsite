@@ -13,8 +13,10 @@
                                 <v-row>
 
                                     <v-col
-                                    cols="2"
+                                    cols="12"
                                     md="4"
+                                    sm="5"
+                                    xs="6"
                                     >
                                         <v-text-field
                                             
@@ -41,7 +43,7 @@
                                                 <v-icon color="dark" left>
                                                     mdi-check-circle-outline
                                                 </v-icon>
-                                                Confirm
+                                                <span class="hidden-xs-only"> Confirm </span>
                                             </v-btn>
 
                                             <v-btn
@@ -52,7 +54,7 @@
                                                 <v-icon color="dark" left>
                                                     mdi-close-circle-outline
                                                 </v-icon>
-                                                Cancel
+                                                <span class="hidden-xs-only"> Cancel </span>
                                             </v-btn>
                                                                        
                                     </v-row>                                                                                          

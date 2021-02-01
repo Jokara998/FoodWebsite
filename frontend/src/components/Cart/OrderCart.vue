@@ -29,7 +29,7 @@
                                         <v-card-text style="padding:40px">
                                                 <v-form ref="addressForm" v-model="valid" lazy-validation>
                                                     <v-row>
-                                                        <v-col cols="6">
+                                                        <v-col cols="12" md="6">
                                                             <v-text-field v-model="name" counter="30" :rules="nameRules" label="Name" required>
                                                                 <template v-slot:prepend>                                                   
                                                                     <v-icon>
@@ -38,7 +38,7 @@
                                                                 </template>
                                                             </v-text-field>
                                                         </v-col>
-                                                        <v-col cols="6">
+                                                        <v-col cols="12" md="6">
                                                             <v-text-field v-model="surname" counter="30" :rules="surnameRules" label="Surname" required>
                                                                 <template v-slot:prepend>                                                   
                                                                     <v-icon>
@@ -47,7 +47,7 @@
                                                                 </template>
                                                             </v-text-field>
                                                         </v-col>
-                                                        <v-col cols="6">
+                                                        <v-col cols="12" md="6">
                                                             <v-text-field v-model="address" counter="30" :rules="addressRules" label="Address" required>
                                                                 <template v-slot:prepend>                                                   
                                                                     <v-icon>
@@ -56,7 +56,7 @@
                                                                 </template>
                                                             </v-text-field>
                                                         </v-col>
-                                                        <v-col cols="6">
+                                                        <v-col cols="12" md="6">
                                                             <v-text-field v-model="phone" counter="15" :rules="phoneRules" hint="Telephone:0645896236" label="Telephone" required>
                                                                 <template v-slot:prepend>                                                   
                                                                     <v-icon>
@@ -66,7 +66,7 @@
                                                             </v-text-field>
                                                         </v-col>  
 
-                                                        <v-col cols="6">
+                                                        <v-col cols="12" md="6">
                                                              <v-text-field outlined  v-show="this.token != '' " v-model="coupon" counter="15" :rules="couponRules" label="Coupon">
                                                                 <template v-slot:prepend>                                                   
                                                                     <v-icon>
@@ -75,7 +75,7 @@
                                                                 </template>
                                                             </v-text-field>
                                                         </v-col>    
-                                                        <v-col cols="6">
+                                                        <v-col cols="12" md="6">
                                                             <v-checkbox
                                                                 v-show="this.token != '' "
                                                                 v-model="checkbox"
@@ -105,10 +105,10 @@
 
                             <v-stepper-content step="2">
                                      <v-card> 
-                                        <v-card-text style="padding:40px">
+                                        <v-card-text style="padding:20px">
                                                 <v-form ref="finalForm" v-model="valid2" lazy-validation>
                                                     <v-row>
-                                                        <v-col cols="5">
+                                                        <v-col cols="12" md="5">
                                                            <v-list
                                                                 nav
                                                                 dense
@@ -120,38 +120,54 @@
                                                                 <v-list-item>
                                                                     <v-list-item-content>
                                                                         <v-list-item-title class="title">
-                                                                            Orderer Information
+                                                                            <span class="hidden-xs-only"> Orderer Information </span>
+                                                                            <span class="hidden-sm-and-up" style="font-size:16px"> Orderer</span>
+                                                                        </v-list-item-title>
+                                                                      
+                                                                    </v-list-item-content>
+                                                                </v-list-item>
+                                                                <br>
+                                                                <v-list-item>                                                          
+                                                                    <v-list-item-icon>
+                                                                        <v-icon class="hidden-sm-and-down">mdi-shield-account-outline</v-icon>
+                                                                        <v-icon class="hidden-md-and-up" small>mdi-shield-account-outline</v-icon>
+                                                                    </v-list-item-icon>
+                                                                    <v-list-item-content>
+                                                                        <v-list-item-title>
+                                                                            <span class="hidden-sm-and-down" style="font-size:16px">{{name}} {{surname}}</span>
+                                                                            <span class="hidden-md-and-up" style="font-size:8px">{{name}} {{surname}}</span>
                                                                         </v-list-item-title>
                                                                     </v-list-item-content>
                                                                 </v-list-item>
-                                                                <v-list-item>                                                          
+                                                                 <v-list-item>
                                                                     <v-list-item-icon>
-                                                                        <v-icon>mdi-shield-account-outline</v-icon>
+                                                                        <v-icon class="hidden-sm-and-down">mdi-map-marker</v-icon>
+                                                                        <v-icon class="hidden-md-and-up" small>mdi-map-marker</v-icon>
                                                                     </v-list-item-icon>
                                                                     <v-list-item-content>
-                                                                        <v-list-item-title>{{name}} {{surname}}</v-list-item-title>
+                                                                        <v-list-item-title>
+                                                                            <span class="hidden-sm-and-down" style="font-size:16px">{{address}}</span>
+                                                                            <span class="hidden-md-and-up" style="font-size:8px">{{address}}</span>
+                                                                        </v-list-item-title>
                                                                     </v-list-item-content>
                                                                 </v-list-item>
                                                                  <v-list-item>
                                                                     <v-list-item-icon>
-                                                                        <v-icon>mdi-map-marker</v-icon>
+                                                                        <v-icon class="hidden-sm-and-down">mdi-phone</v-icon>
+                                                                        <v-icon class="hidden-md-and-up" small>mdi-phone</v-icon>
                                                                     </v-list-item-icon>
-                                                                    <v-list-item-content>
-                                                                        <v-list-item-title>{{address}}</v-list-item-title>
-                                                                    </v-list-item-content>
-                                                                </v-list-item>
-                                                                 <v-list-item>
-                                                                    <v-list-item-icon>
-                                                                        <v-icon>mdi-phone</v-icon>
-                                                                    </v-list-item-icon>
-                                                                    <v-list-item-content>
-                                                                        <v-list-item-title>{{phone}}</v-list-item-title>
+                                                                    <v-list-item-content>                                                                      
+                                                                        <v-list-item-title>
+                                                                            <span class="hidden-sm-and-down" style="font-size:16px">{{phone}}</span>
+                                                                            <span class="hidden-md-and-up" style="font-size:8px">{{phone}}</span>
+                                                                            
+                                                                        </v-list-item-title>
                                                                     </v-list-item-content>
                                                                 </v-list-item>
                                                                 </v-list-item-group>
                                                             </v-list>
                                                         </v-col>
-                                                        <v-col cols="7">
+                                                        <v-col cols="12" md="7">
                                                            <v-list
                                                                 nav
                                                                 dense
@@ -163,7 +179,8 @@
                                                                 <v-list-item>
                                                                     <v-list-item-content>
                                                                         <v-list-item-title class="title">
-                                                                            Order Information
+                                                                            <span class="hidden-xs-only"> Order Information </span>
+                                                                            <span class="hidden-sm-and-up" style="font-size:16px"> Order</span>
                                                                         </v-list-item-title>
                                                                     </v-list-item-content>
                                                                 </v-list-item>
@@ -173,20 +190,28 @@
                                                                 
                                                                     <v-list-item>
                                                                         <v-list-item-content>
-                                                                            <v-list-item-title>Name</v-list-item-title>
+                                                                            <v-list-item-title>
+                                                                                <span class="hidden-sm-and-down" style="font-size:16px">Name</span>
+                                                                                <span class="hidden-md-and-up" style="font-size:8px">Name</span>
+                                                                            </v-list-item-title>
                                                                             <v-list-item-subtitle>  
-                                                                                <span style="color:#95c17e;font-size:16px"> {{item.food.name}} </span>
+                                                                                <span class="hidden-sm-and-down" style="color:#95c17e;font-size:16px"> {{item.food.name}} </span>
+                                                                                <span class="hidden-md-and-up" style="color:#95c17e;font-size:8px"> {{item.food.name}}[{{item.amount}}] </span>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
                                                                       
                                                                         <v-list-item-content>
-                                                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
+                                                                            <v-list-item-title>  
+                                                                                <span class="hidden-sm-and-down" style="font-size:16px">Amount[Availability]</span>
+                                                                                <span class="hidden-md-and-up" style="font-size:8px">Availability</span>
+                                                                            </v-list-item-title>
                                                                             <v-list-item-subtitle>  
-                                                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
+                                                                                <span class="hidden-sm-and-down" style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
+                                                                                <span class="hidden-md-and-up"  style="color:#95c17e;font-size:8px">  {{item.availability}} </span>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
 
-                                                                        <v-list-item-content>
+                                                                        <v-list-item-content class="hidden-sm-and-down">
                                                                             <v-list-item-title>Price</v-list-item-title>
                                                                             <v-list-item-subtitle>
                                                                                 <span style="color:#95c17e;font-size:16px"> {{returnFinalPrice(item)}} </span>
@@ -206,21 +231,29 @@
                                                                 
                                                                     <v-list-item>
                                                                         <v-list-item-content>
-                                                                            <v-list-item-title>Name</v-list-item-title>
+                                                                            <v-list-item-title>
+                                                                                <span class="hidden-sm-and-down" style="font-size:16px">Name</span>
+                                                                                <span class="hidden-md-and-up" style="font-size:8px">Name</span>
+                                                                            </v-list-item-title>
                                                                             <v-list-item-subtitle>  
-                                                                                <span style="color:#95c17e;font-size:16px"> {{item.mix.name}} </span>
+                                                                                <span class="hidden-sm-and-down" style="color:#95c17e;font-size:16px"> {{item.mix.name}} </span>
+                                                                                <span class="hidden-md-and-up" style="color:#95c17e;font-size:8px"> {{item.mix.name}}[mix]</span>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
                                                                       
                                                                         <v-list-item-content>
-                                                                            <v-list-item-title>Amount[Availability]</v-list-item-title>
+                                                                            <v-list-item-title>
+                                                                                <span class="hidden-sm-and-down" style="font-size:16px">Amount[Availability]</span>
+                                                                                <span class="hidden-md-and-up" style="font-size:8px">Availability</span>
+                                                                            </v-list-item-title>
                                                                             <v-list-item-subtitle>  
-                                                                                <span style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
+                                                                                <span class="hidden-sm-and-down" style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
+                                                                                <span class="hidden-md-and-up"  style="color:#95c17e;font-size:8px">  mix </span>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
 
 
-                                                                        <v-list-item-content>
+                                                                        <v-list-item-content class="hidden-sm-and-down">
                                                                             <v-list-item-title>Price</v-list-item-title>
                                                                             <v-list-item-subtitle>
                                                                                 <span style="color:#95c17e;font-size:16px"> {{returnMixFinalPrice(item.mix, item.amount)}} </span>
@@ -237,18 +270,19 @@
                                                                 </v-list-item-group>
                                                             </v-list>
                                                         </v-col>
-                                                        <v-col cols="5">
-                                                         
-                                                        </v-col>
-                                                        <v-col cols="3">
-                                                         
-                                                        </v-col>
-                                                        <v-col cols="4">
-                                                            <span style="font-size:22px;display:inline"> Total Price:  </span>    
-                                                            <v-icon color="#95c17e" style="margin-top:-11px">
+                                                       
+                                                        <v-col cols="7" />
+                                                        <v-col cols="12" lg="4" md="5" sm="5" xs="7">
+                                                            <span class="hidden-md-and-up" style="font-size:15px;display:inline"> Total Price:  </span>    
+                                                            <span class="hidden-sm-and-down" style="font-size:22px;display:inline"> Total Price:  </span>    
+                                                            <v-icon small class="hidden-md-and-up" color="#95c17e" style="margin-top:-5px">
                                                                     mdi-currency-eur
                                                             </v-icon>
-                                                            <span style="color:#95c17e;font-size:22px;display:inline"> {{returnTotalPrice()}} </span>       
+                                                            <v-icon class="hidden-sm-and-down" color="#95c17e" style="margin-top:-11px">
+                                                                    mdi-currency-eur
+                                                            </v-icon>
+                                                            <span class="hidden-md-and-up" style="color:#95c17e;font-size:15px;display:inline"> {{returnTotalPrice()}} </span>  
+                                                            <span class="hidden-sm-and-down" style="color:#95c17e;font-size:22px;display:inline"> {{returnTotalPrice()}} </span>      
                                                         </v-col>
                                                                                                 
                                                     </v-row>
@@ -292,20 +326,29 @@
             >
                <v-card dark style="border:2px solid #ffffff">
                    <v-card-title>
-                        <v-icon color="green">
+                        <v-icon color="green" class="hidden-sm-and-down">
                             mdi-check-circle-outline
                         </v-icon>
-                       Request Successful!
+                         <v-icon color="green" class="hidden-md-and-up" small>
+                            mdi-check-circle-outline
+                        </v-icon>
+                        <span class="hidden-sm-and-down"  style="font-size:25px;display:inline"> Request Successful </span>
+                        <span class="hidden-md-and-up" style="font-size:18px"> Request Successful </span>
                    </v-card-title>
 
                    <v-card-text>
-                       Your order has been received!
+                        <span class="hidden-sm-and-down"  style="font-size:20px;display:inline"> Order received! </span>
+                        <span class="hidden-md-and-up" style="font-size:13px"> Order received! </span>
+                       
                    </v-card-text>
 
                    <v-card-actions>
-                           <v-col cols="8" />
-                           <v-col cols="4">
+                            <v-col md="8" sm="7" />
+                            <v-col md="4" sm="5">
                                 <v-btn color="green" @click="closeAll()" style="justify-content:end">
+                                    <v-icon color="black">
+                                        mdi-close-circle
+                                    </v-icon>
                                     Close
                                 </v-btn>
                            </v-col>
@@ -322,17 +365,24 @@
             >
                <v-card dark style="border:2px solid #ffffff">
                    <v-card-title>
-                        <v-icon color="red">
+                        <v-icon color="red" class="hidden-sm-and-down">
                             mdi-close-circle
                         </v-icon>
-                       Code invalid or expired!
+                         <v-icon color="red" class="hidden-md-and-up" small>
+                            mdi-close-circle
+                        </v-icon>
+                       <span class="hidden-sm-and-down"  style="font-size:18px;display:inline"> Code invalid/expired! </span>
+                       <span class="hidden-md-and-up" style="font-size:12px"> Code invalid or expired! </span>
                    </v-card-title>
 
-                   <v-card-actions>
-                           <v-col cols="8" />
-                           <v-col cols="4">
+                   <v-card-actions style="justify-content:end">
+                           <v-col md="8" sm="7" />
+                           <v-col md="4" sm="5">
                                 <v-btn color="red" @click="closeError()" style="justify-content:end">
-                                    Close
+                                    <v-icon color="black">
+                                        mdi-close-circle
+                                    </v-icon>
+                                    <span >Close</span>
                                 </v-btn>
                            </v-col>
                    </v-card-actions>

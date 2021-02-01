@@ -1,5 +1,5 @@
 <template>
-   <v-container flat style="width:85%" :key="cartKey">
+   <v-container flat :key="cartKey">
         <br>
         <br>
 
@@ -10,9 +10,10 @@
          
         </v-card>
     
-        <v-card dark v-if="this.cartFood.length > 0 || this.cartMix.length > 0" >
+        <v-card dark v-if="this.cartFood.length > 0 || this.cartMix.length > 0" width="100%" >
              <v-card-title style="justify-content:center">
-               <span style="font-size:25px"> Cart </span>
+               <span class="hidden-md-and-up" style="font-size:15px"> Cart </span>
+               <span class="hidden-sm-and-down" style="font-size:25px"> Cart </span>
             </v-card-title>
 
             <v-flex
@@ -20,9 +21,9 @@
             >
 
                 <template >
-                    <v-card height="360px" style="background-image:linear-gradient(80deg,#313131,#313131); padding:25px; margin:50px; margin-left:100px;margin-right:100px">                       
+                    <v-card height="410px" style="background-image:linear-gradient(80deg,#313131,#313131); padding:20px; margin:20px;">                       
                         <v-row>
-                            <v-col cols="2">
+                            <v-col cols="12" lg="2" class="hidden-md-and-down" >
                                 <v-card>
                                     <v-carousel
                                     :continuous="false"
@@ -42,21 +43,21 @@
                                     </v-carousel>   
                                 </v-card>    
                             </v-col> 
-                            <v-col cols="10">
-                                <v-list
+                            <v-col cols="12" lg="10" md="12">
+                                <v-list 
+                                    v-if="$vuetify.breakpoint.width >= 700"    
                                     three-line
                                     subheader
-                                    style="padding:10px"
                                     >                            
                                         <v-list-item>
                                             <v-list-item-content>
-                                                <v-list-item-title>Food Name</v-list-item-title>
+                                                <v-list-item-title>Name</v-list-item-title>
                                                 <v-list-item-subtitle>  
                                                     <span style="color:#95c17e;font-size:16px"> {{item.food.name}} </span>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
                                             <v-list-item-content>
-                                                <v-list-item-title>Food Price 
+                                                <v-list-item-title>Price 
                                                     <v-tooltip
                                                     dark 
                                                     color="#f7b05e"
@@ -87,14 +88,14 @@
                                             </v-list-item-content>
 
                                             <v-list-item-content>
-                                                <v-list-item-title>Food Amount</v-list-item-title>
+                                                <v-list-item-title>Amount</v-list-item-title>
                                                 <v-list-item-subtitle>  
                                                     <span style="color:#95c17e;font-size:16px"> {{item.amount}} </span>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
 
                                             <v-list-item-content>
-                                                <v-list-item-title>Food Availability</v-list-item-title>
+                                                <v-list-item-title>Availability</v-list-item-title>
                                                 <v-list-item-subtitle>  
                                                     <span style="color:#95c17e;font-size:16px"> {{item.availability}} </span>
                                                 </v-list-item-subtitle>
@@ -112,7 +113,36 @@
 
                                             
                                         </v-list-item>
-                                </v-list>                                           
+                                </v-list>
+                                <v-list 
+                                    v-if="$vuetify.breakpoint.width < 700"    
+                                    three-line
+                                    subheader
+                                    style="padding:10px"
+                                    >                            
+                                        <v-list-item>
+                                            <v-list-item-content>
+                                                <v-list-item-subtitle>  
+                                                    <span style="color:#95c17e;font-size:14px"> {{item.food.name}}
+                                                        [<span style="color:white;font-size:14px">{{item.amount}}</span>]
+                                                    </span>
+                                                </v-list-item-subtitle>                                      
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            
+                                            <v-list-item-content>
+                                                <v-list-item-subtitle>
+                                                    
+                                                    <span style="color:#95c17e;font-size:14px"> Total:{{returnFinalPrice(item)}} </span>
+                                                    <v-icon color="#95c17e">                                                  
+                                                        mdi-currency-eur
+                                                    </v-icon>
+                                                </v-list-item-subtitle>
+                                            </v-list-item-content>
+      
+                                        </v-list-item>
+                                </v-list>                                                 
                             </v-col>                     
                         </v-row>
                         <br>
@@ -122,20 +152,20 @@
 
                             <v-row style="justify-content: flex-end;">
                                     
-                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
+                                <v-col class="d-flex" cols="12" lg="6" md="4" sm="4" xs="1" align-end>
                                     <v-btn x-medium block color="green darken-1" @click="editFoodItem(item, index)">
                                          <v-icon>
                                             mdi-circle-edit-outline
                                         </v-icon> 
-                                        Edit Item
+                                        <span class="hidden-md-and-down">Edit Item</span>
                                     </v-btn>
                                 </v-col>
-                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
+                                <v-col class="d-flex" cols="12" lg="6" md="4" sm="4" xs="1" align-end>
                                     <v-btn x-medium block color="red darken-1" @click="deleteItem('food',index)">
                                         <v-icon>
                                             mdi-delete-circle-outline
                                         </v-icon> 
-                                        Delete Item
+                                        <span class="hidden-md-and-down">Delete Item</span>
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -151,9 +181,9 @@
                 v-for="(item,index) in this.cartMix" :key="item.id" 
             >
              <template>
-                    <v-card height="360px" style="background-image:linear-gradient(80deg,#313131,#313131); padding:25px; margin:50px; margin-left:100px;margin-right:100px">                       
+                    <v-card height="410px" style="background-image:linear-gradient(80deg,#313131,#313131); padding:20px; margin:20px;">                       
                         <v-row>
-                            <v-col cols="2">
+                            <v-col cols="12" lg="2" class="hidden-md-and-down">
                                 <v-card>
                                     <v-carousel
                                     :continuous="false"
@@ -171,21 +201,22 @@
                                     </v-carousel>   
                                 </v-card>    
                             </v-col> 
-                            <v-col cols="10">
-                                <v-list
+                            <v-col cols="12" lg="10" md="12">
+                                <v-list 
+                                    class="hidden-sm-and-down"                  
                                     three-line
                                     subheader
                                     style="padding:10px"
                                     >                            
                                         <v-list-item>
                                             <v-list-item-content>
-                                                <v-list-item-title>Mix Name</v-list-item-title>
+                                                <v-list-item-title>Name</v-list-item-title>
                                                 <v-list-item-subtitle>  
                                                     <span style="color:#95c17e;font-size:16px"> {{item.mix.name}} </span>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
                                             <v-list-item-content>
-                                                <v-list-item-title>Mix Price</v-list-item-title>
+                                                <v-list-item-title>Price</v-list-item-title>
                                                 <v-list-item-subtitle>  
                                                     <v-icon color="#95c17e">
                                                         mdi-currency-eur
@@ -195,7 +226,7 @@
                                             </v-list-item-content>
 
                                             <v-list-item-content>
-                                                <v-list-item-title>Food Amount</v-list-item-title>
+                                                <v-list-item-title>Amount</v-list-item-title>
                                                 <v-list-item-subtitle>  
                                                     <span style="color:#95c17e;font-size:16px"> {{item.amount}} </span>
                                                 </v-list-item-subtitle>
@@ -213,6 +244,35 @@
 
                                             
                                         </v-list-item>
+                                </v-list> 
+                                <v-list 
+                                    class="hidden-md-and-up"                  
+                                    three-line
+                                    subheader
+                                    style="padding:10px"
+                                    >                            
+                                        <v-list-item>
+                                            <v-list-item-content>
+                                                <v-list-item-subtitle>  
+                                                    <span style="color:#95c17e;font-size:14px"> {{item.mix.name}}
+                                                        [<span style="color:white;font-size:14px"> {{item.amount}} </span>]
+                                                    </span>
+                                                </v-list-item-subtitle>                                      
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            
+                                            <v-list-item-content>
+                                                <v-list-item-subtitle>
+                                                    
+                                                    <span style="color:#95c17e;font-size:14px"> Total:{{returnMixFinalPrice(item.mix, item.amount)}} </span>
+                                                    <v-icon color="#95c17e">
+                                                        mdi-currency-eur
+                                                    </v-icon>
+                                                </v-list-item-subtitle>
+                                            </v-list-item-content>
+      
+                                        </v-list-item>
                                 </v-list>                                           
                             </v-col>                     
                         </v-row>
@@ -223,20 +283,20 @@
 
                             <v-row style="justify-content: flex-end; margin-top:5px">
                                     
-                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
+                                <v-col class="d-flex" cols="12" lg="6" md="4" sm="4" xs="6" align-end>
                                     <v-btn x-medium block color="green darken-1" @click="editMixItem(item, index)">
                                          <v-icon>
                                             mdi-circle-edit-outline
                                         </v-icon> 
-                                        Edit Item
+                                        <span class="hidden-md-and-down"> Edit Item </span>
                                     </v-btn>
                                 </v-col>
-                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
+                                <v-col class="d-flex" cols="12" lg="6" md="4" sm="4" xs="6" align-end>
                                     <v-btn x-medium block color="red darken-1" @click="deleteItem('mix',index)">
                                         <v-icon>
                                             mdi-delete-circle-outline
                                         </v-icon> 
-                                        Delete Item
+                                        <span class="hidden-md-and-down">Delete Item</span>
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -252,36 +312,41 @@
 
                     <v-row style="justify-content: flex-end;">
                         <v-col cols="7" />
-                        <v-col cols="3">
-                            <span style="font-size:22px;display:inline"> Total Price:  </span>    
-                            <v-icon color="#95c17e" style="margin-top:-11px">
+                        <v-col cols="12" lg="3" md="4" sm="4" xs="6">
+                            <span class="hidden-md-and-up" style="font-size:15px;display:inline"> Total Price:  </span>    
+                            <span class="hidden-sm-and-down" style="font-size:22px;display:inline"> Total Price:  </span>    
+                            <v-icon small class="hidden-md-and-up" color="#95c17e" style="margin-top:-5px">
                                     mdi-currency-eur
                             </v-icon>
-                            <span style="color:#95c17e;font-size:22px;display:inline"> {{returnTotalPrice()}} </span>           
+                            <v-icon class="hidden-sm-and-down" color="#95c17e" style="margin-top:-11px">
+                                    mdi-currency-eur
+                            </v-icon>
+                            <span class="hidden-md-and-up" style="color:#95c17e;font-size:15px;display:inline"> {{returnTotalPrice()}} </span>  
+                            <span class="hidden-sm-and-down" style="color:#95c17e;font-size:22px;display:inline"> {{returnTotalPrice()}} </span>           
+         
                         </v-col>                                
                     </v-row>
-                    <v-row style="justify-content: flex-end;">
-                        <v-col cols="9" />
-                        <v-col cols="3">
-                           <v-btn x-medium style="width:60%" color="green darken-1" @click="orderFromCart()">
+
+                    <v-row style="justify-content: flex-end; margin-top:5px">
+                                    
+                        <v-col class="d-flex" cols="12" lg="6" sm="2" xsm="2" align-end>
+                           <v-btn medium block color="green darken-1" @click="orderFromCart()">
                                 <v-icon>
                                     mdi-cash-register
                                 </v-icon> 
-                                Order Food
-                            </v-btn>       
-                        </v-col>                                
-                    </v-row>
-                      <v-row style="justify-content: flex-end;">
-                        <v-col cols="9" />
-                        <v-col cols="3">
-                           <v-btn x-medium style="width:60%" color="red darken-1" @click="clearCart()">
+                                 <span class="hidden-md-and-down">Order Food</span>
+                            </v-btn>   
+                        </v-col>
+                        <v-col class="d-flex" cols="12" lg="6" sm="2" xsm="2" align-end>
+                           <v-btn medium block color="red darken-1" @click="clearCart()">
                                 <v-icon>
                                     mdi-cart-remove
                                 </v-icon> 
-                                Clear Cart
-                            </v-btn>       
-                        </v-col>                                
+                                 <span class="hidden-md-and-down">Clear Cart</span>
+                            </v-btn>   
+                        </v-col>
                     </v-row>
+                   
                     
                 </v-card-text>
             </v-flex>

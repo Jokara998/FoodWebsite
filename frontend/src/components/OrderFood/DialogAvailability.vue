@@ -3,7 +3,7 @@
 
             <v-card dark style="border:1px solid #D3D3D3">
                 <v-card-title class="headline">
-                    <div><span style="color:green;display:inline"> {{availability.name}} Availability</span></div>
+                    <div><span style="color:green;display:inline"> {{availability.name}}</span></div>
                 </v-card-title>
                 <v-card-text left>
                     <v-card
