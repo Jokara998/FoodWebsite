@@ -4,7 +4,9 @@
 
                 <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
-                        <div> Delete <span style="color:green;display:inline"> {{editFood.name}} </span> from Menu? </div>
+                        <div v-if="$vuetify.breakpoint.width >= 500"> Delete <span style="color:green;display:inline"> {{editFood.name}} </span> from Menu? </div>
+                        <div v-else-if="$vuetify.breakpoint.width >=350 && $vuetify.breakpoint.width < 500"> Delete <span style="color:green;display:inline"> {{editFood.name}} </span>?</div>
+                        <div v-else-if="$vuetify.breakpoint.width < 350"> <span style="font-size:16px">Delete </span> <span style="color:green;display:inline; font-size:16px"> {{editFood.name}} </span><span style="font-size:16px">?</span></div>
                     </v-card-title>
                     <v-card-text>
                         <div>This action will result in pernamently deleting <span style="color:green;display:inline"> {{editFood.name}} </span> from the menu.</div>

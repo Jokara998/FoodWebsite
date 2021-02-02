@@ -4,7 +4,9 @@
 
                 <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
-                        <div> Remove <span style="color:green;display:inline"> {{editFood.name}} </span> from Menu? </div>
+                        <div v-if="$vuetify.breakpoint.width >= 500"> Remove <span style="color:green;display:inline"> {{editFood.name}} </span> from Menu? </div>
+                        <div v-else-if="$vuetify.breakpoint.width >=350 && $vuetify.breakpoint.width < 500"> Remove <span style="color:green;display:inline"> {{editFood.name}} </span>?</div>
+                        <div v-else-if="$vuetify.breakpoint.width < 350"> <span style="font-size:16px">Remove </span> <span style="color:green;display:inline; font-size:16px"> {{editFood.name}} </span><span style="font-size:16px">?</span></div>
                     </v-card-title>
                     <v-card-text>
                         <div>This action will result in temporary removing <span style="color:green;display:inline"> {{editFood.name}} </span> from the menu and customers will not be able to see it or order it.</div>

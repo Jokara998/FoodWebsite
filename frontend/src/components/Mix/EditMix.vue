@@ -57,9 +57,21 @@
                                             <v-row>
                                                 <v-col cols="10" align-end>
                                                     <v-card-title class="subheading font-weight-bold" >
-                                                        Food And Availability
-                                                        <v-btn @click="dialogChips = true" fab small color="dark" rounded style="margin-left:5px">
+                                                        <span v-if="$vuetify.breakpoint.width >= 480"> Food And Availability</span>
+                                                        <span v-else-if="$vuetify.breakpoint.width >= 380 && $vuetify.breakpoint.width < 480" style="font-size:14px"> Food And Availability</span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 380" style="font-size:9px"> Food&Availability</span>
+                                                        <v-btn  v-if="$vuetify.breakpoint.width >= 480" @click="dialogChips = true" fab icon small color="dark" rounded style="margin-left:0px">
                                                             <v-icon dark medium>
+                                                                mdi-plus-circle-outline
+                                                            </v-icon>                                                         
+                                                        </v-btn>
+                                                         <v-btn v-else-if="$vuetify.breakpoint.width >= 380 && $vuetify.breakpoint.width < 480" @click="dialogChips = true" fab icon x-small color="dark" rounded style="margin-left:0px">
+                                                            <v-icon dark medium>
+                                                                mdi-plus-circle-outline
+                                                            </v-icon>                                                         
+                                                        </v-btn>
+                                                        <v-btn v-else-if="$vuetify.breakpoint.width < 380" @click="dialogChips = true" fab x-small color="dark" icon rounded style="margin-left:-6px;">
+                                                            <v-icon dark left medium style="font-size:11px">
                                                                 mdi-plus-circle-outline
                                                             </v-icon>                                                         
                                                         </v-btn>
@@ -68,30 +80,57 @@
                                             </v-row>
 
                                             <v-card-text>
-                                                <v-list style="margin-top:-20px">
+                                                <v-list style="margin-top:-20px; padding:5px">
                                                     <v-list-item-group
                                                         color="primary"
-                                                    >
+                                                    >   <v-divider/>
                                                         <v-list-item inactive selectable
                                                         v-for="(item, i) in chips"
                                                         :key="i"
                                                         >
-                                                            <v-list-item-icon>
-                                                                <v-icon color="dark" left>
+                                                            <v-list-item-icon left v-if="$vuetify.breakpoint.width >= 500">
+                                                                <v-icon color="dark"> 
                                                                     mdi-food-fork-drink
                                                                 </v-icon>
+                                                           
                                                             </v-list-item-icon>
-                                                        <v-list-item-content>
-                                                            <v-list-item-title v-text="returnText(item)"></v-list-item-title>
-                                                        </v-list-item-content>
-                                                        <v-list-item-content >
-                                                            <v-btn icon style="width:60%" @click="deleteChip(item)"  color="red darken-1" small depressed rounded>
-                                                                Remove
-                                                            </v-btn>
-                                                        </v-list-item-content>
-                                                        <v-list-item-content>
-                                                        </v-list-item-content>
+                                                            <v-list-item-content v-if="$vuetify.breakpoint.width >= 450">
+                                                                <v-list-item-title v-if="$vuetify.breakpoint.width >= 650"> <span> {{returnText(item)}} </span> </v-list-item-title>
+                                                                <v-list-item-title v-else-if="$vuetify.breakpoint.width >= 450 && $vuetify.breakpoint.width < 650"> <span style="font-size:14px"> {{returnText(item)}} </span> </v-list-item-title>
+                                                                <v-list-item-title v-else-if="$vuetify.breakpoint.width < 450"> <span style="font-size:10px"> {{returnText(item)}} </span> </v-list-item-title>
+                                                            </v-list-item-content>
+                                                            <v-list-item-content v-if="$vuetify.breakpoint.width >= 450" >
+                                                                <v-btn icon style="width:60%" @click="deleteChip(item)"  color="red darken-1" small depressed rounded>
+                                                                    <v-icon medium color="dark" v-if="$vuetify.breakpoint.width >= 650"> 
+                                                                        mdi-close-circle
+                                                                    </v-icon>
+                                                                    <v-icon medium color="dark"  v-else-if="$vuetify.breakpoint.width >= 450 && $vuetify.breakpoint.width < 650" style="font-size:13px"> 
+                                                                        mdi-close-circle
+                                                                    </v-icon>
+                                                                    <v-icon medium color="dark" v-else-if="$vuetify.breakpoint.width < 450" style="font-size:13px"> 
+                                                                        mdi-close-circle
+                                                                    </v-icon>
+                                                                    <span v-if="$vuetify.breakpoint.width >= 650"> Remove </span>
+                                                                    <span v-else-if="$vuetify.breakpoint.width >= 450 && $vuetify.breakpoint.width < 650" style="font-size:13px"> Remove </span>
+                                                                </v-btn>
+                                                            </v-list-item-content>
+                                                            <v-list-item-content v-if="$vuetify.breakpoint.width < 450">
+                                                            
+                                                              
+                                                                <v-list-item-title >
+                                                                    <span style="font-size:10px"> {{returnText(item)}} </span> 
+                                                                    <v-btn icon @click="deleteChip(item)" color="red darken-1" small depressed rounded>
+                                                                        <v-icon medium color="dark" style="font-size:13px"> 
+                                                                            mdi-close-circle
+                                                                        </v-icon>                               
+                                                                    </v-btn> 
+                                                                </v-list-item-title>
+                                                                
+
+                                                            </v-list-item-content>
+                                                              
                                                         </v-list-item>
+                                                        <v-divider/>
                                                         
                                                     </v-list-item-group>
                                                 </v-list>
@@ -106,18 +145,31 @@
                                 <v-divider></v-divider>
                                 
                                 <v-row>
-                                    <v-col
+                                   <v-col
                                         cols="12"
                                         md="8"
+                                        sm="6"
                                     />
                                     <v-col
                                         cols="12"
                                         md="2"
+                                        sm="3"
                                     >
-                                    
-                                        <v-btn
+                                        <v-btn 
+                                            v-if="$vuetify.breakpoint.width >= 600"
                                             color="green darken-1"
                                             text
+                                            @click="editMix()"
+                                        >
+                                        <v-icon color="dark" left>
+                                            mdi-check-circle-outline
+                                        </v-icon>
+                                            Submit
+                                        </v-btn>
+                                        <v-btn 
+                                            v-else-if="$vuetify.breakpoint.width <= 600"
+                                            color="green darken-1"
+                                            block
                                             @click="editMix()"
                                         >
                                         <v-icon color="dark" left>
@@ -130,8 +182,10 @@
                                     <v-col
                                         cols="12"
                                         md="2"
+                                        sm="3"
                                     >
-                                        <v-btn
+                                        <v-btn 
+                                            v-if="$vuetify.breakpoint.width >= 600"
                                             color="red darken-1"
                                             text
                                             @click="dialog = false;  $refs.form.reset(); chips = []"
@@ -141,6 +195,18 @@
                                         </v-icon>
                                             Close
                                         </v-btn>
+                                        <v-btn 
+                                            v-else-if="$vuetify.breakpoint.width < 600"
+                                            color="red darken-1"
+                                            block
+                                            @click="dialog = false;  $refs.form.reset(); chips = []"
+                                        >
+                                        <v-icon color="dark" left>
+                                            mdi-close-circle-outline
+                                        </v-icon>
+                                            Close
+                                        </v-btn>
+                                      
                                     </v-col>
                                     
                                 </v-row>
@@ -159,12 +225,13 @@
             persistent
             max-width="450"
             >
-                 <v-card dark>
+                 <v-card dark style="border:1px solid #D3D3D3" width="500px">
                     <v-card-title>         
                         <v-icon color="dark" left>
                             mdi-food
                         </v-icon>
-                        <span class="headline">New Food And Availability</span>
+                        <span class="headline" v-if="$vuetify.breakpoint.width >= 440" >New Food And Availability</span>
+                        <span v-else-if="$vuetify.breakpoint.width < 440" style="font-size:15px" >New Food&Availability</span>
                     </v-card-title>
                     <v-divider></v-divider>
                     <v-card-text>
