@@ -124,7 +124,7 @@
                                             prepend-icon="mdi-camera"
                                             chips
                                             type="file"
-                                            label="Choose Food Image"
+                                            label="Choose Image"
                                             counter
                                             show-size
                                             ref="image"
@@ -156,15 +156,31 @@
                                     <v-col
                                         cols="12"
                                         md="8"
+                                        sm="6"
                                     />
                                     <v-col
                                         cols="12"
                                         md="2"
+                                        sm="3"
                                     >
                                     
                                         <v-btn
+                                            v-if="$vuetify.breakpoint.width >= 600"
                                             color="green darken-1"
                                             text
+                                            @click="editFoodForm()"
+                                            :loading="dialogLoading"
+                                            :disabled="dialogLoading"
+                                        >
+                                        <v-icon color="dark" left>
+                                            mdi-check-circle-outline
+                                        </v-icon>
+                                            Submit
+                                        </v-btn>
+                                        <v-btn
+                                            v-else-if="$vuetify.breakpoint.width < 600"
+                                            color="green darken-1"
+                                            block
                                             @click="editFoodForm()"
                                             :loading="dialogLoading"
                                             :disabled="dialogLoading"
@@ -179,10 +195,23 @@
                                     <v-col
                                         cols="12"
                                         md="2"
+                                        sm="3"
                                     >
                                         <v-btn
+                                            v-if="$vuetify.breakpoint.width >= 600"
                                             color="red darken-1"
                                             text
+                                            @click="cancelForm()"
+                                        >
+                                        <v-icon color="dark" left>
+                                            mdi-close-circle-outline
+                                        </v-icon>
+                                            Close
+                                        </v-btn>
+                                        <v-btn
+                                            v-else-if="$vuetify.breakpoint.width < 600"
+                                            color="red darken-1"
+                                            block
                                             @click="cancelForm()"
                                         >
                                         <v-icon color="dark" left>

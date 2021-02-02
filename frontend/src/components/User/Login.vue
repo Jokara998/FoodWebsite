@@ -62,7 +62,7 @@
                 centered
                 dark
                 >
-                    <v-card elevation="8">
+                    <v-card elevation="8" dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
                         <div> 
                            <span style="display:inline;color:#E53935">Login Message </span>

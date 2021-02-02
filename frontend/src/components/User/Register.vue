@@ -116,7 +116,7 @@
                 v-model="snackbar"
                 max-width="450px"
                 >
-                <v-card>
+                <v-card dark style="border:1px solid #D3D3D3">
                      <v-card-title class="headline">
                         <div> Register Request</div>
                     </v-card-title>

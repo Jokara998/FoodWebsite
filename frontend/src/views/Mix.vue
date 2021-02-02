@@ -6,6 +6,12 @@
         <v-card dark :key="mixKey" >
             <v-card-title>
                 Food Mixes
+                <v-btn class="hidden-md-and-up" @click="addMix()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:5px" >
+                    <v-icon dark medium>
+                        mdi-plus-circle-outline
+                    </v-icon>
+                    <span v-if="$vuetify.breakpoint.width >= 350">Add</span>
+                </v-btn>
             <v-spacer></v-spacer>
             <v-text-field
                 v-model="search"
@@ -15,7 +21,7 @@
                 hide-details
             ></v-text-field>
 
-            <v-btn @click="addMix()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
+            <v-btn class="hidden-sm-and-down" @click="addMix()" color="dark" depressed elevation="2" outlined rounded style="margin-top:5px;margin-left:15px" >
                 <v-icon dark medium>
                     mdi-plus-circle-outline
                 </v-icon>
@@ -23,133 +29,146 @@
             </v-btn>
             
             </v-card-title>
-            <v-data-table
-               
-                dense
-                :headers="headers"
-                :items="mixs"
-                :search="search"
-            >
+            <v-flex v-for="item in this.mixs" :key="item.id" >
             
-            <template v-slot:item.name="{item}" >
-                    <v-card  style="background-image:linear-gradient(80deg,#313131,#313131); padding:50px; margin:50px; margin-left:100px;margin-right:100px">
-                        
-                        <v-row>
-                          
-                        <v-col cols="10" align-end>
-                            <v-card-title class="subheading font-weight-bold" >
-                                {{ item.name }}
-                            </v-card-title>
-                        </v-col>
-                        <v-col cols="2">  
-                            <v-card-title class="subheading font-weight-bold" align-end>
-                                 <v-icon color="#95C17E">
-                                    mdi-currency-eur
-                                </v-icon>
-                                <span style="color:#95C17E"> {{returnPrice(item)}} </span>
-                             </v-card-title>
-                        </v-col>
-                       
-                        </v-row>
-
-                        <v-divider></v-divider>
-
-                        <v-card-text>
-
-                             <v-list disabled>
-                                <v-list-item-group
-                                    color="primary"
-                                >
-                                    <v-list-item
-                                    v-for="(itemm, i) in item.food"
-                                    :key="i"
-                                    >
-                                        <v-list-item-icon>
-                                            <v-icon color="dark" left>
-                                                mdi-food-fork-drink
-                                            </v-icon>
-                                        </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title v-text="returnText(item, i)"></v-list-item-title>
-                                    </v-list-item-content>
-                                    </v-list-item>
-                                    
-                                </v-list-item-group>
-                            </v-list>
-                        </v-card-text>
-
-                        <v-card-text>
-
-                            <v-col class="d-flex" cols="6" sm="3" xsm="6" align-start>  
-                                <v-chip
-                                    medium
-                                    outlined
-                                    style="pointer-events:none"
-                                >
-                                    <v-icon left color="red darken-1">
-                                        mdi-label
+                <template>
+                        <v-card  style="background-image:linear-gradient(80deg,#313131,#313131); padding:0px; margin:30px; ">
+                            
+                            <v-row>
+                            
+                            <v-col cols="12"  md="9" align-end>
+                                <v-card-title class="subheading font-weight-bold" >
+                                    {{ item.name }}
+                                </v-card-title>
+                            </v-col>
+                            <v-col cols="12" md="3">  
+                                <v-card-title class="subheading font-weight-bold" align-end>
+                                    <v-icon color="#95C17E">
+                                        mdi-currency-eur
                                     </v-icon>
-                                    <span style="display:inline;color:#E53935"> 
-                                        Discount: {{item.discount}}%
-                                    </span>
-                                </v-chip>
+                                    <span style="color:#95C17E"> {{returnPrice(item)}} </span>
+                                </v-card-title>
                             </v-col>
-
-                            <v-col class="d-flex" cols="6" sm="3" xsm="6" align-start>  
-                                <v-chip
-                                    medium
-                                    outlined
-                                    style="pointer-events:none"
-                                >
-                                   <v-flex v-show="item.rate.number > 0">
-                                        <v-card-title style="margin-left:-20px;justify-content:center"> 
-                                                <v-icon color="#ffbe41">
-                                                    mdi-star
-                                                </v-icon>
-                                                <span style="color:#f5f5f5;font-size:15px">Rate: {{item.rate.rate}} [users:{{item.rate.number}}] </span>
-                                        </v-card-title>
-                                    </v-flex>
-                                    <v-flex v-show="item.rate.number == 0">
-                                        <v-card-title style="margin-left:-20px;justify-content:center"> 
-                                                <v-icon color="#ffbe41">
-                                                    mdi-star
-                                                </v-icon>
-                                                <span style="color:#f5f5f5; font-size:15px">Rate: Not Rated </span>
-                                        </v-card-title>
-                                    </v-flex>
-                                </v-chip>
-                            </v-col>
-                        </v-card-text>
-
-                        <v-divider></v-divider>
-
-                        <v-card-text>
-
-                            <v-row style="justify-content: flex-end;">
-                                    
-                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
-                                    <v-btn x-medium block color="green darken-1" @click="editMix(item)">
-                                         <v-icon>
-                                            mdi-circle-edit-outline
-                                        </v-icon> 
-                                        Edit Mix 
-                                    </v-btn>
-                                </v-col>
-                                <v-col class="d-flex" cols="12" sm="2" xsm="12" align-end>
-                                    <v-btn x-medium block color="red darken-1" @click="deleteMix(item)">
-                                        <v-icon>
-                                            mdi-delete-circle-outline
-                                        </v-icon> 
-                                        Delete Mix
-                                    </v-btn>
-                                </v-col>
+                        
                             </v-row>
 
-                        </v-card-text>
-                    </v-card>   
-                </template>
+                            <v-divider></v-divider>
 
-            </v-data-table>
+                            <v-card-text>
+
+                                <v-list disabled v-if ="$vuetify.breakpoint.width >= 550">
+                                    <v-list-item-group
+                                        color="primary"
+                                    >
+                                        <v-list-item
+                                        v-for="(itemm, i) in item.food"
+                                        :key="i"
+                                        >
+                                            <v-list-item-icon>
+                                                <v-icon color="dark" left>
+                                                    mdi-food-fork-drink
+                                                </v-icon>
+                                            </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title v-text="returnText(item, i)"></v-list-item-title>
+                                        </v-list-item-content>
+                                        </v-list-item>
+                                        
+                                    </v-list-item-group>
+                                </v-list>
+                                <v-list disabled v-if ="$vuetify.breakpoint.width < 550">
+                                    <v-list-item-group
+                                        color="primary"
+                                    >
+                                        <v-list-item
+                                        v-for="(itemm, i) in item.food"
+                                        :key="i"
+                                        >
+                                        <v-list-item-content>
+                                            <v-list-item-title> <span style="font-size:11px"> {{returnText1(item, i)}} </span> </v-list-item-title>
+                                        </v-list-item-content>
+                                        </v-list-item>
+                                        
+                                    </v-list-item-group>
+                                </v-list>
+                            </v-card-text>
+
+                            <v-card-text>
+
+                                <v-col class="d-flex" cols="12" md="6" sm="6"  align-start>  
+                                    <v-chip
+                                        medium
+                                        outlined
+                                        style="pointer-events:none"
+                                    >
+                                        <v-icon left color="red darken-1" v-if="$vuetify.breakpoint.width >= 340">
+                                            mdi-label
+                                        </v-icon>
+                                        <v-icon left color="red darken-1" style="font-size:13px" v-else-if="$vuetify.breakpoint.width < 340">
+                                            mdi-label
+                                        </v-icon>
+                                        <span v-if="$vuetify.breakpoint.width >= 340" style="display:inline;color:#E53935"> 
+                                            Discount:{{item.discount}}%
+                                        </span>
+                                        <span v-else-if="$vuetify.breakpoint.width < 340" style="display:inline;color:#E53935;font-size:10px"> 
+                                            Discount:{{item.discount}}%
+                                        </span>
+                                    </v-chip>
+                                </v-col>
+
+                                <v-col class="d-flex" cols="12" md="6" sm="6" align-start>  
+                                    <v-chip
+                                        medium
+                                        outlined
+                                        style="pointer-events:none"
+                                    >
+                                    <v-flex v-show="item.rate.number > 0">
+                                            <v-card-title style="margin-left:-10px;justify-content:center"> 
+                                                
+                                                    <span v-if="$vuetify.breakpoint.width >= 340" style="color:#f5f5f5;font-size:15px">Rate:{{item.rate.rate}}⭐[{{item.rate.number}}] </span>
+                                                    <span v-else-if="$vuetify.breakpoint.width < 340" style="color:#f5f5f5;font-size:10px">Rate:{{item.rate.rate}}⭐[{{item.rate.number}}] </span>
+                                            </v-card-title>
+                                        </v-flex>
+                                        <v-flex v-show="item.rate.number == 0">
+                                            <v-card-title style="margin-left:-10px;justify-content:center"> 
+                                                    
+                                                    <span v-if="$vuetify.breakpoint.width >= 340" style="color:#f5f5f5; font-size:15px">Not Rated⭐ </span>
+                                                    <span v-else-if="$vuetify.breakpoint.width < 340" style="color:#f5f5f5; font-size:11px">Not Rated⭐ </span>
+                                            </v-card-title>
+                                        </v-flex>
+                                    </v-chip>
+                                </v-col>
+                            </v-card-text>
+
+                            <v-divider></v-divider>
+
+                            <v-card-text>
+
+                                <v-row style="justify-content: flex-end;">
+                                        
+                                    <v-col class="d-flex" cols="12" md="6" sm="6" align-end>
+                                        <v-btn x-medium block color="green darken-1" @click="editMix(item)">
+                                            <v-icon>
+                                                mdi-circle-edit-outline
+                                            </v-icon> 
+                                            Edit
+                                        </v-btn>
+                                    </v-col>
+                                    <v-col class="d-flex" cols="12" md="6" sm="6" align-end>
+                                        <v-btn x-medium block color="red darken-1" @click="deleteMix(item)">
+                                            <v-icon>
+                                                mdi-delete-circle-outline
+                                            </v-icon> 
+                                            Delete
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
+
+                            </v-card-text>
+                        </v-card>   
+                    </template>
+                <br>
+            </v-flex>
         </v-card>
 
         <v-btn
@@ -255,6 +274,9 @@ export default {
         },
         returnText(item, i){
             return item.food[i].name+" [ Availability: "+item.availability[i]+" ] "
+        },
+        returnText1(item, i){
+            return item.food[i].name+" ["+item.availability[i]+"] "
         },
         returnPrice(item){
            let price = 0
