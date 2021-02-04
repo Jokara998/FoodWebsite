@@ -164,44 +164,69 @@
 
         <v-footer dark style="margin-top:10px"  class="text-center">
                 
-                <v-col md="4" sm="4" xs="3">       
-                    <v-btn class="hidden-xs-and-down"
-                        style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
-                        text
-                        @click="descriptionOpen(food)"
-                    >
-                        <v-icon color="dark">
-                            mdi-text-box-multiple-outline
-                        </v-icon>
+                <v-col md="4" sm="4" xs="3">  
+
+                    <v-tooltip top color="#a6d78d">
+                        <template v-slot:activator="{ on }">
+                            <v-btn class="hidden-xs-and-down"
+                            v-on="on"
+                            style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
+                            text
+                            @click="descriptionOpen(food)"
+                            >
+                                <v-icon color="dark">
+                                    mdi-text-box-multiple-outline
+                                </v-icon>
+                                
+                            </v-btn>  
+                        </template>
+                        <span v-if="$vuetify.breakpoint.width >= 420" style="color:black"> See Food Description? </span>
+                        <span v-else-if="$vuetify.breakpoint.width < 420" style="font-size:12px;color:black">See Food Description? </span>
                         
-                    </v-btn>  
+                    </v-tooltip>                       
 
                 </v-col>
-                <v-col md="4" sm="4" xs="3">    
+                <v-col md="4" sm="4" xs="3">   
 
-                     <v-btn class="hidden-xs-and-down"
-                        style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
-                        text
-                        @click="availabilityOpen(food)"
-                    >
-                        <v-icon color="dark">
-                            mdi-food-fork-drink
-                        </v-icon>
-                    </v-btn>      
+                     <v-tooltip top color="#a6d78d">
+                        <template v-slot:activator="{ on }">
+                            <v-btn class="hidden-xs-and-down"
+                                v-on="on"
+                                style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
+                                text
+                                @click="availabilityOpen(food)"
+                            >
+                                <v-icon color="dark">
+                                    mdi-food-fork-drink
+                                </v-icon>
+                            </v-btn>   
+                        </template>
+                        <span v-if="$vuetify.breakpoint.width >= 420" style="color:black"> See Food Availability? </span>
+                        <span v-else-if="$vuetify.breakpoint.width < 420" style="font-size:12px;color:black">See Food Availability? </span>
+                        
+                    </v-tooltip>                
             
                 </v-col>  
                 <v-col  md="4" sm="4" xs="3">
-                    <v-btn 
-                        class="hidden-xs-and-down"
-                        style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
-                        text
-                        @click="details(food)"
-                    >
-                        <v-icon color="dark" >
-                            mdi-information-outline
-                        </v-icon>
-                    </v-btn>          
-                
+
+                    <v-tooltip top color="#a6d78d">
+                        <template v-slot:activator="{ on }">
+                            <v-btn 
+                            v-on="on"
+                                class="hidden-xs-and-down"
+                                style="background-image: linear-gradient(190deg,#a6d78d, #95c17e);"
+                                text
+                                @click="details(food)"
+                            >
+                                <v-icon color="dark" >
+                                    mdi-information-outline
+                                </v-icon>
+                            </v-btn> 
+                        </template>
+                        <span v-if="$vuetify.breakpoint.width >= 420" style="color:black"> See Food Details & Order Food? </span>
+                        <span v-else-if="$vuetify.breakpoint.width < 420" style="font-size:12px;color:black">See Food Details & Order Food? </span>
+                        
+                    </v-tooltip>                    
                 </v-col>          
         </v-footer>  
 
@@ -258,9 +283,7 @@ export default {
             this.$refs.details.dialog = true;
         }
     },
-    created(){
-        console.log("AA:",this.food.rate)
-    }
+    
 }
 </script>
 <style scoped>

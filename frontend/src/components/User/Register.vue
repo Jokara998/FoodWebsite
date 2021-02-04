@@ -190,6 +190,7 @@ export default {
                 v => v!="" || 'Phone is required',
                 v => v!=null && v.length <= 15 || 'Phone must be less than 15 characters.',
                 v => !isNaN(v) || 'Phone must be a number.',
+                v=> /^[0-9]+$/.test(v) || "Phone invalid form."
             ],
   
             emailRules:[  

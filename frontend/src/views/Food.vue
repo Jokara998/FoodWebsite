@@ -92,35 +92,55 @@
                                                                         <v-list-item>
                                                                         
                                                                             <v-list-item-content>
-                                                                                <v-btn icon @click="editFood(fd)" class="mr-2" color="#484848" small depressed  rounded>
-                                                                                    <v-icon>
-                                                                                        mdi-circle-edit-outline
-                                                                                    </v-icon>
-                                                                                </v-btn>
+                                                                                <v-tooltip dark color="#484848" top>
+                                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                                        <v-btn icon @click="editFood(fd)" class="mr-2" color="#484848" small depressed  rounded v-bind="attrs" v-on="on">
+                                                                                            <v-icon>
+                                                                                                mdi-circle-edit-outline
+                                                                                            </v-icon>
+                                                                                        </v-btn>
+                                                                                    </template>
+                                                                                    <span>Change food information?</span>
+                                                                                </v-tooltip>
                                                                             </v-list-item-content>
                                                                         </v-list-item>
                                                                         <v-list-item>
                                                                             <v-list-item-content>
-                                                                            <v-btn icon @click="deleteFood(fd)" class="mr-2"  color="#cc222c" small depressed rounded >
+                                                                            <v-tooltip dark color="#cc222c" top>
+                                                                                <template v-slot:activator="{ on, attrs }">
+                                                                                    <v-btn icon @click="deleteFood(fd)" class="mr-2"  color="#cc222c" small depressed rounded v-bind="attrs" v-on="on">
                                                                                     <v-icon>
                                                                                         mdi-delete-circle-outline
-                                                                                    </v-icon>
-                                                                                </v-btn>
+                                                                                        </v-icon>
+                                                                                    </v-btn>
+                                                                                </template>
+                                                                                <span>Pernamently remove food from the menu?</span>
+                                                                            </v-tooltip>
                                                                             </v-list-item-content>
                                                                         </v-list-item>
                                                                         <v-list-item>
                                                                             <v-list-item-content>
-                                                                                <v-btn v-if="fd.active"  icon @click="removeFood(fd)" class="mr-2" color="#ff8a2a" small depressed rounded >
-                                                                                    <v-icon>
-                                                                                        mdi-minus-circle-outline
-                                                                                        </v-icon>
-                                                                                </v-btn>
+                                                                                <v-tooltip v-if="fd.active" dark color="#ff8a2a" top>
+                                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                                        <v-btn icon @click="removeFood(fd)" class="mr-2" color="#ff8a2a" small depressed rounded v-bind="attrs" v-on="on">
+                                                                                        <v-icon>
+                                                                                                mdi-minus-circle-outline
+                                                                                            </v-icon>
+                                                                                        </v-btn>
+                                                                                    </template>
+                                                                                    <span>Temporary disable food from the menu?</span>
+                                                                                </v-tooltip>
 
-                                                                                <v-btn v-if="!fd.active"  icon @click="activateFood(fd)" class="mr-2" color="#4db01b" small depressed rounded>
-                                                                                    <v-icon>
-                                                                                        mdi-plus-circle-outline
-                                                                                    </v-icon>
-                                                                                </v-btn>
+                                                                               <v-tooltip v-if="!fd.active" dark color="#4db01b" top>
+                                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                                        <v-btn icon @click="activateFood(fd)" class="mr-2" color="#4db01b" small depressed rounded v-bind="attrs" v-on="on">
+                                                                                        <v-icon>
+                                                                                                mdi-plus-circle-outline
+                                                                                            </v-icon>
+                                                                                        </v-btn>
+                                                                                    </template>
+                                                                                    <span>Activate food?</span>
+                                                                                </v-tooltip>
                                                                             </v-list-item-content>
 
                                                                         </v-list-item>

@@ -10,7 +10,7 @@ const authentication = require("../auth/auth")
 const foodValidation = Joi.object({
     name: Joi.string().max(30).required(),
     description: Joi.string().max(50).required(),
-    price: Joi.string().max(10).required(),
+    price: Joi.string().max(10).pattern(/^(?!^0\.00$)(([1-9][\d]{0,6})|([0]))\.[\d]{2}$/).required(),
     type: Joi.string().required(),
     availability: Joi.array().required(),
     image: Joi.string().required()

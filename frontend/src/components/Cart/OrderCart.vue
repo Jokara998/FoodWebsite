@@ -9,7 +9,7 @@
                                 :complete="e1 > 1"
                                 step="1"
                             >
-                                Order Address
+                                Orderer Information
                             </v-stepper-step>
 
                             <v-divider></v-divider>
@@ -76,11 +76,31 @@
                                                             </v-text-field>
                                                         </v-col>    
                                                         <v-col cols="12" md="6">
+                                                            
                                                             <v-checkbox
                                                                 v-show="this.token != '' "
                                                                 v-model="checkbox"
-                                                                label="I want to use my profile information."
-                                                            ></v-checkbox>
+                                                            >
+                                                             <template v-slot:label>
+                                                                    <div>
+                                                                    <span v-if="$vuetify.breakpoint.width >= 420"> Use profile information </span>
+                                                                    <span v-else-if="$vuetify.breakpoint.width < 420" style="font-size:12px"> Use profile information </span>
+                                                                    <v-tooltip top color="primary">
+                                                                        <template v-slot:activator="{ on }">
+                                                                        <span
+                                                                            style="color:#005eb6;font-size:20px"
+                                                                            v-on="on"
+                                                                        >
+                                                                            ?
+                                                                        </span>
+                                                                        </template>
+                                                                        <span v-if="$vuetify.breakpoint.width >= 420"> Use profile information(fullname, phone and address) for order delivery? </span>
+                                                                        <span v-else-if="$vuetify.breakpoint.width < 420" style="font-size:12px">Use profile information(fullname, phone and address) for order delivery? </span>
+                                                                        
+                                                                    </v-tooltip>
+                                                                    </div>
+                                                                </template>
+                                                            </v-checkbox>                                                          
                                                         </v-col>
                                                     </v-row>
                                                     <v-divider />
@@ -446,7 +466,7 @@ export default {
             ],
 
             couponRules:[
-                v => v.length <= 15 || 'Coupon must have less than 15 characters or equal.',
+                v => v!=null && v.length <= 15 || 'Coupon must have less than 15 characters or equal.',
             ],
 
             realCoupon:{validate:0, coupon:undefined},

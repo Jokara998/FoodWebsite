@@ -93,7 +93,9 @@ export default {
                 v => v!=null || 'Required',
                 v => v!="" || 'Requiredd',
                 v => v!=null && String(v).length <= 2 || 'Invalid.',
-                v => !isNaN(v) || 'Invalid.'
+                v => !isNaN(v) || 'Invalid.',
+                v=> /^[0-9]+$/.test(v) || "Invalid.",
+                v => v!=0 || 'Invalid number.',
             ],
        
         }

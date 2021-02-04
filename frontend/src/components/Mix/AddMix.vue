@@ -354,11 +354,13 @@ export default {
                 v => isNaN(v) || 'Food name must not have numbers.'
             ], 
             discountRules: [
-                v => !!v || 'Food price is required',
-                v => v!=null || 'Food price is required',
-                v => v!="" || 'Food price is required',
-                v => v!=null && String(v).length <= 10 || 'Food price must be less than 10 numbers.',
-                v => !isNaN(v) || 'Food price must be number.'
+                v => !!v || 'Discount is required',
+                v => v!=null || 'Discount is required',
+                v => v!="" || 'Discount is required',
+                v => v!=null && String(v).length <= 2 || 'Discount must be less than 10 numbers.',
+                v => !isNaN(v) || 'Discount must be number.',
+                v=> /^[0-9]+$/.test(v) || "Discount Invalid.",
+                v => v!=0 || 'Discount can not be 0.',
             ],
 
             oneAvailabilityRules: [

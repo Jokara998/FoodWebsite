@@ -110,9 +110,11 @@ export default {
             amountRules: [
                 v => !!v || 'Required',
                 v => v!=null || 'Required',
-                v => v!="" || 'Requiredd',
+                v => v!="" || 'Required',
                 v => v!=null && String(v).length <= 2 || 'Invalid.',
-                v => !isNaN(v) || 'Invalid.'
+                v => !isNaN(v) || 'Invalid.',
+                v=> /^[0-9]+$/.test(v) || "Invalid.",
+                v => v!=0 || 'Invalid number.',
             ],
             availabilityRules: [
                 v => !!v || 'Food availability is required',

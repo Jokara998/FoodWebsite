@@ -376,7 +376,8 @@ export default {
     data(){
         return{
             dialog:false,
-            food:{},
+            valid:false,
+            food:{image:"", id:"",name:"",price:"", rate:{number:"",}},
             selectedAvailability:"",
             selectedAmount:"",
             amountRules: [
@@ -384,7 +385,9 @@ export default {
                 v => v!=null || 'Required',
                 v => v!="" || 'Requiredd',
                 v => v!=null && String(v).length <= 2 || 'Invalid.',
-                v => !isNaN(v) || 'Invalid.'
+                v => !isNaN(v) || 'Invalid.',
+                v=> /^[0-9]+$/.test(v) || "Invalid.",
+                v => v!=0 || 'Invalid number.',
             ],
             availabilityRules: [
                 v => !!v || 'Food availability is required',
@@ -400,7 +403,6 @@ export default {
         },
         async addToCart(){
             if(this.$refs.form.validate()){
-                console.log(this.selectedAvailability+","+this.selectedAmount)
                 let cartObject = {
                     food:this.food,
                     availability:this.selectedAvailability,

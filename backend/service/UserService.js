@@ -48,6 +48,12 @@ const registerWorker = async (body, res)=>{
         return
     }
 
+    if(body.type === "Admin" || body.type === "Client"){
+        res.status(422).send({message:"Wrong user type!"});
+        return
+    }
+    
+
     // hash password
     const hashPass = await hashPassword(body.password)
 

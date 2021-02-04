@@ -52,7 +52,7 @@
                             </template>
 
                             <template v-slot:item.price="{item}">                            
-                                <span>{{item.price}} €</span>                        
+                                <span>{{item.price}}€</span>                        
                             </template>
                         
                             <template v-slot:item.actions="{item}">
@@ -101,7 +101,7 @@
                             </template>
 
                             <template v-slot:item.price="{item}">                            
-                                <span>{{item.price}} €</span>                        
+                                <span>{{item.price}}€</span>                        
                             </template>
                         
                             <template v-slot:item.actions="{item}">

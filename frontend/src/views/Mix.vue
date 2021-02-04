@@ -125,8 +125,8 @@
                                     <v-flex v-show="item.rate.number > 0">
                                             <v-card-title style="margin-left:-10px;justify-content:center"> 
                                                 
-                                                    <span v-if="$vuetify.breakpoint.width >= 340" style="color:#f5f5f5;font-size:15px">Rate:{{item.rate.rate}}⭐[{{item.rate.number}}] </span>
-                                                    <span v-else-if="$vuetify.breakpoint.width < 340" style="color:#f5f5f5;font-size:10px">Rate:{{item.rate.rate}}⭐[{{item.rate.number}}] </span>
+                                                    <span v-if="$vuetify.breakpoint.width >= 340" style="color:#f5f5f5;font-size:15px">Rate:{{returnRate(item.rate.rate)}}⭐[{{item.rate.number}}] </span>
+                                                    <span v-else-if="$vuetify.breakpoint.width < 340" style="color:#f5f5f5;font-size:10px">Rate:{{returnRate(item.rate.rate)}}⭐[{{item.rate.number}}] </span>
                                             </v-card-title>
                                         </v-flex>
                                         <v-flex v-show="item.rate.number == 0">
@@ -297,7 +297,10 @@ export default {
             let total = price
             let prc = total - price*item.discount/100
             return parseFloat(prc).toFixed(2)
-        }  
+        },
+        returnRate(rate){
+            return rate.toFixed(2)
+        }
     },
 
     computed:{

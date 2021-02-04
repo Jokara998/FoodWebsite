@@ -16,6 +16,15 @@ const registerValidate = Joi.object({
     type: Joi.string().required(),
 });
 
+const registerValidateClient = Joi.object({
+    name: Joi.string().max(30).required(),
+    surname: Joi.string().max(30).required(),
+    address: Joi.string().max(30).required(),
+    phone: Joi.string().max(15).pattern(/^[0-9]+$/).required(),
+    email: Joi.string().min(6).max(30).required().email(),
+    password: Joi.string().min(6).max(30).required(),
+});
+
 const loginValidate = Joi.object({
     email: Joi.string().min(6).max(30).required().email(),
     password: Joi.string().min(6).max(30).required()
@@ -39,7 +48,7 @@ router.post(
     "/register/client",
     async (req, res) =>{
 
-        const {error} = registerValidate.validate(req.body);
+        const {error} = registerValidateClient.validate(req.body);
         if(error)            
             return res.status(422).send(error.details[0].message);
         else{

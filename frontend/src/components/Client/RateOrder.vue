@@ -279,6 +279,45 @@
         >
             <Loader/>
         </v-dialog>
+
+        <v-dialog
+            v-model="dialogRate"
+            hide-overlay
+            persistent
+            width="450"
+            min-height="350"
+            >
+               <v-card dark style="border:2px solid #ffffff">
+                   <v-card-title>
+                        <v-icon color="green" class="hidden-sm-and-down">
+                            mdi-check-circle-outline
+                        </v-icon>
+                         <v-icon color="green" class="hidden-md-and-up" small>
+                            mdi-check-circle-outline
+                        </v-icon>
+                        <span class="hidden-sm-and-down"  style="font-size:25px;display:inline"> Order Rating </span>
+                        <span class="hidden-md-and-up" style="font-size:18px"> Order Rating </span>
+                   </v-card-title>
+
+                   <v-card-text>
+                        <span class="hidden-sm-and-down"  style="font-size:20px;display:inline"> Rates sent! </span>
+                        <span class="hidden-md-and-up" style="font-size:13px"> Rates sent! </span>
+                       
+                   </v-card-text>
+
+                   <v-card-actions>
+                            <v-col md="8" sm="7" />
+                            <v-col md="4" sm="5">
+                                <v-btn color="green" @click="closeAll()" style="justify-content:end">
+                                    <v-icon color="black">
+                                        mdi-close-circle
+                                    </v-icon>
+                                    Close
+                                </v-btn>
+                           </v-col>
+                   </v-card-actions>
+               </v-card>
+            </v-dialog>
      </v-container>
 </template>
 
@@ -289,8 +328,9 @@ import Loader from '../Loaders/Loader'
 export default {
     data(){
         return{
-            order:{},
+            order:{ordered:[{food:""}]},
             dialogLoading:false,
+            dialogRate:false,
         }
     },
 
@@ -335,11 +375,15 @@ export default {
             await axios.patch("/order/rated/"+this.order.id).then(async ()=>{
                 await this.$store.dispatch("clearRates")
                 this.dialogLoading = false;
-                this.$parent.$parent.home()
+                this.dialogRate = true;
             }).catch(()=>{
-                        this.dialogLoading = false;
+                this.dialogLoading = false;
             })
         
+        },
+        closeAll(){
+            this.dialogRate = false;
+            this.$router.push("/")
         }
     },
     components:{

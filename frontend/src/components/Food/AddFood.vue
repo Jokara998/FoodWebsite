@@ -41,6 +41,7 @@
                                                 required
                                                 ref="number"
                                                 prefix='€'
+                                                hint="Hint => price:25.00"
                                             ></v-text-field>
                     
                                         </v-col>
@@ -200,7 +201,7 @@
                                             v-if="$vuetify.breakpoint.width >= 600"
                                             color="red darken-1"
                                             text
-                                            @click="dialog = false;  $refs.form.reset(); $refs.formChip.reset(); availability = []; url = null; image = null"
+                                            @click="$refs.form.reset(); availability = []; url = null; image = null; dialog = false;"
                                         >
                                         <v-icon color="dark" left>
                                             mdi-close-circle-outline
@@ -211,7 +212,7 @@
                                             v-else-if="$vuetify.breakpoint.width < 600"
                                             color="red darken-1"
                                             block
-                                            @click="dialog = false;  $refs.form.reset(); $refs.formChip.reset(); availability = []; url = null; image = null"
+                                            @click=" $refs.form.reset(); availability = []; url = null; image = null; dialog = false;"
                                         >
                                         <v-icon color="dark" left>
                                             mdi-close-circle-outline
@@ -275,7 +276,9 @@ export default {
                 v => v!=null || 'Food price is required',
                 v => v!="" || 'Food price is required',
                 v => v!=null && String(v).length <= 10 || 'Food price must be less than 10 numbers.',
-                v => !isNaN(v) || 'Food price must be number.'
+                v => !isNaN(v) || 'Food price must be number.',
+                v=> /^(?!^0\.00$)(([1-9][\d]{0,6})|([0]))\.[\d]{2}$/.test(v) || "Food Price Invalid.",
+                v => v!=0 || 'Food Price can not be 0.',
             ],
             imageRules: [
                 v => !!v || 'Food image is required',

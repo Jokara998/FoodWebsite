@@ -278,7 +278,9 @@ export default {
                 v => v!=null || 'Food price is required',
                 v => v!="" || 'Food price is required',
                 v => String(v).length <= 10 || 'Food price must be less than 10 numbers.',
-                v => !isNaN(v) || 'Food price must be number.'
+                v => !isNaN(v) || 'Food price must be number.',
+                v=> /^(?!^0\.00$)(([1-9][\d]{0,6})|([0]))\.[\d]{2}}$/.test(v) || "Food Price Invalid.",
+                v => v!=0 || 'Food Price can not be 0.',
             ],
             imageRules: [
                 v => !!v || 'Food image is required',
