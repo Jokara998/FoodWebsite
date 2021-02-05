@@ -17,6 +17,7 @@ import Clients from "../views/Clients"
 import Workers from "../views/Workers"
 import RateOrder from "../components/Client/RateOrder"
 import jwt_decode from "jwt-decode"
+import QrScanner from "../components/Client/QrScanner"
 
 Vue.use(Router);
 
@@ -162,6 +163,12 @@ const router = new Router({
             path: "/rateorder",
             name: "RateOrder",
             component: RateOrder,
+            beforeEnter:client,
+        },
+        {
+            path: "/qrscanner",
+            name: "QrRScanner",
+            component: QrScanner,
             beforeEnter:client,
         },
        

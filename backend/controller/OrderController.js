@@ -135,7 +135,7 @@ router.post(
 router.patch(
     "/:id",
     authentication,
-    authorization.worker_deliverer,
+    authorization.worker_deliverer_client,
     async (req, res) => {
 
         const {error} = idValidation.validate(req.params);

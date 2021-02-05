@@ -53,6 +53,17 @@ const worker_deliverer = async function (req, res, next){
     }
 }
 
+const worker_deliverer_client = async function (req, res, next){
+   
+    if(req.user.type == "Worker" || req.user.type == "Deliverer" || req.user.type == "Client"){
+        next()
+    }else{
+        return res.status(403).send("Forbidden!")
+    }
+}
+
+
+
 
 
 
@@ -62,5 +73,6 @@ module.exports = {
     deliverer,
     admin,
     admin_client,
-    worker_deliverer
+    worker_deliverer,
+    worker_deliverer_client
 }
