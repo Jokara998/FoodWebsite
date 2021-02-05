@@ -96,6 +96,7 @@
                                                 <span>Take order for delivering?</span>
                                             </v-tooltip>
                                         </v-col>
+
                                         <v-col cols="2"  style="height:50px;">
                                             <v-tooltip dark color="primary" top>
                                                 <template v-slot:activator="{ on, attrs }">
@@ -154,6 +155,19 @@
                                                     </v-btn>
                                                 </template>
                                                 <span>Confirm that order is delivered?</span>
+                                            </v-tooltip>
+                                        </v-col>
+                                        <v-col cols="2" style="height:30px;">
+                                            <v-tooltip dark color="red" top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn text @click="qrcodeFun(item)" color="red" small depressed rounded v-bind="attrs" v-on="on">
+                                                        <v-icon left>
+                                                            mdi-qrcode
+                                                        </v-icon>
+                                                        Show QR Code
+                                                    </v-btn>
+                                                </template>
+                                                <span>Show QR Code?</span>
                                             </v-tooltip>
                                         </v-col>
                                         <v-col cols="2"  style="height:50px;">
@@ -236,6 +250,7 @@
         </v-dialog>
 
         <ShowOrder ref="show" />
+        <QrCode ref="qr" />
         <TakeOrder ref="take" />
         <ConfirmDelivery ref="confirm" />
     </v-container>
@@ -248,6 +263,7 @@ import Loader from "../components/Loaders/Loader"
 import ShowOrder from "../components/OrdersWorker/ShowOrder"
 import TakeOrder from "../components/OrdersDeliverer/TakeOrder"
 import ConfirmDelivery from "../components/OrdersDeliverer/ConfirmDelivery"
+import QrCode from "../components/OrdersDeliverer/QrCode"
 
 export default {
     data(){
@@ -327,6 +343,10 @@ export default {
             let ymd = d[0].split("-")
             let hms = d[1].split(".")
             return ymd[2]+"/"+ymd[1]+"/"+ymd[0]+" "+hms[0]
+        },
+        qrcodeFun(item){
+            this.$refs.qr.order = item
+            this.$refs.qr.dialog = true
         }
     },
     watch:{
@@ -349,6 +369,7 @@ export default {
         ShowOrder,
         TakeOrder,
         ConfirmDelivery,
+        QrCode,
     },
 
     mounted(){

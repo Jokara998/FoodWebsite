@@ -103,7 +103,9 @@ const getOne = async (id) =>{
             ordered: order.ordered,
             date:order.date,
             rated:order.rated,
-            price:order.price
+            price:order.price,
+            address:order.address,
+            phone:order.phone,
         }
         
         return dto;

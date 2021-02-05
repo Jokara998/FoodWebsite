@@ -23,7 +23,7 @@
         </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <div class="hidden-md-and-up">
+      <div v-if="$vuetify.breakpoint.width < 1120">
         <v-menu offset-y dark>
           <template v-slot:activator="{ on }">
             <v-app-bar-nav-icon  v-on="on"/>
@@ -189,6 +189,15 @@
                 </v-list-item-content>
               </v-list-item>
 
+              <v-list-item v-show="clientR()" @click="qrscanner()">
+                <v-list-item-icon>
+                  <v-icon>mdi-qrcode-scan</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title> QR Scanner </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
               <v-list-item @click="logout()" v-show="logoutShow()">
                 <v-list-item-icon>
                   <v-icon>mdi-account-arrow-right</v-icon>
@@ -203,7 +212,7 @@
         </v-menu>
       </div>
 
-      <v-toolbar-items class="hidden-sm-and-down">
+      <v-toolbar-items v-if="$vuetify.breakpoint.width >= 1120">
 
         <v-btn text @click="ordersWorkerFun()" v-show="worker()">
           <v-icon color="dark">
@@ -329,6 +338,13 @@
             mdi-account-plus
           </v-icon>
           Register
+        </v-btn>
+
+        <v-btn text v-show="clientR()" @click="qrscanner()">
+          <v-icon color="dark">
+            mdi-qrcode-scan
+          </v-icon>
+          QR Scanner
         </v-btn>
 
         <v-btn text @click="logout()" v-show="logoutShow()">
@@ -556,6 +572,14 @@ import jwt_decode from 'jwt-decode'
             })
           }
         
+      },
+      async qrscanner(){
+        this.boolRouter = false;
+        this.boolLoader = true;
+        this.boolLoader = false;
+        await this.$router.push("/qrscanner").catch(()=>{});
+        this.boolRouter = true
+
       },
 
       logout(){

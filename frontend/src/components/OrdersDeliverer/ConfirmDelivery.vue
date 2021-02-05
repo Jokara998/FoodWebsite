@@ -2,7 +2,7 @@
     <v-container>
          <v-dialog color="dark" dark max-width="500px" v-model="dialog" persistent>
 
-                <v-card>
+                <v-card dark style="border:1px solid #D3D3D3">
                     <v-card-title class="headline">
                         <div class="hidden-xs-only"> Confirm Order Delivery? </div>
                         <div class="hidden-sm-and-up"> Confirm? </div>
@@ -110,7 +110,7 @@ export default {
                     state:"DELIVERED"
                 }
             ).then(async ()=>{
-                await this.$store.dispatch("setOrders", "PROCESSING");
+                await this.$store.dispatch("setOrders", "TRANSPORT");
                 this.dialogLoading = false;
                 this.dialog = false;
                 this.dialog1 = true;
