@@ -52,7 +52,7 @@ router.get(
 
 // get by type
 router.get(
-    "/:state",
+    "/state/:state",
     authentication,
     async (req, res) => {
         const {error} = patchValidation.validate(req.params);

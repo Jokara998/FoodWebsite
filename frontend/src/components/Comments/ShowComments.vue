@@ -24,10 +24,10 @@
                                 
                                     <v-list-item-content>
                                         <v-list-item-title>
-                                            <span> Email </span>
+                                            <span> User </span>
                                         </v-list-item-title>
                                     <v-list-item-subtitle>  
-                                            <span style="color:#95c17e;font-size:16px"> {{item.email}} </span>
+                                            <span style="color:#95c17e;font-size:16px"> {{item.fullname}} </span>
                                         </v-list-item-subtitle>
                                     </v-list-item-content>
 
@@ -72,10 +72,10 @@
                                 
                                     <v-list-item-content>
                                         <v-list-item-title>
-                                            <span> Email </span>
+                                            <span> User </span>
                                         </v-list-item-title>
                                     <v-list-item-subtitle>  
-                                            <span style="color:#95c17e;font-size:14px"> {{item.email}} </span>
+                                            <span style="color:#95c17e;font-size:14px"> {{item.fullname}} </span>
                                         </v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
@@ -143,9 +143,9 @@ export default {
             search: '',
             headers: [
                 {
-                    text: 'Email',
+                    text: 'User',
                     align: 'start',
-                    value: 'email',
+                    value: 'fullname',
                 },
                 {
                     text: 'Date',
