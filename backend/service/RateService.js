@@ -1,6 +1,6 @@
 const { RateCollection } = require("../database/index")
 const Rate = require("../models/Rate")
-
+const UserService = require("../service/UserService")
 const getAll = async () =>{
 
     try{
@@ -19,8 +19,9 @@ const getAllComments = async (number) =>{
         const rates = await RateCollection.getAllComments(number);
         const ratesDto = []
         for(let rate of rates){
+            const user = await UserService.getOneEmail(rate.email);
             let rateDto = {
-                email: rate.email,
+                fullname: user.name+" "+user.surname,
                 date: rate.date,
                 comment: rate.comment,
                 id: rate._id,
@@ -41,8 +42,9 @@ const getAllCommentsMix = async (ratedMix) =>{
         const rates = await RateCollection.getAllCommentsMix(ratedMix);
         const ratesDto = []
         for(let rate of rates){
+            const user = await UserService.getOneEmail(rate.email);
             let rateDto = {
-                email: rate.email,
+                fullname: user.name+" "+user.surname,
                 date: rate.date,
                 comment: rate.comment,
                 id: rate._id,
@@ -64,8 +66,9 @@ const getAllCommentsFood = async (ratedFood) =>{
         const rates = await RateCollection.getAllCommentsFood(ratedFood);
         const ratesDto = []
         for(let rate of rates){
+            const user = await UserService.getOneEmail(rate.email);
             let rateDto = {
-                email: rate.email,
+                fullname: user.name+" "+user.surname,
                 date: rate.date,
                 comment: rate.comment,
                 id: rate._id,

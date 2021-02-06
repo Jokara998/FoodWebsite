@@ -533,7 +533,7 @@ const store = new Vuex.Store({
 
     // ORDERS
     async setOrders(state, payload){
-        await axios.get("/order/"+payload).then( response =>{
+        await axios.get("/order/state/"+payload).then( response =>{
           state.commit("setOrders", response.data)
         })
     },

@@ -140,8 +140,9 @@
                                                                 <v-list-item>
                                                                     <v-list-item-content>
                                                                         <v-list-item-title class="title">
-                                                                            <span class="hidden-xs-only"> Orderer Information </span>
-                                                                            <span class="hidden-sm-and-up" style="font-size:16px"> Orderer</span>
+                                                                            <span v-if="$vuetify.breakpoint.width >= 1000"> Orderer Information </span>
+                                                                            <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:18px"> Orderer Information</span>
+                                                                            <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:14px"> Orderer Information</span>
                                                                         </v-list-item-title>
                                                                       
                                                                     </v-list-item-content>
@@ -149,37 +150,37 @@
                                                                 <br>
                                                                 <v-list-item>                                                          
                                                                     <v-list-item-icon>
-                                                                        <v-icon class="hidden-sm-and-down">mdi-shield-account-outline</v-icon>
-                                                                        <v-icon class="hidden-md-and-up" small>mdi-shield-account-outline</v-icon>
+                                                                        <v-icon v-if="$vuetify.breakpoint.width >= 400">mdi-shield-account-outline</v-icon>
+                                                                        <v-icon v-else-if="$vuetify.breakpoint.width < 400" small >mdi-shield-account-outline</v-icon>
                                                                     </v-list-item-icon>
                                                                     <v-list-item-content>
                                                                         <v-list-item-title>
-                                                                            <span class="hidden-sm-and-down" style="font-size:16px">{{name}} {{surname}}</span>
-                                                                            <span class="hidden-md-and-up" style="font-size:8px">{{name}} {{surname}}</span>
+                                                                            <span v-if="$vuetify.breakpoint.width >= 400" style="font-size:16px">{{name}} {{surname}}</span>
+                                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:12px">{{name}} {{surname}}</span>
                                                                         </v-list-item-title>
                                                                     </v-list-item-content>
                                                                 </v-list-item>
                                                                  <v-list-item>
                                                                     <v-list-item-icon>
-                                                                        <v-icon class="hidden-sm-and-down">mdi-map-marker</v-icon>
-                                                                        <v-icon class="hidden-md-and-up" small>mdi-map-marker</v-icon>
+                                                                        <v-icon v-if="$vuetify.breakpoint.width >= 400">mdi-map-marker</v-icon>
+                                                                        <v-icon v-else-if="$vuetify.breakpoint.width < 400" small >mdi-map-marker</v-icon>
                                                                     </v-list-item-icon>
                                                                     <v-list-item-content>
                                                                         <v-list-item-title>
-                                                                            <span class="hidden-sm-and-down" style="font-size:16px">{{address}}</span>
-                                                                            <span class="hidden-md-and-up" style="font-size:8px">{{address}}</span>
+                                                                            <span v-if="$vuetify.breakpoint.width >= 400" style="font-size:16px">{{address}}</span>
+                                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:12px">{{address}}</span>
                                                                         </v-list-item-title>
                                                                     </v-list-item-content>
                                                                 </v-list-item>
                                                                  <v-list-item>
                                                                     <v-list-item-icon>
-                                                                        <v-icon class="hidden-sm-and-down">mdi-phone</v-icon>
-                                                                        <v-icon class="hidden-md-and-up" small>mdi-phone</v-icon>
+                                                                        <v-icon v-if="$vuetify.breakpoint.width >= 400">mdi-phone</v-icon>
+                                                                        <v-icon v-else-if="$vuetify.breakpoint.width < 400" small>mdi-phone</v-icon>
                                                                     </v-list-item-icon>
                                                                     <v-list-item-content>                                                                      
                                                                         <v-list-item-title>
-                                                                            <span class="hidden-sm-and-down" style="font-size:16px">{{phone}}</span>
-                                                                            <span class="hidden-md-and-up" style="font-size:8px">{{phone}}</span>
+                                                                            <span v-if="$vuetify.breakpoint.width >= 400" style="font-size:16px">{{phone}}</span>
+                                                                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:12px">{{phone}}</span>
                                                                             
                                                                         </v-list-item-title>
                                                                     </v-list-item-content>
@@ -199,8 +200,9 @@
                                                                 <v-list-item>
                                                                     <v-list-item-content>
                                                                         <v-list-item-title class="title">
-                                                                            <span class="hidden-xs-only"> Order Information </span>
-                                                                            <span class="hidden-sm-and-up" style="font-size:16px"> Order</span>
+                                                                            <span v-if="$vuetify.breakpoint.width >= 1000"> Order Information </span>
+                                                                            <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:18px"> Order Information</span>
+                                                                            <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:14px"> Order Information</span>
                                                                         </v-list-item-title>
                                                                     </v-list-item-content>
                                                                 </v-list-item>
@@ -211,32 +213,33 @@
                                                                     <v-list-item>
                                                                         <v-list-item-content>
                                                                             <v-list-item-title>
-                                                                                <span class="hidden-sm-and-down" style="font-size:16px">Name</span>
-                                                                                <span class="hidden-md-and-up" style="font-size:8px">Name</span>
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px"> Name </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px"> Name</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px"> Name</span>
                                                                             </v-list-item-title>
                                                                             <v-list-item-subtitle>  
-                                                                                <span class="hidden-sm-and-down" style="color:#95c17e;font-size:16px"> {{item.food.name}} </span>
-                                                                                <span class="hidden-md-and-up" style="color:#95c17e;font-size:8px"> {{item.food.name}}[{{item.amount}}] </span>
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{item.food.name}} [{{item.amount}}] [{{item.availability}}] </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;"> {{item.food.name}} [{{item.amount}}] [{{item.availability}}]</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;"> {{item.food.name}} [{{item.amount}}] [{{item.availability}}]</span>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
                                                                       
-                                                                        <v-list-item-content>
-                                                                            <v-list-item-title>  
-                                                                                <span class="hidden-sm-and-down" style="font-size:16px">Amount[Availability]</span>
-                                                                                <span class="hidden-md-and-up" style="font-size:8px">Availability</span>
-                                                                            </v-list-item-title>
-                                                                            <v-list-item-subtitle>  
-                                                                                <span class="hidden-sm-and-down" style="color:#95c17e;font-size:16px"> {{item.amount}} [{{item.availability}}] </span>
-                                                                                <span class="hidden-md-and-up"  style="color:#95c17e;font-size:8px">  {{item.availability}} </span>
-                                                                            </v-list-item-subtitle>
-                                                                        </v-list-item-content>
 
-                                                                        <v-list-item-content class="hidden-sm-and-down">
-                                                                            <v-list-item-title>Price</v-list-item-title>
+                                                                        <v-list-item-content v-if="$vuetify.breakpoint.width >= 450">
+                                                                            <v-list-item-title>
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px"> Price </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px"> Price</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px"> Price</span>
+                                                                            </v-list-item-title>
                                                                             <v-list-item-subtitle>
-                                                                                <span style="color:#95c17e;font-size:16px"> {{returnFinalPrice(item)}} </span>
-                                                                                <v-icon color="#95c17e" style="margin-top:-3px">
-                                                                                    mdi-currency-eur
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{returnFinalPrice(item)}} </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;">  {{returnFinalPrice(item)}} </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;">  {{returnFinalPrice(item)}} </span>
+                                                                                <v-icon v-if="$vuetify.breakpoint.width >= 1000" color="#95c17e" style="margin-top:-5px">
+                                                                                        mdi-currency-eur
+                                                                                </v-icon>
+                                                                                <v-icon v-else-if="$vuetify.breakpoint.width < 1000" small color="#95c17e" style="margin-top:-1px">
+                                                                                        mdi-currency-eur
                                                                                 </v-icon>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
@@ -248,43 +251,45 @@
                                                                  <v-flex
                                                                     v-for="(item) in this.cartMix" :key="item.id" 
                                                                 >
-                                                                
-                                                                    <v-list-item>
+
+                                                                   <v-list-item>
                                                                         <v-list-item-content>
                                                                             <v-list-item-title>
-                                                                                <span class="hidden-sm-and-down" style="font-size:16px">Name</span>
-                                                                                <span class="hidden-md-and-up" style="font-size:8px">Name</span>
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px"> Name </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px"> Name</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px"> Name</span>
                                                                             </v-list-item-title>
                                                                             <v-list-item-subtitle>  
-                                                                                <span class="hidden-sm-and-down" style="color:#95c17e;font-size:16px"> {{item.mix.name}} </span>
-                                                                                <span class="hidden-md-and-up" style="color:#95c17e;font-size:8px"> {{item.mix.name}}[mix]</span>
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{item.mix.name}} [{{item.amount}}] [mix] </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;"> {{item.mix.name}} [{{item.amount}}] [mix]</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;"> {{item.mix.name}} [{{item.amount}}] [mix]</span>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
                                                                       
-                                                                        <v-list-item-content>
+
+                                                                        <v-list-item-content v-if="$vuetify.breakpoint.width >= 450">
                                                                             <v-list-item-title>
-                                                                                <span class="hidden-sm-and-down" style="font-size:16px">Amount[Availability]</span>
-                                                                                <span class="hidden-md-and-up" style="font-size:8px">Availability</span>
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px"> Price </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px"> Price</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px"> Price</span>
                                                                             </v-list-item-title>
-                                                                            <v-list-item-subtitle>  
-                                                                                <span class="hidden-sm-and-down" style="color:#95c17e;font-size:16px"> {{item.amount}} [mix] </span>
-                                                                                <span class="hidden-md-and-up"  style="color:#95c17e;font-size:8px">  mix </span>
-                                                                            </v-list-item-subtitle>
-                                                                        </v-list-item-content>
-
-
-                                                                        <v-list-item-content class="hidden-sm-and-down">
-                                                                            <v-list-item-title>Price</v-list-item-title>
                                                                             <v-list-item-subtitle>
-                                                                                <span style="color:#95c17e;font-size:16px"> {{returnMixFinalPrice(item.mix, item.amount)}} </span>
-                                                                                <v-icon color="#95c17e" style="margin-top:-3px">
-                                                                                    mdi-currency-eur
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{returnMixFinalPrice(item.mix, item.amount)}} </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;">  {{returnMixFinalPrice(item.mix, item.amount)}}</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;"> {{returnMixFinalPrice(item.mix, item.amount)}} </span>
+                                                                                <v-icon v-if="$vuetify.breakpoint.width >= 1000" color="#95c17e" style="margin-top:-5px">
+                                                                                        mdi-currency-eur
+                                                                                </v-icon>
+                                                                                <v-icon v-else-if="$vuetify.breakpoint.width < 1000" small color="#95c17e" style="margin-top:-1px">
+                                                                                        mdi-currency-eur
                                                                                 </v-icon>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
 
                                                                         
                                                                     </v-list-item>
+                                                                
+                                                                
                                                                 </v-flex>
                                                              
                                                                 </v-list-item-group>
@@ -293,16 +298,17 @@
                                                        
                                                         <v-col cols="7" />
                                                         <v-col cols="12" lg="4" md="5" sm="5" xs="7">
-                                                            <span class="hidden-md-and-up" style="font-size:15px;display:inline"> Total Price:  </span>    
-                                                            <span class="hidden-sm-and-down" style="font-size:22px;display:inline"> Total Price:  </span>    
-                                                            <v-icon small class="hidden-md-and-up" color="#95c17e" style="margin-top:-5px">
+                                                            <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:22px;display:inline"> Total Price:  </span>   
+                                                            <span v-else-if="$vuetify.breakpoint.width < 1000" style="font-size:15px;display:inline"> Total Price:  </span>    
+                                                            <span v-if="$vuetify.breakpoint.width >= 1000" style="color:#95c17e;font-size:22px;display:inline"> {{returnTotalPrice()}} </span>    
+                                                            <span v-else-if="$vuetify.breakpoint.width < 1000" style="color:#95c17e;font-size:15px;display:inline"> {{returnTotalPrice()}} </span>     
+                                                            <v-icon v-if="$vuetify.breakpoint.width >= 1000" color="#95c17e" style="margin-top:-5px">
                                                                     mdi-currency-eur
                                                             </v-icon>
-                                                            <v-icon class="hidden-sm-and-down" color="#95c17e" style="margin-top:-11px">
+                                                            <v-icon v-else-if="$vuetify.breakpoint.width < 1000" small color="#95c17e" style="margin-top:-1px">
                                                                     mdi-currency-eur
                                                             </v-icon>
-                                                            <span class="hidden-md-and-up" style="color:#95c17e;font-size:15px;display:inline"> {{returnTotalPrice()}} </span>  
-                                                            <span class="hidden-sm-and-down" style="color:#95c17e;font-size:22px;display:inline"> {{returnTotalPrice()}} </span>      
+                                                            
                                                         </v-col>
                                                                                                 
                                                     </v-row>
