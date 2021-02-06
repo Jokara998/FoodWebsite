@@ -1,5 +1,6 @@
 node_modules/
 .npm
+/dist
 
 # Log files
 npm-debug.log*
