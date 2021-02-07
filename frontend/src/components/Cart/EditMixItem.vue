@@ -107,8 +107,10 @@ export default {
     methods:{
         async confirm(){
             this.dialogLoading = true;
-            this.item.amount = this.selectedAmount
-            let payload = {item: this.item, index:this.index}
+             let object = {
+                amount:this.selectedAmount
+            }
+            let payload = {item: object, index:this.index}
             await this.$store.dispatch("editMixItem", payload)
             this.dialogLoading = false;
             this.dialog = false

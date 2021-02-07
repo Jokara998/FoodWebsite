@@ -280,7 +280,7 @@ const getOne = async (id) =>{
             date:food.date,
             id:food._id,
         }
-        dtoFood.rate = await RateService.calculateRateFood(f._id)
+        dtoFood.rate = await RateService.calculateRateFood(food._id)
         return dtoFood;
     }catch(err){
         throw new Error(e.message);

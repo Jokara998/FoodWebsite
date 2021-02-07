@@ -218,9 +218,9 @@
                                                                                 <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px"> Name</span>
                                                                             </v-list-item-title>
                                                                             <v-list-item-subtitle>  
-                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{item.food.name}} [{{item.amount}}] [{{item.availability}}] </span>
-                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;"> {{item.food.name}} [{{item.amount}}] [{{item.availability}}]</span>
-                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;"> {{item.food.name}} [{{item.amount}}] [{{item.availability}}]</span>
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{item.food.name}} [{{item.selected.amount}}] [{{item.selected.availability}}] </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;"> {{item.food.name}} [{{item.selected.amount}}] [{{item.selected.availability}}]</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;"> {{item.food.name}} [{{item.selected.amount}}] [{{item.selected.availability}}]</span>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
                                                                       
@@ -260,9 +260,9 @@
                                                                                 <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px"> Name</span>
                                                                             </v-list-item-title>
                                                                             <v-list-item-subtitle>  
-                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{item.mix.name}} [{{item.amount}}] [mix] </span>
-                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;"> {{item.mix.name}} [{{item.amount}}] [mix]</span>
-                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;"> {{item.mix.name}} [{{item.amount}}] [mix]</span>
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{item.mix.name}} [{{item.selected.amount}}] [mix] </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;"> {{item.mix.name}} [{{item.selected.amount}}] [mix]</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;"> {{item.mix.name}} [{{item.selected.amount}}] [mix]</span>
                                                                             </v-list-item-subtitle>
                                                                         </v-list-item-content>
                                                                       
@@ -274,9 +274,9 @@
                                                                                 <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px"> Price</span>
                                                                             </v-list-item-title>
                                                                             <v-list-item-subtitle>
-                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{returnMixFinalPrice(item.mix, item.amount)}} </span>
-                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;">  {{returnMixFinalPrice(item.mix, item.amount)}}</span>
-                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;"> {{returnMixFinalPrice(item.mix, item.amount)}} </span>
+                                                                                <span v-if="$vuetify.breakpoint.width >= 1000" style="font-size:18px;color:#95c17e;"> {{returnMixFinalPrice(item.mix, item.selected.amount)}} </span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 1000 && $vuetify.breakpoint.width >= 500" style="font-size:15px;color:#95c17e;">  {{returnMixFinalPrice(item.mix, item.selected.amount)}}</span>
+                                                                                <span v-else-if="$vuetify.breakpoint.width < 500" style="font-size:12px;color:#95c17e;"> {{returnMixFinalPrice(item.mix, item.selected.amount)}} </span>
                                                                                 <v-icon v-if="$vuetify.breakpoint.width >= 1000" color="#95c17e" style="margin-top:-5px">
                                                                                         mdi-currency-eur
                                                                                 </v-icon>
@@ -536,7 +536,7 @@ export default {
         returnFinalPrice(item){
             let price = item.food.price
             for(let i = 0; i < item.food.availability.length; i++){
-                if(item.food.availability[i] == item.availability){
+                if(item.food.availability[i] == item.selected.availability){
                    if(i == 0){
                        break;
                    }else{
@@ -544,7 +544,7 @@ export default {
                    }
                 }
             }
-            let total_price = item.amount * price // jos availability
+            let total_price = item.selected.amount * price // jos availability
             return total_price.toFixed(2);
         },
         // one MIX price
@@ -585,7 +585,7 @@ export default {
             })
 
             this.cartMix.forEach(element=>{
-                let price = this.returnMixFinalPrice(element.mix, element.amount)       
+                let price = this.returnMixFinalPrice(element.mix, element.selected.amount)       
                 totalPrice = +totalPrice + +price
             })
 

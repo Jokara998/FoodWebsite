@@ -470,11 +470,11 @@ import jwt_decode from 'jwt-decode'
         this.boolRouter = false;
         this.boolLoader = true
         if(this.token.type == "Client" || this.token ==""){
-          this.boolLoader = false;
           const cartFood = localStorage.getItem('cartFood')
           const cartMix = localStorage.getItem('cartMix')
           await this.$store.dispatch("setCartFoodStorage", cartFood)
           await this.$store.dispatch("setCartMixStorage", cartMix)
+          this.boolLoader = false;
           this.$router.push("/cart").catch(()=>{});
           this.boolRouter = true
         }

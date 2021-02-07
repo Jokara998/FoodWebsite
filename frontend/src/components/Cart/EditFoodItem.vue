@@ -130,9 +130,11 @@ export default {
     methods:{
         async confirm(){
             this.dialogLoading = true;
-            this.item.availability = this.selectedAvailability
-            this.item.amount = this.selectedAmount
-            let payload = {item: this.item, index:this.index}
+            let object = {
+                availability:this.selectedAvailability,
+                amount:this.selectedAmount
+            }
+            let payload = {item: object, index:this.index}
             await this.$store.dispatch("editFoodItem", payload)
             this.dialogLoading = false;
             this.dialog = false

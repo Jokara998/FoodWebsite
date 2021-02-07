@@ -52,7 +52,7 @@ const getOne = async (id) =>{
             food:[],
 
         }
-        dtoMix.rate = await RateService.calculateRateMix(mix._id)
+        dtoMix.rate = await RateService.calculateRateMix(oneMix._id)
         const foods = oneMix.food
         for(let food_id of foods){
             const food = await Food.findById(food_id)

@@ -90,14 +90,14 @@
                                             <v-list-item-content>
                                                 <v-list-item-title>Amount</v-list-item-title>
                                                 <v-list-item-subtitle>  
-                                                    <span style="color:#95c17e;font-size:16px"> {{item.amount}} </span>
+                                                    <span style="color:#95c17e;font-size:16px"> {{item.selected.amount}} </span>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
 
                                             <v-list-item-content>
                                                 <v-list-item-title>Availability</v-list-item-title>
                                                 <v-list-item-subtitle>  
-                                                    <span style="color:#95c17e;font-size:16px"> {{item.availability}} </span>
+                                                    <span style="color:#95c17e;font-size:16px"> {{item.selected.availability}} </span>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
 
@@ -124,7 +124,7 @@
                                             <v-list-item-content>
                                                 <v-list-item-subtitle>  
                                                     <span style="color:#95c17e;font-size:14px"> {{item.food.name}}
-                                                        [<span style="color:white;font-size:14px">{{item.amount}}</span>]
+                                                        [<span style="color:white;font-size:14px">{{item.selected.amount}}</span>]
                                                     </span>
                                                 </v-list-item-subtitle>                                      
                                             </v-list-item-content>
@@ -230,7 +230,7 @@
                                             <v-list-item-content>
                                                 <v-list-item-title>Amount</v-list-item-title>
                                                 <v-list-item-subtitle>  
-                                                    <span style="color:#95c17e;font-size:16px"> {{item.amount}} </span>
+                                                    <span style="color:#95c17e;font-size:16px"> {{item.selected.amount}} </span>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
                                       
@@ -240,7 +240,7 @@
                                                     <v-icon color="#95c17e">
                                                         mdi-currency-eur
                                                     </v-icon>
-                                                    <span style="color:#95c17e;font-size:16px"> {{returnMixFinalPrice(item.mix, item.amount)}} </span>
+                                                    <span style="color:#95c17e;font-size:16px"> {{returnMixFinalPrice(item.mix, item.selected.amount)}} </span>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
 
@@ -257,7 +257,7 @@
                                             <v-list-item-content>
                                                 <v-list-item-subtitle>  
                                                     <span style="color:#95c17e;font-size:14px"> {{item.mix.name}}
-                                                        [<span style="color:white;font-size:14px"> {{item.amount}} </span>]
+                                                        [<span style="color:white;font-size:14px"> {{item.selected.amount}} </span>]
                                                     </span>
                                                 </v-list-item-subtitle>                                      
                                             </v-list-item-content>
@@ -267,7 +267,7 @@
                                             <v-list-item-content>
                                                 <v-list-item-subtitle>
                                                     
-                                                    <span style="color:#95c17e;font-size:14px"> Total:{{returnMixFinalPrice(item.mix, item.amount)}} </span>
+                                                    <span style="color:#95c17e;font-size:14px"> Total:{{returnMixFinalPrice(item.mix, item.selected.amount)}} </span>
                                                     <v-icon color="#95c17e">
                                                         mdi-currency-eur
                                                     </v-icon>
@@ -418,7 +418,7 @@ export default {
         returnFinalPrice(item){
             let price = item.food.price
             for(let i = 0; i < item.food.availability.length; i++){
-                if(item.food.availability[i] == item.availability){
+                if(item.food.availability[i] == item.selected.availability){
                    if(i == 0){
                        break;
                    }else{
@@ -426,7 +426,7 @@ export default {
                    }
                 }
             }
-            let total_price = item.amount * price // jos availability
+            let total_price = item.selected.amount * price // jos availability
             return total_price.toFixed(2);
         },
         // one MIX price
@@ -467,7 +467,7 @@ export default {
             })
 
             this.cartMix.forEach(element=>{
-                let price = this.returnMixFinalPrice(element.mix, element.amount)       
+                let price = this.returnMixFinalPrice(element.mix, element.selected.amount)       
                 totalPrice = +totalPrice + +price
             })
 

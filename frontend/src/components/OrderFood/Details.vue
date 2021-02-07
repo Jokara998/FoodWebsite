@@ -404,7 +404,7 @@ export default {
         async addToCart(){
             if(this.$refs.form.validate()){
                 let cartObject = {
-                    food:this.food,
+                    id:this.food.id,
                     availability:this.selectedAvailability,
                     amount:this.selectedAmount,
                     type:"food",

@@ -212,30 +212,40 @@ const store = new Vuex.Store({
     },
 
     // CART
-    setCart(state, payload){
-      if(payload.type=="food"){
-        state.cartFood.push(payload)
+    setCart(state, object){
+      if(object.payload.type=="food"){
+        //state.cartFood.push(object)
         state.cartNumber += 1
         state.navbarKey += 1
         state.cartKey += 1
-    
+        let localStorageFood = JSON.parse(localStorage.getItem("cartFood"))
+        if(localStorageFood == undefined)
+          localStorageFood = []
+        localStorageFood.push(object.payload)
         localStorage.removeItem("cartFood")
-        localStorage.setItem("cartFood", JSON.stringify(state.cartFood))
-      }else if(payload.type=="mix"){
-        state.cartMix.push(payload)
+        localStorage.setItem("cartFood", JSON.stringify(localStorageFood))
+      }else if(object.payload.type=="mix"){
+        //state.cartMix.push(object)
         state.cartNumber +=1
         state.navbarKey += 1
         state.cartKey += 1
     
+        let localStorageMix = JSON.parse(localStorage.getItem("cartMix"))
+        if(localStorageMix == undefined)
+          localStorageMix = []
+        localStorageMix.push(object.payload)
         localStorage.removeItem("cartMix")
-        localStorage.setItem("cartMix", JSON.stringify(state.cartMix))
+        localStorage.setItem("cartMix", JSON.stringify(localStorageMix))
       }
     },
     setCartFoodStorage(state, payload){
-      if(payload == null)
-      return
+      if(payload == null){
+        state.cartFood = []
+        localStorage.setItem("cartFood",[])
+        return
+      }
       state.cartNumber = 0
-      state.cartFood = JSON.parse(payload)
+      state.cartFood = payload
       state.cartNumber += state.cartMix.length
       state.cartNumber += state.cartFood.length
       state.navbarKey += 1
@@ -243,10 +253,13 @@ const store = new Vuex.Store({
     
     },
     setCartMixStorage(state, payload){
-      if(payload == null)
-      return
+      if(payload == null){
+        state.cartMix = []
+        localStorage.setItem("cartMix",[])
+        return
+      }
       state.cartNumber = 0
-      state.cartMix = JSON.parse(payload)
+      state.cartMix = payload
       state.cartNumber += state.cartMix.length
       state.cartNumber += state.cartFood.length
       state.navbarKey += 1
@@ -255,33 +268,47 @@ const store = new Vuex.Store({
     },
     deleteItem(state,payload){
       if(payload.type == "food"){
+        let localStorageFood = JSON.parse(localStorage.getItem("cartFood"))
         state.cartFood.splice(payload.index, 1);
+        localStorageFood.splice(payload.index, 1);
         state.cartNumber -= 1
         state.navbarKey += 1
         localStorage.removeItem("cartFood")
-        localStorage.setItem("cartFood", JSON.stringify(state.cartFood))
+        localStorage.setItem("cartFood", JSON.stringify(localStorageFood))
         state.cartKey += 1
       }else if(payload.type=="mix"){
+        let localStorageMix = JSON.parse(localStorage.getItem("cartMix"))
         state.cartMix.splice(payload.index, 1);
+        localStorageMix.splice(payload.index, 1);
         state.cartNumber -= 1
         state.navbarKey += 1
         localStorage.removeItem("cartMix")
-        localStorage.setItem("cartMix", JSON.stringify(state.cartMix))
+        localStorage.setItem("cartMix", JSON.stringify(localStorageMix))
         state.cartKey += 1
       }
      
     },
     editFoodItem(state, payload){
-      state.cartFood[payload.index] = payload.item
+      state.cartFood[payload.index].selected.availability = payload.item.availability
+      state.cartFood[payload.index].selected.amount = payload.item.amount
+
+      let localStorageFood = JSON.parse(localStorage.getItem("cartFood"))
+      localStorageFood[payload.index].availability = payload.item.availability
+      localStorageFood[payload.index].amount = payload.item.amount
+
       localStorage.removeItem("cartFood")
-      localStorage.setItem("cartFood", JSON.stringify(state.cartFood))
+      localStorage.setItem("cartFood", JSON.stringify(localStorageFood))
       state.cartKey += 1
     },
 
     editMixItem(state, payload){
-      state.cartMix[payload.index] = payload.item
+      state.cartMix[payload.index].selected.amount = payload.item.amount
+
+      let localStorageMix = JSON.parse(localStorage.getItem("cartMix"))
+      localStorageMix[payload.index].amount = payload.item.amount
+
       localStorage.removeItem("cartMix")
-      localStorage.setItem("cartMix", JSON.stringify(state.cartMix))
+      localStorage.setItem("cartMix", JSON.stringify(localStorageMix))
       state.cartKey += 1
     },
 
@@ -294,8 +321,8 @@ const store = new Vuex.Store({
       state.cartMix = [];
       state.cartNumber = 0
       state.navbarKey += 1
-      localStorage.removeItem("cartFood")
-      localStorage.removeItem("cartMix")
+      localStorage.setItem("cartFood",[])
+      localStorage.setItem("cartMix",[])
       state.cartKey += 1
     },
     // ORDERS
@@ -507,13 +534,54 @@ const store = new Vuex.Store({
 
     // CART
     async setCart(state, payload){
-      state.commit("setCart", payload)
+      if(payload.type=="food"){
+        await axios.get("/food/"+payload.id).then(response =>{
+          let object = {
+            food:response.data,
+            payload:payload
+          }
+          state.commit("setCart", object)
+        })
+      }else if(payload.type=="mix"){
+        await axios.get("/mix/"+payload.id).then(response =>{
+          let object = {
+            mix:response.data,
+            payload:payload
+          }
+          state.commit("setCart", object)
+        })
+      }
+      
     },
     async setCartFoodStorage(state, cart){
-      state.commit("setCartFoodStorage", cart)
+      let localStorageFood = JSON.parse(cart)
+      let payload = []
+      for(let item of localStorageFood){
+        console.log(item)
+        await axios.get("/food/"+item.id).then(response =>{
+            let object = {
+              food:response.data,
+              selected:item
+            }
+            payload.push(object)
+        })
+      }
+      state.commit("setCartFoodStorage", payload)
     },
     async setCartMixStorage(state, cart){
-      state.commit("setCartMixStorage", cart)
+      let localStorageMix = JSON.parse(cart)
+      let payload = []
+      for(let item of localStorageMix){
+        console.log(item)
+        await axios.get("/mix/"+item.id).then(response =>{
+            let object = {
+              mix:response.data,
+              selected:item
+            }
+            payload.push(object)
+        })
+      }
+      state.commit("setCartMixStorage", payload)
     },
     async deleteItem(state, payload){
       state.commit("deleteItem", payload)
