@@ -157,7 +157,8 @@
                                          <v-icon>
                                             mdi-circle-edit-outline
                                         </v-icon> 
-                                        <span class="hidden-md-and-down">Edit Item</span>
+                                        <span v-if="$vuetify.breakpoint.width >= 350">Edit Item</span>
+                                        <span v-else-if="$vuetify.breakpoint.width < 350" style="font-size:11px">Edit Item</span>
                                     </v-btn>
                                 </v-col>
                                 <v-col class="d-flex" cols="12" lg="6" md="4" sm="4" xs="1" align-end>
@@ -165,7 +166,8 @@
                                         <v-icon>
                                             mdi-delete-circle-outline
                                         </v-icon> 
-                                        <span class="hidden-md-and-down">Delete Item</span>
+                                        <span v-if="$vuetify.breakpoint.width >= 350">Delete Item</span>
+                                        <span v-else-if="$vuetify.breakpoint.width < 350" style="font-size:11px">Delete Item</span>
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -288,7 +290,9 @@
                                          <v-icon>
                                             mdi-circle-edit-outline
                                         </v-icon> 
-                                        <span class="hidden-md-and-down"> Edit Item </span>
+                                        <span v-if="$vuetify.breakpoint.width >= 350">Edit Item</span>
+                                        <span v-else-if="$vuetify.breakpoint.width < 350" style="font-size:11px">Edit Item</span>
+
                                     </v-btn>
                                 </v-col>
                                 <v-col class="d-flex" cols="12" lg="6" md="4" sm="4" xs="6" align-end>
@@ -296,7 +300,9 @@
                                         <v-icon>
                                             mdi-delete-circle-outline
                                         </v-icon> 
-                                        <span class="hidden-md-and-down">Delete Item</span>
+                                        <span v-if="$vuetify.breakpoint.width >= 350">Delete Item</span>
+                                        <span v-else-if="$vuetify.breakpoint.width < 350" style="font-size:11px">Delete Item</span>
+
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -329,20 +335,22 @@
 
                     <v-row style="justify-content: flex-end; margin-top:5px">
                                     
-                        <v-col class="d-flex" cols="12" lg="6" sm="2" xsm="2" align-end>
+                        <v-col class="d-flex" cols="12" lg="6" sm="4" xsm="2" align-end>
                            <v-btn medium block color="green darken-1" @click="orderFromCart()">
                                 <v-icon>
                                     mdi-cash-register
-                                </v-icon> 
-                                 <span class="hidden-md-and-down">Order Food</span>
+                                </v-icon>
+                                <span v-if="$vuetify.breakpoint.width >= 350">Order Food</span>
+                                <span v-else-if="$vuetify.breakpoint.width < 350" style="font-size:11px">Order Food</span> 
                             </v-btn>   
                         </v-col>
-                        <v-col class="d-flex" cols="12" lg="6" sm="2" xsm="2" align-end>
+                        <v-col class="d-flex" cols="12" lg="6" sm="4" xsm="2" align-end>
                            <v-btn medium block color="red darken-1" @click="clearCart()">
                                 <v-icon>
                                     mdi-cart-remove
-                                </v-icon> 
-                                 <span class="hidden-md-and-down">Clear Cart</span>
+                                </v-icon>
+                                <span v-if="$vuetify.breakpoint.width >= 350">Clear Cart</span>
+                                <span v-else-if="$vuetify.breakpoint.width < 350" style="font-size:11px">Clear Cart</span>  
                             </v-btn>   
                         </v-col>
                     </v-row>
