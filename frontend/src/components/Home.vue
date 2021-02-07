@@ -153,7 +153,7 @@
                 <v-list-item-icon>
                   <v-btn
                     readonly
-                    v-if="this.cartNumber >= 1"
+                    v-if="false"
                     icon
                     dark
                     x-small
@@ -310,7 +310,7 @@
         <v-btn text v-show="client()" @click="cart_fun()">
           <v-btn
             readonly
-            v-if="this.cartNumber >= 1"
+            v-if="false"
             icon
             dark
             x-small

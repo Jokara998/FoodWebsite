@@ -365,6 +365,37 @@
 
         <ShowComments ref="commentsfood"/>
 
+         <v-dialog
+                dark
+                persistent
+                v-model="snackbar"
+                max-width="450px"
+                >
+                <v-card dark style="border:1px solid #D3D3D3">
+                     <v-card-title class="headline">
+                        <div>  
+                            <v-icon color="green darken-1">
+                                mdi-check-circle
+                            </v-icon>
+                            Item added!
+                        </div>
+                    </v-card-title>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+            
+                        <v-btn
+                            color="red darken-1"
+                            text
+                            @click="snackbar = false; dialog = false"
+                        >
+                            Close
+                        </v-btn>
+
+                    </v-card-actions>
+                </v-card>
+        
+        </v-dialog>
+
       </v-dialog>
 </template>
 
@@ -376,6 +407,7 @@ export default {
     data(){
         return{
             dialog:false,
+            snackbar:false,
             valid:false,
             food:{image:"", id:"",name:"",price:"", rate:{number:"",}},
             selectedAvailability:"",
@@ -412,6 +444,7 @@ export default {
 
                 await this.$store.dispatch("setCart", cartObject, "food")
                 this.$refs.form.reset()
+                this.snackbar = true;
             }
         },
         async showComments(){

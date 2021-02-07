@@ -23,8 +23,15 @@ export default {
         axios.defaults.headers.common['Authorization'] = this.jwt
       }
       if(this.token.type == "Client" || this.token ==""){
+
+        if(localStorage.getItem('cartFood') === null)
+          localStorage.setItem("cartFood", JSON.stringify([]))
+        if(localStorage.getItem('cartMix') === null)
+          localStorage.setItem("cartMix", JSON.stringify([]))
+
         const cartFood = localStorage.getItem('cartFood')
         const cartMix = localStorage.getItem('cartMix')
+      
         await this.$store.dispatch("setCartFoodStorage", cartFood)
         await this.$store.dispatch("setCartMixStorage", cartMix)
       }

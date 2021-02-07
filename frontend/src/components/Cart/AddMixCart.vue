@@ -70,6 +70,37 @@
                         </v-form>                   
           </v-card-text>
       </v-card>
+
+        <v-dialog
+                dark
+                persistent
+                v-model="snackbar"
+                max-width="450px"
+                >
+                <v-card dark style="border:1px solid #D3D3D3">
+                     <v-card-title class="headline">
+                        <div>  
+                            <v-icon color="green darken-1">
+                                mdi-check-circle
+                            </v-icon>
+                            Item added!
+                        </div>
+                    </v-card-title>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+            
+                        <v-btn
+                            color="red darken-1"
+                            text
+                            @click="snackbar = false; dialog = false"
+                        >
+                            Close
+                        </v-btn>
+
+                    </v-card-actions>
+                </v-card>
+        
+        </v-dialog>
   </v-dialog>
 </template>
 
@@ -79,6 +110,7 @@ export default {
         return{
             dialog:false,
             valid:false,
+            snackbar:false,
             mix:{},
             selectedAmount:"",
             amountRules: [
@@ -103,7 +135,7 @@ export default {
                 }
                 await this.$store.dispatch("setCart", cartObject, "mix")
                 this.$refs.form.reset();
-                this.dialog = false
+                this.snackbar = true;               
             }
         },
         close(){

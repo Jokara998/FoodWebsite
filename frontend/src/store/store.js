@@ -239,9 +239,8 @@ const store = new Vuex.Store({
       }
     },
     setCartFoodStorage(state, payload){
-      if(payload == null){
+      if(payload == null || payload == undefined){
         state.cartFood = []
-        localStorage.setItem("cartFood",[])
         return
       }
       state.cartNumber = 0
@@ -253,9 +252,8 @@ const store = new Vuex.Store({
     
     },
     setCartMixStorage(state, payload){
-      if(payload == null){
+      if(payload == null || payload == undefined){
         state.cartMix = []
-        localStorage.setItem("cartMix",[])
         return
       }
       state.cartNumber = 0
@@ -321,8 +319,8 @@ const store = new Vuex.Store({
       state.cartMix = [];
       state.cartNumber = 0
       state.navbarKey += 1
-      localStorage.setItem("cartFood",[])
-      localStorage.setItem("cartMix",[])
+      localStorage.setItem("cartFood",JSON.stringify([]))
+      localStorage.setItem("cartMix",JSON.stringify([]))
       state.cartKey += 1
     },
     // ORDERS
@@ -554,6 +552,8 @@ const store = new Vuex.Store({
       
     },
     async setCartFoodStorage(state, cart){
+      if(cart == null || cart == undefined || cart == [] || cart == "")
+        state.commit("setCartFoodStorage", [])
       let localStorageFood = JSON.parse(cart)
       let payload = []
       for(let item of localStorageFood){
@@ -569,6 +569,8 @@ const store = new Vuex.Store({
       state.commit("setCartFoodStorage", payload)
     },
     async setCartMixStorage(state, cart){
+      if(cart == null || cart == undefined)
+        state.commit("setCarMixStorage", [])
       let localStorageMix = JSON.parse(cart)
       let payload = []
       for(let item of localStorageMix){
