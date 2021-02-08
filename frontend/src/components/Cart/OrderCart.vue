@@ -603,8 +603,8 @@ export default {
            for(let f of this.cartFood){
                const foodObj = {
                    id:f.food.id,
-                   amount:f.amount,
-                   availability:f.availability,
+                   amount:f.selected.amount,
+                   availability:f.selected.availability,
                    name: f.food.name,
                }
                ordered.food.push(foodObj)
@@ -612,7 +612,7 @@ export default {
             for(let f of this.cartMix){
                 const mixObj = {
                    id:f.mix.id,
-                   amount:f.amount,
+                   amount:f.selected.amount,
                    name: f.mix.name,
                }
                ordered.mix.push(mixObj)

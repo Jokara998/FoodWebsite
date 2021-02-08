@@ -151,19 +151,6 @@
 
               <v-list-item v-show="client()" @click="cart_fun()">
                 <v-list-item-icon>
-                  <v-btn
-                    readonly
-                    v-if="false"
-                    icon
-                    dark
-                    x-small
-                    color="red"
-                    outlined
-                  >
-                    <span > {{cartNumber}}</span>
-                  </v-btn>
-                </v-list-item-icon>
-                <v-list-item-icon>
                   <v-icon>mdi-cart-variant</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
