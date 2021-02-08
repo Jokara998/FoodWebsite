@@ -129,15 +129,17 @@ export default {
 
     methods:{
         async confirm(){
-            this.dialogLoading = true;
-            let object = {
-                availability:this.selectedAvailability,
-                amount:this.selectedAmount
+            if(this.$refs.form.validate()){
+                this.dialogLoading = true;
+                let object = {
+                    availability:this.selectedAvailability,
+                    amount:this.selectedAmount
+                }
+                let payload = {item: object, index:this.index}
+                await this.$store.dispatch("editFoodItem", payload)
+                this.dialogLoading = false;
+                this.dialog = false
             }
-            let payload = {item: object, index:this.index}
-            await this.$store.dispatch("editFoodItem", payload)
-            this.dialogLoading = false;
-            this.dialog = false
         }
     }
     
