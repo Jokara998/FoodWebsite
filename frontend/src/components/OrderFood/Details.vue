@@ -382,19 +382,36 @@
                     </v-card-title>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-            
+
+                        <v-btn
+                            color="green darken-1"
+                            text
+                            @click="goToCart()"
+                        >
+                            <v-icon color="green darken-1">
+                                mdi-cart-arrow-right
+                            </v-icon>
+                            <span v-if="$vuetify.breakpoint.width >= 400">Go To Cart </span>
+                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px">Go To Cart </span>
+                        </v-btn>
+
                         <v-btn
                             color="red darken-1"
                             text
                             @click="snackbar = false; dialog = false"
                         >
-                            Close
+                            <v-icon color="red darken-1">
+                                mdi-close-circle
+                            </v-icon>
+                            <span v-if="$vuetify.breakpoint.width >= 400">Close </span>
+                            <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:10px">Close </span>
                         </v-btn>
-
                     </v-card-actions>
                 </v-card>
         
         </v-dialog>
+
+        <Loader v-show="dialogLoading" />
 
       </v-dialog>
 </template>
@@ -402,11 +419,13 @@
 <script>
 import ShowComments from "../Comments/ShowComments"
 import axios from "../../axios/index"
+import Loader from "../Loaders/Loader"
 
 export default {
     data(){
         return{
             dialog:false,
+            dialogLoading:false,
             snackbar:false,
             valid:false,
             food:{image:"", id:"",name:"",price:"", rate:{number:"",}},
@@ -453,10 +472,21 @@ export default {
                 this.$refs.commentsfood.dialog = true;
 
             })
+        },
+        async goToCart(){
+            this.boolLoader = true
+            const cartFood = localStorage.getItem('cartFood')
+            const cartMix = localStorage.getItem('cartMix')
+            await this.$store.dispatch("setCartFoodStorage", cartFood)
+            await this.$store.dispatch("setCartMixStorage", cartMix)
+            this.boolLoader = false;
+            this.$router.push("/cart").catch(()=>{});
+            
         }
     },
     components:{
         ShowComments,
+        Loader,
     }
 }
 </script>
