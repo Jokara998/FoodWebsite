@@ -18,7 +18,8 @@ const getAll = async () =>{
                 ordered: order.ordered,
                 date:order.date,
                 rated:order.rated,
-                price:order.price
+                price:order.price,
+                message:order.message
                 
             }
             dtoOrders.push(dto);
@@ -45,7 +46,8 @@ const getAllByType = async (state, user) =>{
                         ordered: order.ordered,
                         date:order.date,
                         rated:order.rated,
-                        price:order.price
+                        price:order.price,
+                        message:order.message
                     }
                     dtoOrders.push(dto);
                 }
@@ -62,7 +64,8 @@ const getAllByType = async (state, user) =>{
                         ordered: order.ordered,
                         date:order.date,
                         rated:order.rated,
-                        price:order.price
+                        price:order.price,
+                        message:order.message
                     }
                     dtoOrders.push(dto);
                 }
@@ -80,7 +83,8 @@ const getAllByType = async (state, user) =>{
                     ordered: order.ordered,
                     date:order.date,
                     rated:order.rated,
-                    price:order.price
+                    price:order.price,
+                    message:order.message
                 }
                 dtoOrders.push(dto);
             }
@@ -106,6 +110,7 @@ const getOne = async (id) =>{
             price:order.price,
             address:order.address,
             phone:order.phone,
+            message:order.message
         }
         
         return dto;

@@ -12,7 +12,7 @@ const getAllByType = async (state) => {
 
 const getAllByTypeClient = async (state, email) => {
     if(state == "SENT"){
-        const allOrders = await Order.find({state:{$ne:"DELIVERED"}, email:email}).sort({date:-1,state:-1});
+        const allOrders = await Order.find({state:{$nin:["DELIVERED","CANCELED"]}, email:email}).sort({date:-1,state:-1});
         return allOrders;
     }else{
         const allOrders = await Order.find({state:state, email:email}).sort({date:-1,state:-1,rated:-1});

@@ -5,51 +5,42 @@
         <v-card dark>
             <v-card-title style="justify-content:center"> Orders </v-card-title>
             <v-tabs
-            class="hidden-sm-and-down"
             v-model="tab"
             background-color="dark"
             centered
             dark
             icons-and-text
+            next-icon="mdi-arrow-right-bold-box-outline"
+            prev-icon="mdi-arrow-left-bold-box-outline"
+            show-arrows
             >
                 <v-tabs-slider></v-tabs-slider>
 
                 <v-tab href="#ready">
-                    Ready Orders
-                    <v-icon>mdi-truck-outline</v-icon>
+                    <span v-if="$vuetify.breakpoint.width >= 700">Ready Orders</span>
+                    <span v-else-if="$vuetify.breakpoint.width < 700 && $vuetify.breakpoint.width >= 400" style="font-size:10px">Ready</span>
+                    <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:8px"> Ready</span>
+                    <v-icon v-if="$vuetify.breakpoint.width >= 700">mdi-truck-outline</v-icon>
+                    <v-icon v-else-if="$vuetify.breakpoint.width < 700 && $vuetify.breakpoint.width >= 400" small>mdi-truck-outline</v-icon>
+                    <v-icon v-else-if="$vuetify.breakpoint.width < 400" x-small>mdi-truck-outline</v-icon>
                 </v-tab>
 
                 <v-tab href="#transport">
-                    In Transport Orders
-                    <v-icon>mdi-truck-delivery-outline</v-icon>
+                    <span v-if="$vuetify.breakpoint.width >= 700">Transport Orders</span>
+                    <span v-else-if="$vuetify.breakpoint.width < 700 && $vuetify.breakpoint.width >= 400" style="font-size:10px">Transport</span>
+                    <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:8px">Transport</span>
+                    <v-icon v-if="$vuetify.breakpoint.width >= 700">mdi-truck-delivery-outline</v-icon>
+                    <v-icon  v-else-if="$vuetify.breakpoint.width < 700 && $vuetify.breakpoint.width >= 400" small>mdi-truck-delivery-outline</v-icon>
+                    <v-icon  v-else-if="$vuetify.breakpoint.width < 400" x-small>mdi-truck-delivery-outline</v-icon>
                 </v-tab>
 
                 <v-tab href="#delivered">
-                    Delivered Orders
-                    <v-icon>mdi-truck-check-outline</v-icon>
-                </v-tab>
-            </v-tabs>
-
-            <v-tabs
-            class="hidden-md-and-up"
-            v-model="tab"
-            background-color="dark"
-            centered
-            dark
-            icons-and-text
-            >
-                <v-tabs-slider></v-tabs-slider>
-
-                <v-tab href="#ready">
-                    <v-icon>mdi-truck-outline</v-icon>
-                </v-tab>
-
-                <v-tab href="#transport">
-                    <v-icon>mdi-truck-delivery-outline</v-icon>
-                </v-tab>
-
-                <v-tab href="#delivered">
-                    <v-icon>mdi-truck-check-outline</v-icon>
+                    <span v-if="$vuetify.breakpoint.width >= 700">Delivered Orders</span>
+                    <span v-else-if="$vuetify.breakpoint.width < 700 && $vuetify.breakpoint.width >= 400" style="font-size:10px">Delivered</span>
+                    <span v-else-if="$vuetify.breakpoint.width < 400" style="font-size:8px">Delivered</span>
+                    <v-icon v-if="$vuetify.breakpoint.width >= 700">mdi-truck-check-outline</v-icon>
+                    <v-icon  v-else-if="$vuetify.breakpoint.width < 700 && $vuetify.breakpoint.width >= 400" small>mdi-truck-check-outline</v-icon>
+                    <v-icon  v-else-if="$vuetify.breakpoint.width < 400" x-small>mdi-truck-check-outline</v-icon>
                 </v-tab>
             </v-tabs>
 
@@ -87,7 +78,7 @@
                                             <v-tooltip dark color="#4db01b" top>
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-btn text @click="take(item)" color="#4db01b" small depressed rounded v-bind="attrs" v-on="on">
-                                                        <v-icon left>
+                                                        <v-icon v-if="$vuetify.breakpoint.width >= 330">
                                                             mdi-truck-delivery-outline
                                                         </v-icon>
                                                         Take Order
@@ -101,7 +92,7 @@
                                             <v-tooltip dark color="primary" top>
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-btn text @click="show(item)" color="primary" small depressed  rounded v-bind="attrs" v-on="on">
-                                                        <v-icon left>
+                                                        <v-icon v-if="$vuetify.breakpoint.width >= 330">
                                                             mdi-information-outline
                                                         </v-icon>
                                                         Show Order
@@ -148,10 +139,11 @@
                                             <v-tooltip dark color="#4db01b" top>
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-btn text @click="confirmDelivery(item)" color="#4db01b" small depressed rounded v-bind="attrs" v-on="on">
-                                                        <v-icon left>
+                                                        <v-icon v-if="$vuetify.breakpoint.width >= 330">
                                                             mdi-truck-check-outline
                                                         </v-icon>
-                                                        Confirm Delivery
+                                                        <span v-if="$vuetify.breakpoint.width >= 370"> Confirm Delivery </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 370" style="font-size:9px"> Confirm Delivery </span>
                                                     </v-btn>
                                                 </template>
                                                 <span>Confirm that order is delivered?</span>
@@ -161,10 +153,12 @@
                                             <v-tooltip dark color="red" top>
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-btn text @click="qrcodeFun(item)" color="red" small depressed rounded v-bind="attrs" v-on="on">
-                                                        <v-icon left>
+                                                        <v-icon v-if="$vuetify.breakpoint.width >= 330">
                                                             mdi-qrcode
                                                         </v-icon>
-                                                        Show QR Code
+                                                        
+                                                        <span v-if="$vuetify.breakpoint.width >= 370"> Show QR Code </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 370" style="font-size:9px"> Show QR Code </span>
                                                     </v-btn>
                                                 </template>
                                                 <span>Show QR Code?</span>
@@ -174,10 +168,11 @@
                                             <v-tooltip dark color="primary" top>
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-btn text @click="show(item)" color="primary" small depressed  rounded v-bind="attrs" v-on="on">
-                                                        <v-icon left>
+                                                        <v-icon v-if="$vuetify.breakpoint.width >= 330">
                                                             mdi-information-outline
                                                         </v-icon>
-                                                        Show Order
+                                                        <span v-if="$vuetify.breakpoint.width >= 370"> Show Order </span>
+                                                        <span v-else-if="$vuetify.breakpoint.width < 370" style="font-size:9px"> Show Order </span>
                                                     </v-btn>
                                                 </template>
                                                 <span>Show Order information?</span>
@@ -221,7 +216,7 @@
                                     <v-tooltip dark color="primary" top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn text @click="show(item)" color="primary" small depressed  rounded v-bind="attrs" v-on="on">
-                                                <v-icon left>
+                                                <v-icon v-if="$vuetify.breakpoint.width >= 330">
                                                     mdi-information-outline
                                                 </v-icon>
                                                 Show Order
@@ -301,7 +296,7 @@ export default {
                     text: 'Actions',
                     sortable:false,
                     value: 'actions',
-                    align: "start",  
+                    align: "center",  
                     width:"40px"                  
                 },
                
