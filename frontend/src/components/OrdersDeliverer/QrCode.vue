@@ -90,7 +90,7 @@ export default {
             dialog:false,
             dialogLoading:false,
             valid:false,
-            order:{fullname:"",id:""},
+            order:{fullname:"",id:"", date:""},
         }
     },
     components:{
@@ -116,7 +116,8 @@ export default {
             return ymd[2]+"/"+ymd[1]+"/"+ymd[0]+" "+hms[0]
         },
         filename(){
-            return this.order.fullname+" "+this.formatDate(this.order.date)
+            if(this.order.date)
+                return this.order.fullname+" "+this.formatDate(this.order.date)
         }
     }
 }
