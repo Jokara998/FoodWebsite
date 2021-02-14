@@ -1,6 +1,8 @@
 package com.example.foodsite;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.Manifest;
 import android.os.Bundle;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
@@ -40,4 +42,6 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+
 }
