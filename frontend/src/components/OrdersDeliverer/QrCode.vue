@@ -39,6 +39,7 @@
                     <v-spacer></v-spacer>
         
                     <v-btn
+                        class="hidden-sm-and-down"
                         color="green darken-1"
                         text
                         @click="confirm()"
